@@ -1,6 +1,6 @@
-# polroig5
+# polroig
 
-Portfoli de Pol Roig Valldosera. <https://meowrhino.github.io/polroig5/>
+Portfoli de Pol Roig Valldosera. <https://meowrhino.github.io/polroig/>
 
 HTML, CSS i JS a pel, sense build. Tot el contingut és a `data.json`.
 

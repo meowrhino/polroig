@@ -1,4 +1,4 @@
-// polroig5 — tot surt de data.json. Rutes (hash):
+// polroig — tot surt de data.json. Rutes (hash):
 //   #/            home: bio curta, índex i tots els projectes en seqüència
 //   #/<slug>      home amb scroll al projecte (o la seva pàgina sencera si en té)
 //   #/about       bio llarga
