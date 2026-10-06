@@ -1,0 +1,123 @@
+/* polroig5 — fons negre, sans, una columna. Refes: REFE.jpg + "refe hover color". */
+
+:root {
+  --bg: #000;
+  --fg: #fff;
+  --rosa: #f6c6e0;                       /* color del hover, tret de la refe */
+  --marge: clamp(16px, 3vw, 48px);
+  --col: 62em;                           /* amplada màxima de la columna */
+}
+
+* { box-sizing: border-box; }
+
+body {
+  margin: 0;
+  padding: 0 var(--marge) 8em;
+  background: var(--bg);
+  color: var(--fg);
+  font: 400 clamp(16px, 1.45vw, 24px)/1.3 "Helvetica Neue", Helvetica, Arial, sans-serif;
+  -webkit-font-smoothing: antialiased;
+}
+
+a, button {
+  color: inherit;
+  font: inherit;
+  background: none;
+  border: 0;
+  padding: 0;
+  cursor: pointer;
+  text-decoration: none;
+}
+a:hover, button:hover { color: var(--rosa); }
+.subratllat { text-decoration: underline; text-underline-offset: .15em; text-decoration-thickness: 1px; }
+
+p { margin: 0; }
+img, video { display: block; max-width: 100%; }
+
+/* ---------- capçalera ---------- */
+.top {
+  display: flex;
+  flex-wrap: wrap;
+  gap: .4em 1.6em;
+  padding: 2.2em 0 3em;
+}
+.top .idiomes { margin-left: auto; }
+.top .idiomes button[aria-pressed="true"] { pointer-events: none; }
+.top .idiomes button[aria-pressed="false"] { opacity: .45; }
+.top .idiomes button[aria-pressed="false"]:hover { opacity: 1; }
+
+/* ---------- línia de punts + siluetes ---------- */
+.passeig {
+  display: flex;
+  align-items: flex-end;
+  max-width: var(--col);
+  margin: 2.5em 0 1.6em;
+}
+.passeig .punts {
+  width: var(--w);
+  height: .2em;
+  margin-bottom: .05em;
+  background: radial-gradient(circle, var(--fg) 0 .07em, transparent .085em) left center / .42em .2em repeat-x;
+}
+.passeig img { height: 2.7em; width: auto; }
+
+/* ---------- bio ---------- */
+.bio { max-width: var(--col); }
+.pagina-bio img { width: min(100%, 28em); margin-bottom: 2em; }
+.pagina-bio p, .text p { max-width: 38em; margin-bottom: 1em; }
+
+/* ---------- índex de projectes ---------- */
+.index { margin-top: 5em; }
+.index h2 { font: inherit; margin: 0 0 1.3em; }
+.index ul { list-style: none; margin: 0; padding: 0; line-height: 1.45; }
+.index a { display: grid; grid-template-columns: 22em 1fr; gap: 0 1em; }
+.index a:hover { color: inherit; }
+.index .titol { font-style: italic; }
+.index .detall { color: var(--rosa); visibility: hidden; }
+.index a:hover .detall, .index a:focus-visible .detall { visibility: visible; }
+
+/* ---------- projectes ---------- */
+.feed { margin-top: 10em; }
+.proj { max-width: var(--col); margin-bottom: 5em; scroll-margin-top: 2em; }
+.peu { margin-top: .6em; }
+.mes-txt { margin-top: 1.2em; }
+.mes-txt[hidden] { display: none; }
+.mes-txt p { max-width: 38em; margin-bottom: 1em; }
+
+/* ---------- slideshow ---------- */
+.slides {
+  position: relative;
+  margin: 0;
+  aspect-ratio: var(--r, 3 / 2);
+  width: min(100%, calc(82vh * var(--r, 1.5)));
+}
+.slides img { width: 100%; height: 100%; object-fit: contain; }
+.slides button {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  width: 50%;
+}
+.slides .ant { left: 0; cursor: w-resize; }
+.slides .seg { right: 0; cursor: e-resize; }
+.slides .compte {
+  position: absolute;
+  left: .6em;
+  bottom: .5em;
+  font-size: .7em;
+  mix-blend-mode: difference;
+  pointer-events: none;
+}
+.galeria { margin-bottom: 4em; }
+.galeria h2 { font: inherit; margin: 0 0 .8em; }
+
+/* ---------- pàgina sencera ---------- */
+.pagina video { width: min(100%, var(--col)); margin: 3em 0; }
+.pagina .text { margin: 3em 0 5em; }
+
+@media (max-width: 700px) {
+  .top .idiomes { margin-left: 0; }
+  .index a { grid-template-columns: 1fr; }
+  .index .detall { display: none; }
+  .feed { margin-top: 6em; }
+}
