@@ -1,0 +1,1 @@
+An installation unfolds in space as a large musical instrument. The two settings of the story, the house and the forest, deconstruct one another: the materials of the house — beams, doors, furniture, pipes — have been dismantled and suspended in space following the pattern of a forest, which the performers strike and rub, creating a live musical composition.

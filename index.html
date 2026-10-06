@@ -1,21 +1,24 @@
-<!DOCTYPE html>
+<!doctype html>
+<!--
+  VISTA PRÈVIA LOCAL
+  Aquest fitxer no es publica: la web de debò l'escriu build/build.mjs a GitHub.
+  Serveix per revisar els canvis abans de pujar-los, amb Live Server de VS Code
+  ("Go Live" a baix a la dreta). Llegeix data/*.json i pinta la pàgina amb les
+  mateixes plantilles que el build.
+-->
 <html lang="ca">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="theme-color" content="#000000">
-  <title>pol roig valldosera</title>
-  <meta name="description" content="Pol Roig Valldosera — escenògraf i director escènic. Set designer and stage director.">
-  <meta property="og:type" content="website">
-  <meta property="og:title" content="pol roig valldosera">
-  <meta property="og:description" content="Pol Roig Valldosera — escenògraf i director escènic. Set designer and stage director.">
-  <meta property="og:image" content="https://meowrhino.github.io/polroig/img/els-encantats/1.webp">
-  <link rel="icon" href="img/siluetes/walk.svg" type="image/svg+xml">
-  <link rel="stylesheet" href="style.css">
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="robots" content="noindex">
+  <title>vista prèvia — pol roig</title>
 </head>
-<body>
-  <div id="app"></div>
-  <noscript><p>Pol Roig Valldosera — <a href="mailto:me@polroigvalldosera.com">me@polroigvalldosera.com</a></p></noscript>
-  <script src="app.js"></script>
+<body style="background:#000;color:#fff;font:18px/1.5 Helvetica,Arial,sans-serif;padding:2em">
+  <p id="avis">carregant la vista prèvia…</p>
+  <script>
+    if (location.protocol === 'file:') document.getElementById('avis').innerHTML =
+      'Aquesta pàgina s\'ha d\'obrir amb <b>Live Server</b>: a VS Code, botó <b>Go Live</b> a baix a la dreta.';
+  </script>
+  <script type="module" src="build/preview.mjs"></script>
 </body>
 </html>

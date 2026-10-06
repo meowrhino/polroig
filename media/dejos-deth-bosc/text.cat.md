@@ -1,0 +1,1 @@
+Una instal·lació es desplega en l’espai com un gran instrument musical. Els dos espais de la trama, la casa i el bosc, es desconstrueixen mútuament: els materials de la casa —bigues, portes, mobles, canonades— han estat desmembrats i suspesos en l’espai seguint el patró d’un bosc, que els intèrprets percuteixen i freguen, creant una composició musical en directe.

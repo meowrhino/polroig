@@ -1,0 +1,8 @@
+{
+  "name": "polroig",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "build": "node build/build.mjs"
+  }
+}

@@ -1,4 +1,5 @@
-/* polroig — fons negre, sans, una columna. Refes: REFE.jpg + "refe hover color". */
+/* polroig — fons negre, sans, una columna. Refes: REFE.jpg + "refe hover color".
+   L'HTML el genera build/paginas.mjs; aquí només l'aspecte. */
 
 :root {
   --bg: #000;
@@ -29,7 +30,10 @@ a, button {
   text-decoration: none;
 }
 a:hover, button:hover { color: var(--rosa); }
-.subratllat { text-decoration: underline; text-underline-offset: .15em; text-decoration-thickness: 1px; }
+:focus-visible { outline: 1px solid var(--rosa); outline-offset: 3px; }
+.mes { text-decoration: underline; text-underline-offset: .15em; text-decoration-thickness: 1px; }
+.sr { position: absolute; width: 1px; height: 1px; overflow: hidden; clip-path: inset(50%); white-space: nowrap; }
+em { font-style: italic; }
 
 p { margin: 0; }
 img, video { display: block; max-width: 100%; }
@@ -42,9 +46,8 @@ img, video { display: block; max-width: 100%; }
   padding: 2.2em 0 3em;
 }
 .top .idiomes { margin-left: auto; }
-.top .idiomes button[aria-pressed="true"] { pointer-events: none; }
-.top .idiomes button[aria-pressed="false"] { opacity: .45; }
-.top .idiomes button[aria-pressed="false"]:hover { opacity: 1; }
+.top .idiomes a:not([aria-current]) { opacity: .45; }
+.top .idiomes a:not([aria-current]):hover { opacity: 1; }
 
 /* ---------- línia de punts + siluetes ---------- */
 .passeig {
@@ -64,6 +67,7 @@ img, video { display: block; max-width: 100%; }
 /* ---------- bio ---------- */
 .bio { max-width: var(--col); }
 .pagina-bio img { width: min(100%, 28em); margin-bottom: 2em; }
+.pagina-bio img { height: auto; }
 .pagina-bio p, .text p { max-width: 38em; margin-bottom: 1em; }
 
 /* ---------- índex de projectes ---------- */
@@ -79,10 +83,7 @@ img, video { display: block; max-width: 100%; }
 /* ---------- projectes ---------- */
 .feed { margin-top: 10em; }
 .proj { max-width: var(--col); margin-bottom: 5em; scroll-margin-top: 2em; }
-.peu { margin-top: .6em; }
-.mes-txt { margin-top: 1.2em; }
-.mes-txt[hidden] { display: none; }
-.mes-txt p { max-width: 38em; margin-bottom: 1em; }
+.peu { margin-top: .6em; max-width: var(--col); }
 
 /* ---------- slideshow ---------- */
 .slides {
@@ -92,6 +93,7 @@ img, video { display: block; max-width: 100%; }
   width: min(100%, calc(82vh * var(--r, 1.5)));
 }
 .slides img { width: 100%; height: 100%; object-fit: contain; }
+.slides [hidden] { display: none; }
 .slides button {
   position: absolute;
   top: 0;
@@ -112,7 +114,7 @@ img, video { display: block; max-width: 100%; }
 .galeria h2 { font: inherit; margin: 0 0 .8em; }
 
 /* ---------- pàgina sencera ---------- */
-.pagina video { width: min(100%, var(--col)); margin: 3em 0; }
+.pagina video { width: min(100%, var(--col)); height: auto; background: #111; margin: 3em 0; }
 .pagina .text { margin: 3em 0 5em; }
 
 @media (max-width: 700px) {
