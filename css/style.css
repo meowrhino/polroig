@@ -46,7 +46,7 @@ img, video { display: block; max-width: 100%; }
   padding: 2.2em 0 3em;
 }
 .top .idiomes { margin-left: auto; }
-.top .idiomes a:not([aria-current]) { opacity: .45; }
+.top .idiomes a:not([aria-current]) { opacity: .6; }   /* .6 sobre negre = 7:1 de contrast */
 .top .idiomes a:not([aria-current]):hover { opacity: 1; }
 
 /* ---------- línia de punts + siluetes ---------- */

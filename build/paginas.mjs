@@ -170,6 +170,7 @@ ${p.peu ? `<p class="peu">${md(t(p.peu, l), p.slug)}${text(p.slug, l) || text(p.
     }) + `
 ${capcalera(l, '')}
 <main>
+<h1 class="sr">${esc(site.nom)}</h1>
 ${passeig(0)}
 <section class="bio"><p>${md(t(site.bio.curt, l), 'bio')} <a class="mes" href="${url(l, 'bio/')}"><em>${esc(ui('llegirMes', l))}</em></a>.</p></section>
 ${index}
