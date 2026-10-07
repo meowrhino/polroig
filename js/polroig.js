@@ -1,4 +1,4 @@
-// polroig.js — l'únic JS de la web, i només afegeix: passar les fotos i variar les línies de punts.
+// polroig.js — l'únic JS de la web, i només afegeix: passar les fotos, variar les línies de punts i portar el #projecte a l'adreça.
 // Sense JS es veu la primera foto de cada projecte, les línies fan la seva mida base i la resta funciona igual.
 
 // Cada línia de punts, ± "variacio" % de la seva amplada base (data/ninots.json), a cada visita.
@@ -33,4 +33,15 @@ for (const fig of document.querySelectorAll('.slides')) {
     b.addEventListener('click', () => anar(d));
   }
   compte.hidden = false;
+}
+
+// A la home, l'adreça porta el #slug del projecte que hi ha a mitja pantalla (sense omplir l'historial):
+// si en copies l'enllaç, obre on eres. A dalt de tot, sense #.
+const projectes = document.querySelectorAll('.proj');
+if (projectes.length) {
+  const marcar = hash => hash !== location.hash && history.replaceState(null, '', hash || location.pathname + location.search);
+  const vist = new IntersectionObserver(es => {
+    for (const e of es) if (e.isIntersecting) marcar(e.target.id ? `#${e.target.id}` : '');
+  }, { rootMargin: '-50% 0px -50% 0px' });
+  for (const el of [document.querySelector('main > .bio'), ...document.querySelectorAll('.index'), ...projectes]) el && vist.observe(el);
 }

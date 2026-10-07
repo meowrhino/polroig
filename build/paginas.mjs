@@ -183,7 +183,7 @@ ${capcalera(l, '')}
 <main>
 <h1 class="sr">${esc(site.nom)}</h1>
 ${dalt}
-<section class="bio"><p>${md(t(site.bio.curt, l), 'bio')} <a class="mes" href="${url(l, 'bio/')}"><em>${esc(ui('llegirMes', l))}</em></a>.</p></section>
+<section class="bio"><p>${md(t(site.bio.curt, l), 'bio')} <a class="mes" href="${url(l, 'bio/')}"><em>${esc(ui('llegirMes', l))}</em></a></p></section>
 ${index}
 <section class="feed">
 ${feed}

@@ -11,6 +11,9 @@
 
 * { box-sizing: border-box; }
 
+html { scroll-behavior: smooth; }
+@media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } }
+
 body {
   margin: 0;
   padding: 0 var(--marge) 8em;
@@ -81,11 +84,16 @@ img, video { display: block; max-width: 100%; }
 
 /* ---------- projectes ---------- */
 .feed { margin-top: 10em; }
-.proj { max-width: var(--col); margin-bottom: 5em; scroll-margin-top: 2em; }
+.proj { max-width: var(--col); margin-bottom: 10em; scroll-margin-top: 2em; }
 .peu { margin-top: .6em; max-width: var(--col); font-size: .85em; }
 
+/* "llegir més": sempre a la seva línia i a mida de text, perquè es vegi que porta a alguna banda */
+.bio .mes, .peu .mes { display: block; width: fit-content; margin-top: .6em; }
+.peu .mes { font-size: calc(1em / .85); }
+
 /* "llegir més" dels projectes sense pàgina: es desplega aquí mateix */
-.desplegable { max-width: 38em; font-size: .85em; margin-top: .3em; }
+.desplegable { max-width: 38em; margin-top: .6em; }
+.desplegable p { font-size: .85em; }
 .desplegable summary { list-style: none; cursor: pointer; text-decoration: underline; text-underline-offset: .15em; text-decoration-thickness: 1px; width: fit-content; }
 .desplegable summary::-webkit-details-marker { display: none; }
 .desplegable summary:hover { color: var(--rosa); }
@@ -136,4 +144,5 @@ img, video { display: block; max-width: 100%; }
   .index a { grid-template-columns: 1fr; }
   .index .detall { display: none; }
   .feed { margin-top: 6em; }
+  .proj { margin-bottom: 7em; }
 }
