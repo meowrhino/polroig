@@ -66,8 +66,7 @@ img, video { display: block; max-width: 100%; }
 
 /* ---------- bio ---------- */
 .bio { max-width: var(--col); }
-.pagina-bio img { width: min(100%, 28em); margin-bottom: 2em; }
-.pagina-bio img { height: auto; }
+.pagina-bio > img { width: min(100%, 28em); height: auto; margin-bottom: 2em; }
 .pagina-bio p, .text p { max-width: 38em; margin-bottom: 1em; }
 
 /* ---------- índex de projectes ---------- */

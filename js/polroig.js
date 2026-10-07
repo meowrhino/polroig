@@ -1,5 +1,11 @@
-// polroig.js — l'únic JS de la web, i només afegeix: passar les fotos.
-// Sense JS es veu la primera foto de cada projecte i la resta funciona igual.
+// polroig.js — l'únic JS de la web, i només afegeix: passar les fotos i variar les línies de punts.
+// Sense JS es veu la primera foto de cada projecte, les línies fan la seva mida base i la resta funciona igual.
+
+// Cada línia de punts, ± "variacio" % de la seva amplada base (data/ninots.json), a cada visita.
+for (const p of document.querySelectorAll('.passeig .punts')) {
+  const w = parseFloat(p.style.getPropertyValue('--w')), v = +p.dataset.v || 0;
+  p.style.setProperty('--w', `${w * (1 + (Math.random() * 2 - 1) * v / 100)}%`);
+}
 
 for (const fig of document.querySelectorAll('.slides')) {
   const img = fig.querySelector('img');

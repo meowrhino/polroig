@@ -13,10 +13,11 @@ const ROOT = join(dirname(fileURLToPath(import.meta.url)), '..');
 const OUT = join(ROOT, 'dist');
 const sortir = msg => { console.error(`\n✗ ${msg}\n`); process.exit(1); };
 
-let site, projectes;
+let site, projectes, ninots;
 try {
   site = llegirJSON(readFileSync(join(ROOT, 'data/site.json'), 'utf8'), 'data/site.json');
   projectes = llegirJSON(readFileSync(join(ROOT, 'data/projectes.json'), 'utf8'), 'data/projectes.json');
+  ninots = llegirJSON(readFileSync(join(ROOT, 'data/ninots.json'), 'utf8'), 'data/ninots.json');
 } catch (e) { sortir(e.message); }
 if (!Array.isArray(projectes)) sortir('data/projectes.json ha de ser una llista: comença per [ i acaba per ]');
 
@@ -48,7 +49,7 @@ function mida(rel) {
   return r;
 }
 
-const sitio = crearSitio({ site, projectes, base, text, mida });
+const sitio = crearSitio({ site, projectes, ninots, base, text, mida });
 
 const avisos = sitio.revisar(rel => existsSync(join(ROOT, rel)));
 for (const a of avisos) console.warn(`${a.greu ? '✗' : '⚠'} ${a.qui}: ${a.txt}`);

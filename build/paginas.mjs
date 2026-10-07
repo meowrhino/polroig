@@ -41,12 +41,13 @@ const RESERVATS = ['bio', 'en', 'media', 'assets', 'css', 'js'];
    crearSitio — tot el que depèn de les dades
    ------------------------------------------------------------
      site, projectes   data/site.json i data/projectes.json
+     ninots            data/ninots.json
      base              subcarpeta on se serveix ('' o '/polroig')
      text(slug, lang)  el contingut de media/<slug>/text.<lang>.md, o null
      mida(ruta)        { w, h } d'una imatge, o null
      preview           true a la vista prèvia: els enllaços van a ?p=/ruta/
    ============================================================ */
-export function crearSitio({ site, projectes, base = '', text = () => null, mida = () => null, preview = false }) {
+export function crearSitio({ site, projectes, ninots = [], base = '', text = () => null, mida = () => null, preview = false }) {
   const IDIOMES = site.idiomes;
   const DEF = site.idiomaDefecte;
   const B = String(base).replace(/\/$/, '');
@@ -127,11 +128,12 @@ export function crearSitio({ site, projectes, base = '', text = () => null, mida
 </header>`;
   }
 
-  /* Línies de punts amb siluetes: [amplada dels punts, silueta] per tram. */
-  const PASSEIGS = [[['45%', 'walk']], [['70%', 'run'], ['8%', 'walk2']], [['26%', 'stroll']]];
-  const passeig = i => `<div class="passeig" aria-hidden="true">${PASSEIGS[i % PASSEIGS.length]
-    .map(([w, s]) => `<span class="punts" style="--w:${w}"></span><img src="${raiz(`/assets/siluetes/${s}.svg`)}" alt="">`)
-    .join('')}</div>`;
+  /* Línies de punts amb siluetes (data/ninots.json). Cada pàgina les treu en
+     l'ordre del JSON i torna a començar; el JS varia l'amplada dels punts. */
+  let tram = 0;
+  const passeig = () => ninots.length ? `<div class="passeig" aria-hidden="true">${ninots[tram++ % ninots.length].ninots
+    .map(n => `<span class="punts" style="--w:${n.punts}%" data-v="${n.variacio ?? 0}"></span><img src="${raiz(`/assets/siluetes/${n.silueta}.svg`)}" alt="">`)
+    .join('')}</div>` : '';
 
   /** Slideshow: sense JS es veu la primera foto; el JS mostra els botons. */
   function slides(p, carpeta, n, l, eager = false) {
@@ -148,7 +150,9 @@ export function crearSitio({ site, projectes, base = '', text = () => null, mida
 
   /* ---------- pàgines ---------- */
   function home(l) {
-    const index = site.seccions.map((s, i) => `${i ? passeig(1) + passeig(2) : ''}
+    tram = 0;
+    const dalt = passeig();
+    const index = site.seccions.map((s, i) => `${i ? passeig() + passeig() : ''}
 <section class="index">
   <h2>${esc(t(s.titol, l))}</h2>
   <ul>${s.projectes.filter(slug => perSlug[slug]).map(slug => {
@@ -168,7 +172,7 @@ ${!p.pagina && (text(p.slug, l) || text(p.slug, DEF)) ? `<details class="despleg
 <summary><em class="obrir">${esc(ui('llegirMes', l))}</em><em class="tancar">${esc(ui('tancar', l))}</em></summary>
 ${paragrafs(text(p.slug, l) || text(p.slug, DEF), p.slug)}
 </details>` : ''}
-</article>${i % 2 ? '\n' + passeig(i >> 1) : ''}`).join('\n');
+</article>${i % 2 ? '\n' + passeig() : ''}`).join('\n');
 
     return head({
       l, path: '', titol: site.nom, desc: t(site.descripcio, l), imatge: portada(publicats[0]),
@@ -178,7 +182,7 @@ ${paragrafs(text(p.slug, l) || text(p.slug, DEF), p.slug)}
 ${capcalera(l, '')}
 <main>
 <h1 class="sr">${esc(site.nom)}</h1>
-${passeig(0)}
+${dalt}
 <section class="bio"><p>${md(t(site.bio.curt, l), 'bio')} <a class="mes" href="${url(l, 'bio/')}"><em>${esc(ui('llegirMes', l))}</em></a>.</p></section>
 ${index}
 <section class="feed">
@@ -189,6 +193,7 @@ ${feed}
   }
 
   function projecte(p, l) {
+    tram = 0;
     const txt = text(p.slug, l) || text(p.slug, DEF);
     // A dalt, els cartells fixos un al costat de l'altre; si no n'hi ha, el slideshow.
     const dalt = p.cartells
@@ -203,7 +208,7 @@ ${feed}
     }) + `
 ${capcalera(l, p.slug + '/')}
 <main class="pagina">
-${passeig(0)}
+${passeig()}
 <article>
 <h1 class="sr">${esc(p.titol)}</h1>
 ${dalt}
@@ -214,18 +219,19 @@ ${(p.galeries || []).map(g => `<section class="galeria">${g.titol ? `<h2>${esc(t
 ${slides(p, g.carpeta, g.imatges, l)}
 </section>`).join('\n')}
 </article>
-${passeig(2)}
+${passeig()}
 <p><a class="mes" href="${url(l)}#${p.slug}">${esc(ui('tornar', l))}</a></p>
 </main>
 ` + peu();
   }
 
   function bio(l) {
+    tram = 0;
     return head({ l, path: 'bio/', titol: `${ui('about', l)} — ${site.nom}`, desc: resum(t(site.bio.curt, l)), imatge: 'media/bio/1.webp' })
       + `
 ${capcalera(l, 'bio/')}
 <main class="pagina-bio">
-${passeig(0)}
+${passeig()}
 <h1 class="sr">${esc(site.nom)}</h1>
 <img src="${raiz('/media/bio/1.webp')}" alt="${esc(site.nom)}"${(m => (m ? ` width="${m.w}" height="${m.h}"` : ''))(mida('media/bio/1.webp'))}>
 ${paragrafs(text('bio', l) || text('bio', DEF), 'bio')}
@@ -235,8 +241,9 @@ ${paragrafs(text('bio', l) || text('bio', DEF), 'bio')}
   }
 
   function noTrobada() {
+    tram = 0;
     return head({ l: DEF, path: '', titol: `404 — ${site.nom}`, desc: t(site.descripcio, DEF) })
-      + `\n${capcalera(DEF, '', false)}\n<main class="pagina-bio">\n${passeig(0)}\n`
+      + `\n${capcalera(DEF, '', false)}\n<main class="pagina-bio">\n${passeig()}\n`
       + IDIOMES.map(l => `<p lang="${iso(l)}">${esc(ui('noTrobada', l))} <a class="mes" href="${url(l)}">${esc(ui('tornar', l))}</a></p>`).join('\n')
       + `\n</main>\n` + peu();
   }
@@ -288,6 +295,16 @@ ${paragrafs(text('bio', l) || text('bio', DEF), 'bio')}
       if (!projectes.some(p => p?.slug === slug)) avis('site.json', `la secció "${t(s.titol, DEF)}" diu "${slug}", i aquest projecte no existeix`);
     for (const p of publicats) if (!site.seccions.some(s => s.projectes.includes(p.slug)))
       avis(p.slug, 'no surt a cap llista de site.json → seccions');
+    if (!Array.isArray(ninots)) avis('ninots.json', 'ha de ser una llista: comença per [ i acaba per ]', true);
+    else ninots.forEach((tr, i) => {
+      if (!Array.isArray(tr?.ninots)) return avis('ninots.json', `la línia ${i + 1} no té "ninots": [ ... ]`, true);
+      for (const n of tr.ninots) {
+        const qui = `ninots.json, línia ${i + 1}`;
+        if (!existeix(`assets/siluetes/${n.silueta}.svg`)) avis(qui, `no trobo assets/siluetes/${n.silueta}.svg`, true);
+        if (typeof n.punts !== 'number' || n.punts < 0) avis(qui, `"punts" de ${n.silueta} ha de ser un número (sense %)`, true);
+        if (n.variacio != null && (typeof n.variacio !== 'number' || n.variacio < 0)) avis(qui, `"variacio" de ${n.silueta} ha de ser un número`, true);
+      }
+    });
     return avisos;
   }
 

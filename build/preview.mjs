@@ -20,10 +20,11 @@ const error = (titol, txt) => escriure(`<!doctype html><meta charset="utf-8"><ti
 <p>Arregla-ho, desa, i aquesta pàgina es recarrega sola.</p></body>`);
 
 async function arrencar() {
-  let site, projectes;
+  let site, projectes, ninots;
   try {
     site = llegirJSON(await demanar('data/site.json'), 'data/site.json');
     projectes = llegirJSON(await demanar('data/projectes.json'), 'data/projectes.json');
+    ninots = llegirJSON(await demanar('data/ninots.json'), 'data/ninots.json');
   } catch (e) { return error(e.json ? 'Hi ha un error en un JSON' : 'No puc llegir les dades', e.message); }
 
   // Els textos llargs, tots d'entrada: les plantilles els demanen sense esperar.
@@ -32,7 +33,7 @@ async function arrencar() {
     try { textos.set(`${slug}/${l}`, await demanar(`media/${slug}/text.${l}.md`)); } catch { /* no en té */ }
   })));
 
-  const sitio = crearSitio({ site, projectes, base: BASE, preview: true, text: (s, l) => textos.get(`${s}/${l}`) ?? null });
+  const sitio = crearSitio({ site, projectes, ninots, base: BASE, preview: true, text: (s, l) => textos.get(`${s}/${l}`) ?? null });
 
   let demanada = new URLSearchParams(location.search).get('p') || '/';
   if (!demanada.startsWith('/')) demanada = '/' + demanada;

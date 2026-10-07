@@ -15,6 +15,7 @@ de minuts. No has d'instal·lar res per publicar.
 ```
 data/site.json         textos generals: bio curta, correu, les dues llistes de la home
 data/projectes.json    els projectes, en l'ordre en què surten a la pàgina
+data/ninots.json       les línies de punts amb ninots
 media/<slug>/          les fotos de cada projecte (1.webp, 2.webp…) i els seus textos llargs
 ```
 
@@ -88,6 +89,29 @@ Dins de qualsevol text:
 - `*cursiva*` · `**negreta**`
 - `[text de l'enllaç](https://…)`, o `[Full de sala](full-de-sala.pdf)` per a un fitxer de la carpeta del projecte
 
+## Els ninots
+
+Les línies de punts amb un ninot al final surten de `data/ninots.json`. Cada bloc
+`{ "ninots": [ ... ] }` és una línia, i cada pàgina les va posant en l'ordre del fitxer:
+la primera, la segona, la tercera… i quan s'acaben torna a començar. Una línia pot portar
+més d'un ninot (`run` i `walk2` van junts).
+
+```json
+{ "ninots": [
+  { "silueta": "run", "punts": 70, "variacio": 15 },
+  { "silueta": "walk2", "punts": 8, "variacio": 15 }
+] }
+```
+
+| camp | què fa |
+|---|---|
+| `silueta` | el nom del dibuix: `assets/siluetes/<silueta>.svg` |
+| `punts` | quant ocupen els punts abans del ninot, en % de l'amplada del text (sense `%`) |
+| `variacio` | quant pot créixer o encongir a cada visita, en % de `punts`: `15` vol dir que una línia de 70 fa entre 59,5 i 80,5. `0`, sempre igual |
+
+Per a un ninot nou, posa el seu SVG a `assets/siluetes/` (sense fons, en blanc: a les pàgines amb fons blanc s'inverteix sol) i afegeix-lo
+al JSON.
+
 ## Veure-ho abans de pujar-ho
 
 **Go Live** a baix a la dreta de VS Code. S'obre la web al navegador i es refresca sola cada
@@ -113,6 +137,7 @@ l'últim missatge, que diu el fitxer i què passa:
   o unes cometes sense tancar, a prop d'aquella línia.
 - **"no trobo media/requiem/5.webp"** → el número d'`imatges` és més gran que les fotos que hi ha.
 - **"hi ha dos projectes amb el mateix slug"** → canvia'n un.
+- **"no trobo assets/siluetes/….svg"** → el nom de la `silueta` a `ninots.json` no coincideix amb cap dibuix.
 
 ---
 
