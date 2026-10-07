@@ -10,9 +10,9 @@ POL ROIG, direcció escènica i dramatúrgia
 DANI ESPASA, direcció musical
 DAVID ALBET, idea original
 
-Montserrat Seró, Anna Girò (soprano) · Mamadou Diallo, Filomeno · Rubén Jiménez Rosco, Indià · Abel Antón, Vivaldi (concertino) · Erika Michi, Carmela Sesé, Hernán Cortés, Quim Palmado, figurants
+Montserrat Seró, Anna Girò (soprano) · Mamadou Diallo, Filomeno · Rubén Jiménez Rosco, Indià · Abel Antón, Vivaldi (concertino) · Erika Michi, Carmela Sesé, Hernán Cortés, Quim Palmada, figurants
 
-ESMUC Ensemble: VIOLINS Irene Sagarzazu / Maria Gil / Nel Cardo / Yiran Niu / Fani Kari / Irimia Menchero · VIOLA Alicia Millán · VIOLONCELS Yeji Seo / Cèlia Juan · CONTRABAIX Alba Rodíguez · PERCUSSIÓ Lucas Silva · ARPA Mateu Bauça · ORGUE Ferran Gallart · TIORBA Inés Wilton · TROMPETA Alejandro Toledo
+ESMUC Ensemble: VIOLINS Irene Sagarzazu / Maria Gil / Nel Cardo / Yiran Niu / Fani Kari / Irimia Menchero · VIOLA Alicia Millán · VIOLONCELS Yeji Seo / Cèlia Juan · CONTRABAIX Alba Rodríguez · PERCUSSIÓ Lucas Silva · ARPA Mateu Bauça · ORGUE Ferran Gallart · TIORBA Inés Wilton · TROMPETA Alejandro Toledo
 
 Alejandro G. Palomo, disseny de vestuari dels protagonistes · Ester Guntín, direcció de moviment · Mireia Sintes, disseny d’il·luminació · David Aguilar, dramaturgista · Judith Solé, composició musical especial · Pol Roig, disseny espai i vestuari
 

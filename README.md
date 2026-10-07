@@ -40,6 +40,7 @@ Només es fa un cop.
 3. **Copia un bloc** `{ ... }` sencer de `data/projectes.json` i canvia els camps (taula de sota).
    On el posis és on sortirà a la pàgina.
 4. **Afegeix el slug a una llista** de `data/site.json` → `seccions` (obra pròpia o escenografia).
+   Si és obra pròpia, posa-hi també `"pagina": true`.
 5. **Mira-ho amb Go Live** i, si està bé, **puja-ho** (a sota).
 
 ## Els camps d'un projecte
@@ -60,19 +61,24 @@ Només es fa un cop.
 |---|---|
 | `slug` | l'adreça i el nom de la carpeta de `media/` |
 | `published` | `true` surt a la web; `false` l'amaga (sense cometes) |
+| `pagina` | *opcional*: `true` li dona pàgina pròpia (ara, l'obra pròpia). Sense, el "llegir més" es desplega a la mateixa home |
+| `invertit` | *opcional*: `true` posa la seva pàgina en fons blanc i text negre |
 | `titol` | el nom del projecte |
 | `etiqueta` | *opcional*: com surt a la llista si ha de ser diferent del títol |
 | `detall` | el que surt en rosa en passar el ratolí per la llista |
 | `peu` | el text sota la foto |
-| `imatges` | quantes fotos hi ha a `media/<slug>/` |
+| `imatges` | quantes fotos hi ha a `media/<slug>/` (el slideshow de la home) |
+| `cartells` | *opcional*: quants cartells hi ha a `media/<slug>/cartells/`; surten a dalt de la seva pàgina, un al costat de l'altre |
 
 Cada text va en els dos idiomes: `{ "cat": "…", "en": "…" }`. Si en falta un, surt el català.
 
 ### Textos llargs
 
 El text del "llegir més" va en un fitxer a part, un per idioma:
-`media/<slug>/text.cat.md` i `media/<slug>/text.en.md`. Si existeix, al peu surt
-"Llegir més" i el projecte té la seva pàgina amb el text sencer.
+`media/<slug>/text.cat.md` i `media/<slug>/text.en.md`. Si el projecte té `"pagina": true`,
+el text surt a la seva pàgina; si no, es desplega a la home amb "Llegir més".
+
+Al `peu`, `\n` fa un salt de línia: així els crèdits entre parèntesis van a la línia de sota.
 
 Dins de qualsevol text:
 

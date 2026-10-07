@@ -83,7 +83,16 @@ img, video { display: block; max-width: 100%; }
 /* ---------- projectes ---------- */
 .feed { margin-top: 10em; }
 .proj { max-width: var(--col); margin-bottom: 5em; scroll-margin-top: 2em; }
-.peu { margin-top: .6em; max-width: var(--col); }
+.peu { margin-top: .6em; max-width: var(--col); font-size: .85em; }
+
+/* "llegir més" dels projectes sense pàgina: es desplega aquí mateix */
+.desplegable { max-width: 38em; font-size: .85em; margin-top: .3em; }
+.desplegable summary { list-style: none; cursor: pointer; text-decoration: underline; text-underline-offset: .15em; text-decoration-thickness: 1px; width: fit-content; }
+.desplegable summary::-webkit-details-marker { display: none; }
+.desplegable summary:hover { color: var(--rosa); }
+.desplegable .tancar, .desplegable[open] .obrir { display: none; }
+.desplegable[open] .tancar { display: inline; }
+.desplegable p { margin: 1em 0 0; }
 
 /* ---------- slideshow ---------- */
 .slides {
@@ -114,6 +123,12 @@ img, video { display: block; max-width: 100%; }
 .galeria h2 { font: inherit; margin: 0 0 .8em; }
 
 /* ---------- pàgina sencera ---------- */
+.cartells { display: grid; grid-template-columns: repeat(auto-fit, minmax(14em, 1fr)); gap: 1em; max-width: var(--col); align-items: start; }
+.cartells img { width: 100%; height: auto; }
+
+/* Pàgines invertides ("invertit": true al projecte): fons blanc i text negre */
+.invertit { --bg: #fff; --fg: #000; --rosa: #c0407f; }
+.invertit .passeig img { filter: invert(1); }
 .pagina video { width: min(100%, var(--col)); height: auto; background: #111; margin: 3em 0; }
 .pagina .text { margin: 3em 0 5em; }
 

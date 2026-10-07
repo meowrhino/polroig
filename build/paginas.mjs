@@ -79,10 +79,13 @@ export function crearSitio({ site, projectes, base = '', text = () => null, mida
   const resum = s => { const p = pla(s); return p.length <= 155 ? p : p.slice(0, 152).replace(/\s+\S*$/, '') + '…'; };
 
   const img = (slug, carpeta, i) => `media/${slug}/${carpeta ? carpeta + '/' : ''}${i}.webp`;
-  const portada = p => img(p.slug, p.portada?.carpeta, 1);
+  /** La foto per compartir: el primer cartell si n'hi ha, si no la primera foto. */
+  const portada = p => img(p.slug, p.cartells ? 'cartells' : '', 1);
+  /** El peu: mini-markdown i un salt de línia on n'hi ha un al JSON. */
+  const peuHtml = (p, l) => md(t(p.peu, l), p.slug).replace(/\n/g, '<br>');
 
   /* ---------- trossos ---------- */
-  function head({ l, titol, desc, path, imatge, jsonld }) {
+  function head({ l, titol, desc, path, imatge, jsonld, invertit }) {
     const m = imatge && mida(imatge);
     return `<!doctype html>
 <html lang="${iso(l)}">
@@ -108,16 +111,16 @@ export function crearSitio({ site, projectes, base = '', text = () => null, mida
   <script type="module" src="${raiz('/js/polroig.js')}"></script>
   ${jsonld ? `<script type="application/ld+json">${JSON.stringify(jsonld)}</script>` : ''}
 </head>
-<body>`;
+<body${invertit ? ' class="invertit"' : ''}>`;
   }
   const peu = () => `</body>\n</html>\n`;
 
-  function capcalera(l, path) {
+  function capcalera(l, path, esHome = path === '') {
     const idiomes = IDIOMES.map(i => i === l
       ? `<a href="${url(i, path)}" aria-current="true">${esc(ui('nomIdioma', i))}</a>`
       : `<a href="${url(i, path)}" hreflang="${iso(i)}" lang="${iso(i)}">${esc(ui('nomIdioma', i))}</a>`).join(' · ');
     return `<header class="top">
-  <a href="${url(l)}">(${esc(site.nomCurt)})</a>
+  <a href="${esHome ? url(l, 'bio/') : url(l)}">(${esc(site.nomCurt)})</a>
   <a href="mailto:${esc(site.email)}">${esc(site.email)}</a>
   <span class="idiomes">${idiomes}</span>
   <a href="${url(l, 'bio/')}">${esc(ui('about', l))}</a>
@@ -159,8 +162,12 @@ export function crearSitio({ site, projectes, base = '', text = () => null, mida
     // Una línia de punts cada dos projectes, com a la refe.
     const feed = publicats.map((p, i) => `<article class="proj" id="${p.slug}">
 ${slides(p, '', p.imatges, l, i === 0)}
-${p.peu ? `<p class="peu">${md(t(p.peu, l), p.slug)}${text(p.slug, l) || text(p.slug, DEF)
+${p.peu ? `<p class="peu">${peuHtml(p, l)}${p.pagina
       ? ` <a class="mes" href="${url(l, p.slug + '/')}"><em>${esc(ui('llegirMes', l))}</em></a>` : ''}</p>` : ''}
+${!p.pagina && (text(p.slug, l) || text(p.slug, DEF)) ? `<details class="desplegable">
+<summary><em class="obrir">${esc(ui('llegirMes', l))}</em><em class="tancar">${esc(ui('tancar', l))}</em></summary>
+${paragrafs(text(p.slug, l) || text(p.slug, DEF), p.slug)}
+</details>` : ''}
 </article>${i % 2 ? '\n' + passeig(i >> 1) : ''}`).join('\n');
 
     return head({
@@ -182,19 +189,25 @@ ${feed}
   }
 
   function projecte(p, l) {
-    const principal = p.portada || { carpeta: '', imatges: p.imatges };
     const txt = text(p.slug, l) || text(p.slug, DEF);
+    // A dalt, els cartells fixos un al costat de l'altre; si no n'hi ha, el slideshow.
+    const dalt = p.cartells
+      ? `<div class="cartells">${Array.from({ length: p.cartells }, (_, i) => {
+          const f = img(p.slug, 'cartells', i + 1), m = mida(f);
+          return `<img src="${raiz('/' + f)}" alt="${esc(`${p.titol} — ${ui('cartell', l)} ${i + 1}`)}"${m ? ` width="${m.w}" height="${m.h}"` : ''}>`;
+        }).join('')}</div>`
+      : slides(p, '', p.imatges, l, true);
     return head({
       l, path: p.slug + '/', titol: `${p.titol} — ${site.nom}`,
-      desc: resum(t(p.peu, l) || p.titol), imatge: portada(p),
+      desc: resum(t(p.peu, l) || p.titol), imatge: portada(p), invertit: p.invertit,
     }) + `
 ${capcalera(l, p.slug + '/')}
 <main class="pagina">
 ${passeig(0)}
 <article>
 <h1 class="sr">${esc(p.titol)}</h1>
-${slides(p, principal.carpeta, principal.imatges, l, true)}
-${p.peu ? `<p class="peu">${md(t(p.peu, l), p.slug)}</p>` : ''}
+${dalt}
+${p.peu ? `<p class="peu">${peuHtml(p, l)}</p>` : ''}
 ${p.video ? (poster => (m => `<video src="${raiz(`/media/${p.slug}/${p.video}`)}" poster="${raiz('/' + poster)}"${m ? ` width="${m.w}" height="${m.h}"` : ''} controls playsinline preload="none"></video>`)(mida(poster)))(`media/${p.slug}/${p.video.replace(/\.\w+$/, '.poster.webp')}`) : ''}
 ${txt ? `<div class="text">\n${paragrafs(txt, p.slug)}\n</div>` : ''}
 ${(p.galeries || []).map(g => `<section class="galeria">${g.titol ? `<h2>${esc(t(g.titol, l))}</h2>` : ''}
@@ -223,7 +236,7 @@ ${paragrafs(text('bio', l) || text('bio', DEF), 'bio')}
 
   function noTrobada() {
     return head({ l: DEF, path: '', titol: `404 — ${site.nom}`, desc: t(site.descripcio, DEF) })
-      + `\n${capcalera(DEF, '')}\n<main class="pagina-bio">\n${passeig(0)}\n`
+      + `\n${capcalera(DEF, '', false)}\n<main class="pagina-bio">\n${passeig(0)}\n`
       + IDIOMES.map(l => `<p lang="${iso(l)}">${esc(ui('noTrobada', l))} <a class="mes" href="${url(l)}">${esc(ui('tornar', l))}</a></p>`).join('\n')
       + `\n</main>\n` + peu();
   }
@@ -234,7 +247,7 @@ ${paragrafs(text('bio', l) || text('bio', DEF), 'bio')}
     for (const l of IDIOMES) {
       r.push({ ruta: ruta(l), pintar: () => home(l) });
       r.push({ ruta: ruta(l, 'bio/'), pintar: () => bio(l) });
-      for (const p of publicats) r.push({ ruta: ruta(l, p.slug + '/'), pintar: () => projecte(p, l) });
+      for (const p of publicats.filter(p => p.pagina)) r.push({ ruta: ruta(l, p.slug + '/'), pintar: () => projecte(p, l) });
     }
     return r;
   }
@@ -259,7 +272,7 @@ ${paragrafs(text('bio', l) || text('bio', DEF), 'bio')}
       if (typeof p.published !== 'boolean') avis(qui, '"published" ha de ser true o false, sense cometes', true);
       if (!p.published) return;
       if (!p.titol) avis(qui, 'falta "titol"');
-      const carpetes = [['', p.imatges], ...(p.portada ? [[p.portada.carpeta, p.portada.imatges]] : []),
+      const carpetes = [['', p.imatges], ...(p.cartells ? [['cartells', p.cartells]] : []),
         ...(p.galeries || []).map(g => [g.carpeta, g.imatges])];
       for (const [c, n] of carpetes) {
         const on = `media/${p.slug}/${c ? c + '/' : ''}`;
