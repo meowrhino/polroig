@@ -69,6 +69,8 @@ Només es fa un cop.
 | `peu` | el text sota la foto |
 | `imatges` | quantes fotos hi ha a `media/<slug>/` (el slideshow de la home) |
 | `cartells` | *opcional*: quants cartells hi ha a `media/<slug>/cartells/`; surten a dalt de la seva pàgina, un al costat de l'altre |
+| `galeries` | *opcional*: slideshows extra a la seva pàgina, sota el text. Cada galeria és una subcarpeta de `media/<slug>/` amb les fotos `1.webp`, `2.webp`…: `[{ "carpeta": "bocetos", "imatges": 16, "titol": { "cat": "(esbossos)", "en": "(sketches)" } }]` |
+| `video` | *opcional*: un vídeo a la seva pàgina, sota el peu: `"video": "teaser.webm"`. Al costat hi ha d'haver la imatge que es veu abans de donar-li al play, amb el mateix nom acabat en `.poster.webp` (`teaser.poster.webp`) |
 
 Cada text va en els dos idiomes: `{ "cat": "…", "en": "…" }`. Si en falta un, surt el català.
 
