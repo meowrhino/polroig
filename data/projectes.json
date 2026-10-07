@@ -95,6 +95,7 @@
     "slug": "eliza",
     "published": true,
     "pagina": true,
+    "invertit": true,
     "titol": "Eliza",
     "etiqueta": {
       "cat": "Eliza [òpera]",
@@ -220,6 +221,7 @@
     "slug": "ofrena-musical",
     "published": true,
     "pagina": true,
+    "invertit": true,
     "titol": "Ofrena musical",
     "detall": {
       "cat": "(acció teatral, ARTefACTe, 2024)",
@@ -235,6 +237,7 @@
     "slug": "passacaglia",
     "published": true,
     "pagina": true,
+    "invertit": true,
     "titol": "Passacaglia",
     "detall": {
       "cat": "(AV, 2026)",

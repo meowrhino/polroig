@@ -1,12 +1,15 @@
-[
-  { "ninots": [
-    { "silueta": "walk", "punts": 45, "variacio": 15 }
-  ] },
-  { "ninots": [
-    { "silueta": "run", "punts": 70, "variacio": 15 },
-    { "silueta": "walk2", "punts": 8, "variacio": 15 }
-  ] },
-  { "ninots": [
-    { "silueta": "stroll", "punts": 26, "variacio": 15 }
-  ] }
-]
+{
+  "cadaProjectes": 1,
+  "linies": [
+    { "ninots": [
+      { "silueta": "walk", "punts": 45, "variacio": 15 }
+    ] },
+    { "ninots": [
+      { "silueta": "run", "punts": 70, "variacio": 15 },
+      { "silueta": "walk2", "punts": 8, "variacio": 15 }
+    ] },
+    { "ninots": [
+      { "silueta": "stroll", "punts": 26, "variacio": 15 }
+    ] }
+  ]
+}

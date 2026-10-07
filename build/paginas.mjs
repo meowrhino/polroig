@@ -47,7 +47,7 @@ const RESERVATS = ['bio', 'en', 'media', 'assets', 'css', 'js'];
      mida(ruta)        { w, h } d'una imatge, o null
      preview           true a la vista prèvia: els enllaços van a ?p=/ruta/
    ============================================================ */
-export function crearSitio({ site, projectes, ninots = [], base = '', text = () => null, mida = () => null, preview = false }) {
+export function crearSitio({ site, projectes, ninots = {}, base = '', text = () => null, mida = () => null, preview = false }) {
   const IDIOMES = site.idiomes;
   const DEF = site.idiomaDefecte;
   const B = String(base).replace(/\/$/, '');
@@ -130,8 +130,10 @@ export function crearSitio({ site, projectes, ninots = [], base = '', text = () 
 
   /* Línies de punts amb siluetes (data/ninots.json). Cada pàgina les treu en
      l'ordre del JSON i torna a començar; el JS varia l'amplada dels punts. */
+  const linies = Array.isArray(ninots.linies) ? ninots.linies : [];
+  const cada = Number.isInteger(ninots.cadaProjectes) && ninots.cadaProjectes > 0 ? ninots.cadaProjectes : 2;
   let tram = 0;
-  const passeig = () => ninots.length ? `<div class="passeig" aria-hidden="true">${ninots[tram++ % ninots.length].ninots
+  const passeig = () => linies.length ? `<div class="passeig" aria-hidden="true">${linies[tram++ % linies.length].ninots
     .map(n => `<span class="punts" style="--w:${n.punts}%" data-v="${n.variacio ?? 0}"></span><img src="${raiz(`/assets/siluetes/${n.silueta}.svg`)}" alt="">`)
     .join('')}</div>` : '';
 
@@ -163,7 +165,7 @@ export function crearSitio({ site, projectes, ninots = [], base = '', text = () 
   </ul>
 </section>`).join('');
 
-    // Una línia de punts cada dos projectes, com a la refe.
+    // Una línia de punts cada "cadaProjectes" projectes (data/ninots.json).
     const feed = publicats.map((p, i) => `<article class="proj" id="${p.slug}">
 ${slides(p, '', p.imatges, l, i === 0)}
 ${p.peu ? `<p class="peu">${peuHtml(p, l)}${p.pagina
@@ -172,7 +174,7 @@ ${!p.pagina && (text(p.slug, l) || text(p.slug, DEF)) ? `<details class="despleg
 <summary><em class="obrir">${esc(ui('llegirMes', l))}</em><em class="tancar">${esc(ui('tancar', l))}</em></summary>
 ${paragrafs(text(p.slug, l) || text(p.slug, DEF), p.slug)}
 </details>` : ''}
-</article>${i % 2 ? '\n' + passeig() : ''}`).join('\n');
+</article>${(i + 1) % cada ? '' : '\n' + passeig()}`).join('\n');
 
     return head({
       l, path: '', titol: site.nom, desc: t(site.descripcio, l), imatge: portada(publicats[0]),
@@ -295,8 +297,9 @@ ${paragrafs(text('bio', l) || text('bio', DEF), 'bio')}
       if (!projectes.some(p => p?.slug === slug)) avis('site.json', `la secció "${t(s.titol, DEF)}" diu "${slug}", i aquest projecte no existeix`);
     for (const p of publicats) if (!site.seccions.some(s => s.projectes.includes(p.slug)))
       avis(p.slug, 'no surt a cap llista de site.json → seccions');
-    if (!Array.isArray(ninots)) avis('ninots.json', 'ha de ser una llista: comença per [ i acaba per ]', true);
-    else ninots.forEach((tr, i) => {
+    if (!Number.isInteger(ninots.cadaProjectes) || ninots.cadaProjectes < 1) avis('ninots.json', '"cadaProjectes" ha de ser un número sencer, 1 o més', true);
+    if (!Array.isArray(ninots.linies)) avis('ninots.json', '"linies" ha de ser una llista: [ ... ]', true);
+    else ninots.linies.forEach((tr, i) => {
       if (!Array.isArray(tr?.ninots)) return avis('ninots.json', `la línia ${i + 1} no té "ninots": [ ... ]`, true);
       for (const n of tr.ninots) {
         const qui = `ninots.json, línia ${i + 1}`;

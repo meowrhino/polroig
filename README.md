@@ -91,8 +91,12 @@ Dins de qualsevol text:
 
 ## Els ninots
 
-Les línies de punts amb un ninot al final surten de `data/ninots.json`. Cada bloc
-`{ "ninots": [ ... ] }` és una línia, i cada pàgina les va posant en l'ordre del fitxer:
+Les línies de punts amb un ninot al final surten de `data/ninots.json`.
+
+`"cadaProjectes"` diu cada quants projectes de la home surt una línia: `1`, entre tots;
+`2`, cada dos; i així.
+
+A `"linies"`, cada bloc `{ "ninots": [ ... ] }` és una línia, i cada pàgina les va posant en l'ordre del fitxer:
 la primera, la segona, la tercera… i quan s'acaben torna a començar. Una línia pot portar
 més d'un ninot (`run` i `walk2` van junts).
 
@@ -102,6 +106,8 @@ més d'un ninot (`run` i `walk2` van junts).
   { "silueta": "walk2", "punts": 8, "variacio": 15 }
 ] }
 ```
+
+Els camps de cada ninot:
 
 | camp | què fa |
 |---|---|
