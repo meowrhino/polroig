@@ -84,33 +84,47 @@ export function crearSitio({ site, projectes, ninots = {}, base = '', text = () 
   const portada = p => img(p.slug, p.cartells ? 'cartells' : '', 1);
   /** El peu: mini-markdown i un salt de línia on n'hi ha un al JSON. */
   const peuHtml = (p, l) => md(t(p.peu, l), p.slug).replace(/\n/g, '<br>');
+  /** El text llarg en aquest idioma o, si no n'hi ha, en el per defecte. */
+  const textDe = (slug, l) => text(slug, l) || text(slug, DEF);
+  /** width i height d'una imatge, perquè el navegador li reservi el forat abans que baixi. */
+  const wh = f => { const m = mida(f); return m ? ` width="${m.w}" height="${m.h}"` : ''; };
+  /** JSON-LD dins d'un <script>: sense "<", que podria tancar-lo. */
+  const ld = obj => `<script type="application/ld+json">${JSON.stringify({ '@context': 'https://schema.org', ...obj }).replace(/</g, '\\u003c')}</script>`;
+  /** Pol, per a schema.org: a la home, a la bio i com a autor de cada projecte. */
+  const persona = l => ({ '@type': 'Person', name: site.nom, url: publica(ruta(l)), email: `mailto:${site.email}`,
+    jobTitle: ui('ofici', l), image: publica('/media/bio/1.webp') });
 
   /* ---------- trossos ---------- */
-  function head({ l, titol, desc, path, imatge, jsonld, invertit }) {
-    const m = imatge && mida(imatge);
+  const LOCALE = { cat: 'ca_ES', en: 'en_GB' };
+
+  /** <head> sencer: títol, descripció, idiomes, Open Graph i JSON-LD.
+      Sense domini propi, noindex: la web encara és de proves. */
+  function head({ l, titol, desc, path, imatge, jsonld, invertit, indexar = !!site.domini }) {
     return `<!doctype html>
 <html lang="${iso(l)}">
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="theme-color" content="#000000">
+  <meta name="theme-color" content="${invertit ? '#ffffff' : '#000000'}">
   <title>${esc(titol)}</title>
   <meta name="description" content="${esc(desc)}">
-  ${site.domini ? '' : '<meta name="robots" content="noindex">\n  '}<link rel="canonical" href="${publica(ruta(l, path))}">
+  ${indexar ? '' : '<meta name="robots" content="noindex">\n  '}<link rel="canonical" href="${publica(ruta(l, path))}">
   ${IDIOMES.map(i => `<link rel="alternate" hreflang="${iso(i)}" href="${publica(ruta(i, path))}">`).join('\n  ')}
   <link rel="alternate" hreflang="x-default" href="${publica(ruta(DEF, path))}">
   <meta property="og:type" content="${path && path !== 'bio/' ? 'article' : 'website'}">
   <meta property="og:title" content="${esc(titol)}">
   <meta property="og:description" content="${esc(desc)}">
   <meta property="og:url" content="${publica(ruta(l, path))}">
-  <meta property="og:locale" content="${l === 'cat' ? 'ca_ES' : 'en_GB'}">
+  <meta property="og:site_name" content="${esc(site.nom)}">
+  <meta property="og:locale" content="${LOCALE[l] || l}">
+  ${IDIOMES.filter(i => i !== l).map(i => `<meta property="og:locale:alternate" content="${LOCALE[i] || i}">`).join('\n  ')}
   ${imatge ? `<meta property="og:image" content="${publica('/' + imatge)}">` : ''}
-  ${m ? `<meta property="og:image:width" content="${m.w}">\n  <meta property="og:image:height" content="${m.h}">` : ''}
+  ${(m => (m ? `<meta property="og:image:width" content="${m.w}">\n  <meta property="og:image:height" content="${m.h}">` : ''))(imatge && mida(imatge))}
   <meta name="twitter:card" content="summary_large_image">
   <link rel="icon" href="${raiz('/assets/favicon.svg')}" type="image/svg+xml">
   <link rel="stylesheet" href="${raiz('/css/style.css')}">
   <script type="module" src="${raiz('/js/polroig.js')}"></script>
-  ${jsonld ? `<script type="application/ld+json">${JSON.stringify(jsonld)}</script>` : ''}
+  ${jsonld ? ld(jsonld) : ''}
 </head>
 <body${invertit ? ' class="invertit"' : ''}>`;
   }
@@ -132,18 +146,19 @@ export function crearSitio({ site, projectes, ninots = {}, base = '', text = () 
      l'ordre del JSON i torna a començar; el JS varia l'amplada dels punts. */
   const linies = Array.isArray(ninots.linies) ? ninots.linies : [];
   const cada = Number.isInteger(ninots.cadaProjectes) && ninots.cadaProjectes > 0 ? ninots.cadaProjectes : 2;
-  let tram = 0;
+  let tram = 0;   // per on va la llista; cada pàgina el torna a posar a 0
   const passeig = () => linies.length ? `<div class="passeig" aria-hidden="true">${linies[tram++ % linies.length].ninots
     .map(n => `<span class="punts" style="--w:${n.punts}%" data-v="${n.variacio ?? 0}"></span><img src="${raiz(`/assets/siluetes/${n.silueta}.svg`)}" alt="">`)
     .join('')}</div>` : '';
 
-  /** Slideshow: sense JS es veu la primera foto; el JS mostra els botons. */
+  /** Slideshow: sense JS es veu la primera foto; el JS mostra els botons i el ninot mentre carrega. */
   function slides(p, carpeta, n, l, eager = false) {
     const primera = img(p.slug, carpeta, 1);
     const m = mida(primera);
     const alt = `${p.titol} — ${ui('imatge', l)} 1/${n}`;
+    // eager: la primera foto de la pàgina, la que el navegador ha de baixar abans que res (LCP).
     return `<figure class="slides"${m ? ` style="--r:${m.w}/${m.h}"` : ''} data-base="${raiz(`/media/${p.slug}/${carpeta ? carpeta + '/' : ''}`)}" data-n="${n}" data-titol="${esc(p.titol)}" data-txt="${esc(ui('imatge', l))}">
-  <img src="${raiz('/' + primera)}" alt="${esc(alt)}"${m ? ` width="${m.w}" height="${m.h}"` : ''}${eager ? '' : ' loading="lazy"'} decoding="async">${n > 1 ? `
+  <img src="${raiz('/' + primera)}" alt="${esc(alt)}"${wh(primera)}${eager ? ' fetchpriority="high"' : ' loading="lazy"'} decoding="async">${n > 1 ? `
   <button class="ant" type="button" aria-label="${esc(ui('anterior', l))}" hidden></button>
   <button class="seg" type="button" aria-label="${esc(ui('seguent', l))}" hidden></button>
   <span class="compte" hidden>1/${n}</span>` : ''}
@@ -170,16 +185,15 @@ export function crearSitio({ site, projectes, ninots = {}, base = '', text = () 
 ${slides(p, '', p.imatges, l, i === 0)}
 ${p.peu ? `<p class="peu">${peuHtml(p, l)}${p.pagina
       ? ` <a class="mes" href="${url(l, p.slug + '/')}"><em>${esc(ui('llegirMes', l))}</em></a>` : ''}</p>` : ''}
-${!p.pagina && (text(p.slug, l) || text(p.slug, DEF)) ? `<details class="desplegable">
+${!p.pagina && textDe(p.slug, l) ? `<details class="desplegable">
 <summary><em class="obrir">${esc(ui('llegirMes', l))}</em><em class="tancar">${esc(ui('tancar', l))}</em></summary>
-${paragrafs(text(p.slug, l) || text(p.slug, DEF), p.slug)}
+${paragrafs(textDe(p.slug, l), p.slug)}
 </details>` : ''}
 </article>${(i + 1) % cada ? '' : '\n' + passeig()}`).join('\n');
 
     return head({
       l, path: '', titol: site.nom, desc: t(site.descripcio, l), imatge: portada(publicats[0]),
-      jsonld: { '@context': 'https://schema.org', '@type': 'Person', name: site.nom,
-        email: `mailto:${site.email}`, url: publica(ruta(l)), jobTitle: ui('ofici', l) },
+      jsonld: persona(l),
     }) + `
 ${capcalera(l, '')}
 <main>
@@ -194,19 +208,27 @@ ${feed}
 ` + peu();
   }
 
+  /** El vídeo, amb la seva imatge d'espera (teaser.webm → teaser.poster.webp). */
+  function video(p) {
+    const poster = `media/${p.slug}/${p.video.replace(/\.\w+$/, '.poster.webp')}`;
+    return `<video src="${raiz(`/media/${p.slug}/${p.video}`)}" poster="${raiz('/' + poster)}"${wh(poster)} controls playsinline preload="none"></video>`;
+  }
+
   function projecte(p, l) {
     tram = 0;
-    const txt = text(p.slug, l) || text(p.slug, DEF);
+    const txt = textDe(p.slug, l);
     // A dalt, els cartells fixos un al costat de l'altre; si no n'hi ha, el slideshow.
     const dalt = p.cartells
       ? `<div class="cartells">${Array.from({ length: p.cartells }, (_, i) => {
-          const f = img(p.slug, 'cartells', i + 1), m = mida(f);
-          return `<img src="${raiz('/' + f)}" alt="${esc(`${p.titol} — ${ui('cartell', l)} ${i + 1}`)}"${m ? ` width="${m.w}" height="${m.h}"` : ''}>`;
+          const f = img(p.slug, 'cartells', i + 1);
+          return `<img src="${raiz('/' + f)}" alt="${esc(`${p.titol} — ${ui('cartell', l)} ${i + 1}`)}"${wh(f)}${i ? '' : ' fetchpriority="high"'}>`;
         }).join('')}</div>`
       : slides(p, '', p.imatges, l, true);
     return head({
       l, path: p.slug + '/', titol: `${p.titol} — ${site.nom}`,
       desc: resum(t(p.peu, l) || p.titol), imatge: portada(p), invertit: p.invertit,
+      jsonld: { '@type': 'CreativeWork', name: p.titol, url: publica(ruta(l, p.slug + '/')), inLanguage: iso(l),
+        description: resum(t(p.peu, l)), image: publica('/' + portada(p)), creator: persona(l) },
     }) + `
 ${capcalera(l, p.slug + '/')}
 <main class="pagina">
@@ -215,7 +237,7 @@ ${passeig()}
 <h1 class="sr">${esc(p.titol)}</h1>
 ${dalt}
 ${p.peu ? `<p class="peu">${peuHtml(p, l)}</p>` : ''}
-${p.video ? (poster => (m => `<video src="${raiz(`/media/${p.slug}/${p.video}`)}" poster="${raiz('/' + poster)}"${m ? ` width="${m.w}" height="${m.h}"` : ''} controls playsinline preload="none"></video>`)(mida(poster)))(`media/${p.slug}/${p.video.replace(/\.\w+$/, '.poster.webp')}`) : ''}
+${p.video ? video(p) : ''}
 ${txt ? `<div class="text">\n${paragrafs(txt, p.slug)}\n</div>` : ''}
 ${(p.galeries || []).map(g => `<section class="galeria">${g.titol ? `<h2>${esc(t(g.titol, l))}</h2>` : ''}
 ${slides(p, g.carpeta, g.imatges, l)}
@@ -229,14 +251,15 @@ ${passeig()}
 
   function bio(l) {
     tram = 0;
-    return head({ l, path: 'bio/', titol: `${ui('about', l)} — ${site.nom}`, desc: resum(t(site.bio.curt, l)), imatge: 'media/bio/1.webp' })
+    return head({ l, path: 'bio/', titol: `${ui('about', l)} — ${site.nom}`, desc: resum(t(site.bio.curt, l)), imatge: 'media/bio/1.webp',
+      jsonld: { '@type': 'ProfilePage', inLanguage: iso(l), mainEntity: persona(l) } })
       + `
 ${capcalera(l, 'bio/')}
 <main class="pagina-bio">
 ${passeig()}
 <h1 class="sr">${esc(site.nom)}</h1>
-<img src="${raiz('/media/bio/1.webp')}" alt="${esc(site.nom)}"${(m => (m ? ` width="${m.w}" height="${m.h}"` : ''))(mida('media/bio/1.webp'))}>
-${paragrafs(text('bio', l) || text('bio', DEF), 'bio')}
+<img src="${raiz('/media/bio/1.webp')}" alt="${esc(site.nom)}"${wh('media/bio/1.webp')} fetchpriority="high">
+${paragrafs(textDe('bio', l), 'bio')}
 <p><a class="mes" href="${url(l)}">${esc(ui('tornar', l))}</a></p>
 </main>
 ` + peu();
@@ -244,7 +267,7 @@ ${paragrafs(text('bio', l) || text('bio', DEF), 'bio')}
 
   function noTrobada() {
     tram = 0;
-    return head({ l: DEF, path: '', titol: `404 — ${site.nom}`, desc: t(site.descripcio, DEF) })
+    return head({ l: DEF, path: '', titol: `404 — ${site.nom}`, desc: t(site.descripcio, DEF), indexar: false })
       + `\n${capcalera(DEF, '', false)}\n<main class="pagina-bio">\n${passeig()}\n`
       + IDIOMES.map(l => `<p lang="${iso(l)}">${esc(ui('noTrobada', l))} <a class="mes" href="${url(l)}">${esc(ui('tornar', l))}</a></p>`).join('\n')
       + `\n</main>\n` + peu();

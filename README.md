@@ -152,6 +152,11 @@ l'últim missatge, que diu el fitxer i què passa:
 - `build/paginas.mjs`: les plantilles (dades → HTML). Les fan servir el build i la vista prèvia.
 - `build/build.mjs`: valida i escriu `dist/` (no es commiteja). `node build/build.mjs`.
 - `build/preview.mjs` + `index.html`: la vista prèvia de Live Server (`/?p=/en/eliza/`).
+- `js/polroig.js`: l'únic JS, i només afegeix (sense JS tot es veu): variació de les línies de punts,
+  slideshow amb el ninot caminant mentre carrega cada foto (`assets/siluetes/walk.svg`, des del CSS),
+  i el `#projecte` a l'adreça.
+- **SEO**: cada pàgina porta canonical, `hreflang` cat/en, Open Graph amb mides d'imatge i JSON-LD
+  (Person a la home, ProfilePage a la bio, CreativeWork a cada projecte). El 404 no s'indexa mai.
 - `.github/workflows/deploy.yml`: build i publicació a GitHub Pages a cada push.
 - **Domini**: quan n'hi hagi, posa'l a `site.json` → `"domini"`. Això treu el `noindex`, obre
   el `robots.txt` i escriu el `CNAME`.
