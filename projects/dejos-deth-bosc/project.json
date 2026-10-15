@@ -1,0 +1,23 @@
+{
+  "title": "Dejós deth bòsc",
+  "detail": { "ca": "(Teatre, Teatre Estudi, 2024)", "en": "(Theater, Teatre Estudi, 2024)" },
+  "caption": {
+    "ca": [
+      "*Dejós deth bòsc*, Teatre Estudi, 2024. Espai escènic i il·luminació.",
+      "(Dir. Jordi Oriol / Text: Alberto Conejero / Espai sonor: Carles Pedragosa / amb Hannah Bilsky i Montse Escolano)"
+    ],
+    "en": [
+      "*Dejós deth bòsc*, Teatre Estudi, 2024. Scenography and lighting.",
+      "(Dir. Jordi Oriol / Text: Alberto Conejero / Sound design: Carles Pedragosa / with Hannah Bilsky and Montse Escolano)"
+    ]
+  },
+  "photos": ["1", "2", "3", "4", "5", "6", "7"],
+  "text": {
+    "ca": [
+      "Una instal·lació es desplega en l’espai com un gran instrument musical. Els dos espais de la trama, la casa i el bosc, es desconstrueixen mútuament: els materials de la casa —bigues, portes, mobles, canonades— han estat desmembrats i suspesos en l’espai seguint el patró d’un bosc, que els intèrprets percuteixen i freguen, creant una composició musical en directe."
+    ],
+    "en": [
+      "An installation unfolds in space as a large musical instrument. The two settings of the story, the house and the forest, deconstruct one another: the materials of the house — beams, doors, furniture, pipes — have been dismantled and suspended in space following the pattern of a forest, which the performers strike and rub, creating a live musical composition."
+    ]
+  }
+}

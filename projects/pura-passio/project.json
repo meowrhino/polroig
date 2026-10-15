@@ -1,0 +1,15 @@
+{
+  "title": "Pura Passió",
+  "detail": { "ca": "(Teatre, Temporada Alta, 2024)", "en": "(Theater, Temporada Alta, 2024)" },
+  "caption": {
+    "ca": [
+      "*Pura Passió*, Teatre de Salt, Temporada Alta 2024. Espai escènic.",
+      "(Dir. Lucia del Greco / Il·luminació: Cube / Vestuari: Pau Aulí / Construcció del motor: Lali Canosa)"
+    ],
+    "en": [
+      "*Pura Passió*, Teatre de Salt, Temporada Alta 2024. Scenography.",
+      "(Dir. Lucia del Greco / Lighting: Cube / Costume: Pau Aulí / Engine construction: Lali Canosa)"
+    ]
+  },
+  "photos": ["1", "2", "3", "4", "5"]
+}

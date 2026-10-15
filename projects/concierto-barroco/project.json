@@ -1,0 +1,161 @@
+{
+  "title": "Concierto barroco",
+  "detail": {
+    "ca": "(Acció teatral, Escenes L’Auditori, 2025)",
+    "en": "(Theatrical action, Escenes L’Auditori, 2025)"
+  },
+  "caption": {
+    "ca": [
+      "*Concierto barroco*, Escenes L’Auditori, 2025. Direcció, dramatúrgia i espai escènic.",
+      "(Direcció musical: Dani Espasa / ESMUC Ensemble)"
+    ],
+    "en": [
+      "*Concierto barroco*, Escenes L’Auditori, 2025. Stage direction, dramaturgy and scenography.",
+      "(Conductor: Dani Espasa / ESMUC Ensemble)"
+    ]
+  },
+  "page": true,
+  "photos": ["1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12", "13", "14", "15", "16", "17", "18"],
+  "posters": ["1", "2", "3"],
+  "groups": [
+    {
+      "folder": "bocetos",
+      "name": { "ca": "(esbossos)", "en": "(sketches)" },
+      "photos": ["1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12", "13", "14", "15", "16"]
+    },
+    {
+      "folder": "lupe-blanco",
+      "name": { "ca": "(fotografia: Lupe Blanco)", "en": "(photography: Lupe Blanco)" },
+      "photos": ["1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12", "13", "14", "15", "16", "17", "18"]
+    }
+  ],
+  "video": "teaser",
+  "text": {
+    "ca": [
+      "> «La imatge vertadera del passat s’allunya rabent. El passat només es pot retenir com una imatge refulgent que amenaça de desaparèixer amb cada present que no s’hi reconegui.» Walter Benjamin",
+      "*Concierto barroco* és una aproximació musical i escènica a la novel·la homònima escrita el 1974 per Alejo Carpentier. En una posada en escena sense diàlegs, una sèrie d’objectes culturals serveixen de fil conductor del relat, que s’articula també a partir de la interpretació de diferents obres musicals extretes de la novel·la. Els mateixos músics, caracteritzats com els compositors i personatges que hi apareixen, protagonitzen aquest exercici que busca connectar les obres musicals amb els seus contextos originals, desmembrant les fonts històriques de l’exercici ficcional que permet a Carpentier imaginar els buits del relat oficial.",
+      "Dos cartells amb text projectat pengen sobre l’escena i funcionen com un suplement, ressignificant i catalogant exhaustivament —amb la característica ironia de Carpentier— tot allò que s’exhibeix en aquest museu imaginari i que arriba als ulls i a les oïdes de l’espectador.",
+      "[[slides]]",
+      "Fitxa artística:",
+      "[[columnes]]",
+      [
+        "Pol Roig, direcció escènica i dramatúrgia",
+        "Dani Espasa, direcció musical",
+        "David Albet, idea original"
+      ],
+      [
+        "Montserrat Seró, Anna Girò (soprano)",
+        "Mamadou Diallo, Filomeno",
+        "Rubén Jiménez Rosco, Indià",
+        "Abel Antón, Vivaldi (concertino)",
+        "Erika Michi, Carmela Sesé, Hernán Cortés, Quim Palmada, figurants",
+        "ESMUC ensemble:",
+        "VIOLINS Irene Sagarzazu / Maria Gil / Nel Cardo / Yiran Niu / Fani Kari / Irimia Menchero · VIOLA Alicia Millán · VIOLONCELS Yeji Seo / Cèlia Juan · CONTRABAIX Alba Rodríguez · PERCUSSIÓ Lucas Silva · ARPA Mateu Bauça · ORGUE Ferran Gallart · TIORBA Inés Wilton · TROMPETA Alejandro Toledo"
+      ],
+      [
+        "Alejandro G. Palomo, disseny de vestuari dels protagonistes",
+        "Ester Guntín, direcció de moviment",
+        "Mireia Sintes, disseny d’il·luminació",
+        "David Aguilar, dramaturgista",
+        "Judith Solé, composició musical especial",
+        "Pol Roig, disseny espai i vestuari"
+      ],
+      [
+        "Marto Pérez, coordinació tècnica",
+        "Lucia Castro, ajudantia d’espai",
+        "Flor Violeta Sobrequés, ajudantia de vestuari",
+        "Quim Palmada, ajudantia de direcció",
+        "Amalia S-P de Nieves, disseny i confecció de perruques",
+        "Andrea Muratet, pràctiques de vestuari",
+        "Andrea Casado, construcció escenogràfica",
+        "Victòria Palma, assessorament històric sobre l’Ospedale della Pietà",
+        "Jaume Cortacans, Maria Llena, producció ESMUC",
+        "Anna Martínez, responsable producció L’Auditori",
+        "Verònica Rodríguez, cap programació i producció artística L’Auditori",
+        "Irati Urtizberea, assessorament musicològic",
+        "Really Sorry Creative Studio, imatge de cartell i teaser",
+        "Max Villa, gràfica de cartell"
+      ],
+      [
+        "Agraïments especials a Dani Cardevore, Eulàlia Valldosera, Albert Valldosera i Annelies Broeckman.",
+        "Amb el suport de Fabra i Coats i del Teatre Nacional de Catalunya."
+      ],
+      "[[/columnes]]",
+      "[[video | Teaser dirigit i produït per Really Sorry Creative Studio (Rafa Castells, Pablito Revival i Geri Guivernau) amb Mamadou Diallo. Vestuari de Palomo Spain. Barcelona, 2025.]]",
+      ["Comentari", "*per Pol Roig i David Aguilar*"],
+      "Les *wunderkammer*, gabinets de curiositats, eren sales (o, a vegades, simples mobles) on els nobles i burgesos dels segles XVI, XVII i XVIII col·leccionaven i exposaven objectes de procedències molt diverses, des d’obres d’art fins a curiositats científiques i objectes exòtics. Antecessors directes dels museus moderns, l’estil expositiu d’aquestes galeries es caracteritzava per la saturació de l’espai i per l’eclecticisme dels tresors que s’hi acumulaven. La *wunderkammer*, doncs, és un exemple privilegiat de l’estètica del Barroc, que, com diu Borges, juga a esgotar les seves pròpies possibilitats i és la base del dispositiu escènic d’aquesta proposta.",
+      "> «L’obra de Vivaldi és una festa perpètua i jo vaig voler fer una mena de festa verbal.» Alejo Carpentier",
+      "A diferència de la *white box* característica del museu modern, el mecanisme del gabinet de curiositats és capaç de revelar lligams, continuïtats i contrastos inesperats entre objectes, temps, espais i històries. Amb les seves estructures abismàtiques, la hipertròfia de les formes i una artificialitat declarada, el diàleg amb el Barroc es presenta com una alternativa a l’homogeneïtzació i l’estandardització de les categories del present, guiades per les lògiques de consum i per una idea de progrés únic que tendeix a esborrar la diversitat en favor d’una lectura nítida, depurada i en singular.",
+      "[[galeria:bocetos | Esbossos preliminars de Pol Roig, realitzats en tinta sobre paper vegetal.]]",
+      "D’aquesta manera, el *Concierto barroco* que aquí presentem es basa en l’eclecticisme i l’excés de la *wunderkammer* per explorar els sons, les imatges i les narratives que venen del passat o, més aviat, a partir de les quals construïm el passat —i, encara més, el passat dels altres. Perquè, al capdavall, comprendre el que ens precedeix és aprendre a interpretar-ho, és a dir, a elaborar-ho, a traçar possibles lectures d’entre tots els signes (visuals, verbals i sonors) que ens assetgen i ens saturen. En aquest sentit, barroquitzar pot ser una manera de reivindicar lúdicament la complexitat i la densitat d’aquest procés, combinant original i còpia, essència i suplement, història i ficció, per detectar les zones grises on tot es barreja i es capgira.",
+      "> «L’al·legoria és un suplement. Concebuda com una cosa externa afegida a l’obra, l’al·legoria en serà separable.» Craig Owens",
+      "Recull de textos projectats durant la funció:",
+      "*[Descarrega els textos](textos.pdf)*",
+      "Selecció i redacció dels textos: Pol Roig i David Aguilar.",
+      "[[galeria:lupe-blanco | Fotografies de Lupe Blanco durant els assajos a la Sala 3 de L’Auditori.]]"
+    ],
+    "en": [
+      "> “The true image of the past speeds away. The past can only be held as a shining image that threatens to vanish with every present that does not recognise itself in it.” Walter Benjamin",
+      "*Concierto barroco* is a musical and scenic exploration of the novel of the same title, written by Alejo Carpentier in 1974. In a dialogue-free staging, a series of cultural objects serve as a narrative thread, alongside the performance of different musical works drawn from the novel. The musicians themselves, portrayed as the composers and characters who appear in the novel, become the protagonists of an exercise that seeks to reconnect the musical works with their original contexts, dismantling the historical sources behind the fictional device that allows Carpentier to imagine the gaps in the official narrative.",
+      "Two panels bearing projected text hang above the stage and function as a supplement, re-signifying and exhaustively cataloguing—with Carpentier’s characteristic irony—everything displayed in this imaginary museum and brought within the viewer’s sight and hearing.",
+      "[[slides]]",
+      "Credits:",
+      "[[columnes]]",
+      [
+        "Pol Roig, stage direction and dramaturgy",
+        "Dani Espasa, musical direction",
+        "David Albet, original idea"
+      ],
+      [
+        "Montserrat Seró, Anna Girò (soprano)",
+        "Mamadou Diallo, Filomeno",
+        "Rubén Jiménez Rosco, Indian",
+        "Abel Antón, Vivaldi (concertmaster)",
+        "Erika Michi, Carmela Sesé, Hernán Cortés, Quim Palmada, extras",
+        "ESMUC ensemble:",
+        "VIOLINS Irene Sagarzazu / Maria Gil / Nel Cardo / Yiran Niu / Fani Kari / Irimia Menchero · VIOLA Alicia Millán · CELLOS Yeji Seo / Cèlia Juan · DOUBLE BASS Alba Rodríguez · PERCUSSION Lucas Silva · HARP Mateu Bauça · ORGAN Ferran Gallart · THEORBO Inés Wilton · TRUMPET Alejandro Toledo"
+      ],
+      [
+        "Alejandro G. Palomo, costume design for the leads",
+        "Ester Guntín, movement direction",
+        "Mireia Sintes, lighting design",
+        "David Aguilar, dramaturg",
+        "Judith Solé, special musical composition",
+        "Pol Roig, set and costume design"
+      ],
+      [
+        "Marto Pérez, technical coordination",
+        "Lucia Castro, set design assistant",
+        "Flor Violeta Sobrequés, costume assistant",
+        "Quim Palmada, assistant director",
+        "Amalia S-P de Nieves, wig design and making",
+        "Andrea Muratet, costume intern",
+        "Andrea Casado, set construction",
+        "Victòria Palma, historical advice on the Ospedale della Pietà",
+        "Jaume Cortacans, Maria Llena, ESMUC production",
+        "Anna Martínez, production manager, L’Auditori",
+        "Verònica Rodríguez, head of programming and artistic production, L’Auditori",
+        "Irati Urtizberea, musicological advice",
+        "Really Sorry Creative Studio, poster image and teaser",
+        "Max Villa, poster graphics"
+      ],
+      [
+        "Special thanks to Dani Cardevore, Eulàlia Valldosera, Albert Valldosera and Annelies Broeckman.",
+        "With the support of Fabra i Coats and the Teatre Nacional de Catalunya."
+      ],
+      "[[/columnes]]",
+      "[[video | Teaser directed and produced by Really Sorry Creative Studio (Rafa Castells, Pablito Revival and Geri Guivernau) with Mamadou Diallo. Costumes by Palomo Spain. Barcelona, 2025.]]",
+      ["Commentary", "*by Pol Roig and David Aguilar*"],
+      "*Wunderkammern*, cabinets of curiosities, were rooms (or sometimes simple pieces of furniture) where the nobility and bourgeoisie of the 16th, 17th and 18th centuries collected and displayed objects of very diverse origins, from works of art to scientific curiosities and exotic objects. Direct ancestors of modern museums, these galleries were characterised by the saturation of space and the eclecticism of the treasures accumulated in them. The *wunderkammer* is thus a privileged example of the Baroque aesthetic which, as Borges says, plays at exhausting its own possibilities, and it is the basis of the stage device of this piece.",
+      "> “Vivaldi’s work is a perpetual feast, and I wanted to make a kind of verbal feast.” Alejo Carpentier",
+      "Unlike the *white box* characteristic of the modern museum, the mechanism of the cabinet of curiosities is able to reveal unexpected links, continuities and contrasts between objects, times, spaces and stories. With its abyssal structures, the hypertrophy of its forms and its declared artificiality, the dialogue with the Baroque presents itself as an alternative to the homogenisation and standardisation of present-day categories, guided by the logic of consumption and by an idea of single progress that tends to erase diversity in favour of a clear, refined and singular reading.",
+      "[[galeria:bocetos | Preliminary sketches by Pol Roig, in ink on tracing paper.]]",
+      "In this way, the *Concierto barroco* presented here draws on the eclecticism and excess of the *wunderkammer* to explore the sounds, images and narratives that come from the past—or rather, from which we construct the past, and even more so, the past of others. Because, ultimately, understanding what precedes us means learning to interpret it, that is, to elaborate it, to trace possible readings among all the signs (visual, verbal and sonic) that besiege and saturate us. In this sense, to baroque-ify can be a playful way of claiming the complexity and density of this process, combining original and copy, essence and supplement, history and fiction, in order to detect the grey areas where everything mixes and turns upside down.",
+      "> “Allegory is a supplement. Conceived as something added to the work, allegory will be separable from it.” Craig Owens",
+      "Texts projected during the performance:",
+      "*[Download the texts](textos.pdf)*",
+      "Selection and writing of the texts: Pol Roig and David Aguilar.",
+      "[[galeria:lupe-blanco | Photographs by Lupe Blanco during rehearsals in Sala 3 at L’Auditori.]]"
+    ]
+  }
+}

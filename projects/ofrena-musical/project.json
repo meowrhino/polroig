@@ -1,0 +1,54 @@
+{
+  "title": "Ofrena musical",
+  "detail": {
+    "ca": "(Acció teatral, ARTefACTe, 2024)",
+    "en": "(Theatrical action, ARTefACTe, 2024)"
+  },
+  "caption": {
+    "ca": [
+      "*Ofrena Musical*, ARTeFACte, 2024. Acció teatral d’Erika Michi i Pol Roig, sobre una composició original en viu d’Ari Cardozo.",
+      "(Programa Corretja amb La Mansió d’El Pumarejo)"
+    ],
+    "en": [
+      "*Ofrena Musical*, ARTeFACte, 2024. Theatrical action by Erika Michi and Pol Roig.",
+      "(Corretja programme with La Mansió d’El Pumarejo)"
+    ]
+  },
+  "page": true,
+  "photos": ["1", "2", "3", "4", "5", "6", "7", "8"],
+  "text": {
+    "ca": [
+      "*Ofrena musical* gira al voltant d’un artefacte en forma de tríptic. Aquest, portador dels programes iconogràfics de l’edat mitjana, abandona la seva condició d’inert en ser intervingut i activat per les artistes. Pol Roig i Erika Michi despleguen una sèrie de mecanismes inspirats en el teatre del truc i de l’autòmat, combinant les arrels de la imatge en moviment amb la tecnologia digital. La composició sonora en directe d’Ari Cardozo serveix de pols i d’impuls a l’acció, i converteix a les intèrprets en activadores d’un espai sense dimensions. El tríptic, armari, «secretaire» o biombo, opera com a objecte mirall i permet el desplegament d’un seguit de breus esquetxos que se superposen en un collage de llenguatges abstractes i concrets, per a conformar una mena de monòleg interior. Una proposta que busca pervertir l’experiència cognitiva de l’espectador obrint nous modes de temporalitat i espais recòndits d’intimitat.",
+      "L’acció pren el títol de *L’ofrena musical* (*Musikalisches Opfer*, 1747) de Johann Sebastian Bach, una col·lecció de peces contrapuntístiques construïdes a partir d’un mateix tema musical proposat per Frederic II de Prússia.",
+      [
+        "Autoria i activació: Erika Michi i Pol Roig",
+        "Composició original en directe: Ari Cardozo",
+        "Intervenció gràfica del tríptic en metall repujat: Amalia S-P de Nieves",
+        "Found footage: Carmela Sesé",
+        "Vestit-artefacte teixit en filferro: Inés Folch",
+        "Construcció del tríptic: Mateo Palazzi",
+        "Veu: Erika Michi",
+        "Disseny del tríptic: Pol Roig",
+        "Cartell: Lafolie8",
+        "Agraïments: Quim Palmada, Eulàlia Valldosera, Antonio Fernández, Lupe Blanco, Irene Royo i Blanca Miró."
+      ]
+    ],
+    "en": [
+      "*Ofrena Musical* revolves around an artefact in the form of a triptych. Traditionally a bearer of medieval iconographic programmes, this support structure abandons its inert state as the artists intervene in and activate it. Pol Roig and Erika Michi deploy mechanisms inspired by trick theatre and automata, combining the origins of moving images with digital technology. Ari Cardozo’s live sound composition drives the action, turning the performers into activators of a dimensionless space.",
+      "The triptych—cabinet, *secrétaire* or folding screen—operates as a mirror object, enabling short sketches to overlap in a collage of abstract and concrete languages, forming an interior monologue. The work seeks to subvert the viewer’s cognitive experience by opening up new temporalities and hidden spaces of intimacy.",
+      "The performance takes its title from *The Musical Offering* (*Musikalisches Opfer*, 1747) by Johann Sebastian Bach, a collection of contrapuntal pieces built around a single musical theme proposed by Frederick II of Prussia.",
+      [
+        "Authorship and activation: Erika Michi and Pol Roig",
+        "Original live composition: Ari Cardozo",
+        "Graphic intervention on the embossed metal triptych: Amalia S-P de Nieves",
+        "Found footage: Carmela Sesé",
+        "Wire-woven costume-artefact: Inés Folch",
+        "Triptych construction: Mateo Palazzi",
+        "Voice: Erika Michi",
+        "Triptych design: Pol Roig",
+        "Poster design: Lafolie8",
+        "Special thanks: Quim Palmada, Eulàlia Valldosera, Antonio Fernández, Lupe Blanco, Irene Royo and Blanca Miró."
+      ]
+    ]
+  }
+}

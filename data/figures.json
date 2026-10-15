@@ -1,0 +1,32 @@
+{
+  "every": 1,
+  "lines": [
+    { "figures": [{ "figure": "walk", "dots": 45, "vary": 15 }] },
+    {
+      "figures": [
+        { "figure": "run", "dots": 70, "vary": 15, "to": "home" },
+        { "figure": "walk2", "dots": 8, "vary": 15, "to": "home" }
+      ]
+    },
+    { "figures": [{ "figure": "stroll", "dots": 26, "vary": 15 }] },
+    { "figures": [{ "figure": "about-motxilla", "dots": 55, "vary": 15 }] },
+    { "figures": [{ "figure": "about-telefon", "dots": 34, "vary": 15 }] }
+  ],
+  "strays": {
+    "dots": 10,
+    "vary": 50,
+    "figures": [
+      "eliza",
+      "passacaglia-acordio",
+      "concierto-barroco-banc",
+      "passacaglia-tub",
+      "concierto-barroco-aspiradora",
+      "concierto-barroco-trompeta",
+      "els-encantats",
+      "damoridemort",
+      "heavy-metal",
+      "ofrena-musical"
+    ]
+  },
+  "entrance": ["walk2", "stroll"]
+}

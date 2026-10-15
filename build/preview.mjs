@@ -20,20 +20,23 @@ const error = (titol, txt) => escriure(`<!doctype html><meta charset="utf-8"><ti
 <p>Arregla-ho, desa, i aquesta pàgina es recarrega sola.</p></body>`);
 
 async function arrencar() {
-  let site, projectes, ninots;
+  let site, about, figures;
+  const projects = {};
   try {
     site = llegirJSON(await demanar('data/site.json'), 'data/site.json');
-    projectes = llegirJSON(await demanar('data/projectes.json'), 'data/projectes.json');
-    ninots = llegirJSON(await demanar('data/ninots.json'), 'data/ninots.json');
+    about = llegirJSON(await demanar('data/about.json'), 'data/about.json');
+    figures = llegirJSON(await demanar('data/figures.json'), 'data/figures.json');
+    // El navegador no pot llistar carpetes: demana les que diuen "feed" i les llistes.
+    const slugs = new Set([...(site.feed || []), ...Object.values(site.lists || {}).flatMap(s => s.projects || [])]);
+    await Promise.all([...slugs].map(async slug => {
+      const f = `projects/${slug}/project.json`;
+      let txt;
+      try { txt = await demanar(f); } catch { return; }   // no hi és: ho dirà la revisió
+      projects[slug] = llegirJSON(txt, f);
+    }));
   } catch (e) { return error(e.json ? 'Hi ha un error en un JSON' : 'No puc llegir les dades', e.message); }
 
-  // Els textos llargs, tots d'entrada: les plantilles els demanen sense esperar.
-  const textos = new Map();
-  await Promise.all(['bio', ...projectes.map(p => p?.slug)].flatMap(slug => site.idiomes.map(async l => {
-    try { textos.set(`${slug}/${l}`, await demanar(`media/${slug}/text.${l}.md`)); } catch { /* no en té */ }
-  })));
-
-  const sitio = crearSitio({ site, projectes, ninots, base: BASE, preview: true, text: (s, l) => textos.get(`${s}/${l}`) ?? null });
+  const sitio = crearSitio({ site, projects, about, figures, base: BASE, preview: true });
 
   let demanada = new URLSearchParams(location.search).get('p') || '/';
   if (!demanada.startsWith('/')) demanada = '/' + demanada;

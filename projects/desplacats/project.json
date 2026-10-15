@@ -1,0 +1,39 @@
+{
+  "title": "Desplaçats",
+  "label": { "ca": "Desplaçats - instal·lació", "en": "Desplaçats - instal·lació" },
+  "detail": {
+    "ca": "(Instal·lació, Museu Apel·les Fenosa, 2026)",
+    "en": "(Installation, Museu Apel·les Fenosa, 2026)"
+  },
+  "caption": {
+    "ca": [
+      "*Desplaçats*. Instal·lació a partir d’una blusa de seda confeccionada per Mercè Rodoreda, per l’exposició *Desplaçats. Rodoreda i Fenosa. Solidaritat i resiliència en un bucle atemporal* al Museu Apel·les Fenosa, 2026.",
+      "(Autoria: Pol Roig / Curadoria: Nekane Aramburu)"
+    ],
+    "en": [
+      "*Desplaçats*. Installation based on a silk blouse made by Mercè Rodoreda, for the exhibition *Displaced. Rodoreda and Fenosa. Solidarity and Resilience in a Timeless Loop* at the Apel·les Fenosa Museum, 2026.",
+      "(Artist: Pol Roig / Curator: Nekane Aramburu)"
+    ]
+  },
+  "photos": ["1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12", "13", "14"],
+  "text": {
+    "ca": [
+      "Mercè Rodoreda va confeccionar aquesta camisa per a Nicole Fenosa durant el seu exili a París, on cosia com a forma de supervivència. La camisa, conservada al museu, serveix de punt de partida a l’exposició que explora l’exili i la relació entre Rodoreda i els Fenosa.",
+      "Un fil de cotó penja de la camisa i recorre la sala, connectant les obres. Al llarg del seu trajecte, petites alteracions ampliades amb lupes formen una seqüència d’esdeveniments gairebé imperceptibles, traslladant a l’espai el gest mínim de construir un relat. Els gestos domèstics, el treball invisible i les restes materials es converteixen en llocs des d’on recompondre una història.",
+      [
+        "Ajudantia: Amalia S-P De Nieves",
+        "Construcció de l’artefacte lumínic: Laura Sebastianes",
+        "Abril de 2026."
+      ]
+    ],
+    "en": [
+      "Catalan writer Mercè Rodoreda made this shirt for Nicole Fenosa during her exile in Paris, where she sewed as a means of survival. The shirt, preserved in the museum, serves as the starting point for an exhibition that explores exile and the relationship between Rodoreda and the Fenosa family.",
+      "A cotton thread hangs from the shirt and runs through the exhibition space, connecting the artworks. Along its path, small alterations, magnified through magnifying glasses, form a sequence of almost imperceptible events, translating into space the minimal gesture of constructing a narrative. Domestic gestures, invisible labour, and material remnants become places from which to piece a history back together.",
+      [
+        "Assistant: Amalia S-P De Nieves",
+        "Construction of the light artefact: Laura Sebastianes",
+        "April 2026."
+      ]
+    ]
+  }
+}

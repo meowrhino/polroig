@@ -1,0 +1,15 @@
+{
+  "title": "Els Encantats",
+  "detail": { "ca": "(Teatre, Sala Beckett, 2023)", "en": "(Theater, Sala Beckett, 2023)" },
+  "caption": {
+    "ca": [
+      "*Els Encantats*, Sala Beckett, 2023. Espai escènic.",
+      "(Dir. Lucia del Greco / Il·luminació: Cube / Vestuari: Pau Aulí)"
+    ],
+    "en": [
+      "*Els Encantats*, Sala Beckett, 2023. Scenography.",
+      "(Dir. Lucia del Greco / Lighting Design: Cube / Costume: Pau Aulí)"
+    ]
+  },
+  "photos": ["1", "2", "3", "4", "5"]
+}

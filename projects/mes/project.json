@@ -1,0 +1,27 @@
+{
+  "title": "+++",
+  "detail": { "ca": "(Selecció adicional de projectes)", "en": "(Additional projects)" },
+  "captions": [
+    {
+      "from": "1",
+      "ca": "Disseny d’il·luminació pel show S/S 2026 de Paloma Wool, a la Salle Rossini de París, 2025.",
+      "en": "Lighting design for Paloma Wool’s S/S 2026 show at the Salle Rossini, Paris, 2025."
+    },
+    {
+      "from": "2",
+      "ca": "Escenografia per Paloma Wool, 2026. Habitació a escala 1:3.",
+      "en": "Set design for Paloma Wool, 2026. A room at 1:3 scale."
+    },
+    {
+      "from": "3",
+      "ca": "Escenografia i vestuari per *Clariana* de Quim Palmada Belda, Festival Turbina, 2023.",
+      "en": "Set and costume design for *Clariana* by Quim Palmada Belda, Festival Turbina, 2023."
+    },
+    {
+      "from": "5",
+      "ca": "Disseny d’il·luminació per *¿Qué hace una chica como tú en un sitio como este?* d’Ari Cardozo, Beca Barcelona Producció a La Capella, 2023.",
+      "en": "Lighting design for *¿Qué hace una chica como tú en un sitio como este?* by Ari Cardozo, Barcelona Producció grant at La Capella, 2023."
+    }
+  ],
+  "photos": ["1", "2", "3", "4", "5", "6", "7", "8"]
+}

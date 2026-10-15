@@ -1,4 +1,4 @@
-# Cada push a main regenera la web i la publica. Pol només toca data/ i media/.
+# Cada push a main regenera la web i la publica. Pol només toca data/ i projects/.
 name: build & deploy
 on:
   push:
@@ -21,6 +21,7 @@ jobs:
       - uses: actions/checkout@v7
       - uses: actions/setup-node@v7
         with: { node-version: '22' }
+      - run: sudo apt-get update -qq && sudo apt-get install -y -qq ffmpeg   # les imatges per compartir (og:image)
       - run: node build/build.mjs
       - uses: actions/configure-pages@v6
       - uses: actions/upload-pages-artifact@v5

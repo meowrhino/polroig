@@ -32,7 +32,7 @@ if (linies.length) {
   }
 }
 
-// Cada línia, ± "variacio" % de la seva amplada base (data/ninots.json).
+// Cada línia, ± "vary" % de la seva amplada base (data/figures.json).
 for (const p of document.querySelectorAll('.passeig .punts')) {
   const w = parseFloat(p.style.getPropertyValue('--w')), v = +p.dataset.v || 0;
   p.style.setProperty('--w', `${w * (1 + (Math.random() * 2 - 1) * v / 100)}%`);
@@ -51,7 +51,8 @@ function vigilar(fig, img) {
 
 for (const fig of document.querySelectorAll('.slides')) {
   const img = fig.querySelector('img');
-  const n = +fig.dataset.n;
+  const fotos = fig.dataset.fotos.split(' ');   // els números de "photos", en ordre
+  const n = fotos.length;
   vigilar(fig, img);
 
   // Sense mides de l'HTML (vista prèvia), la caixa pren la proporció de la primera foto.
@@ -62,18 +63,18 @@ for (const fig of document.querySelectorAll('.slides')) {
   if (n < 2) continue;
 
   const compte = fig.querySelector('.compte');
-  // Si el projecte té un peu per a cada grup de fotos ("peus"), es veu el de la foto on ets.
+  // Si el projecte té un peu per a cada grup de fotos ("captions"), es veu el de la foto on ets.
   const peus = [...fig.parentElement.querySelectorAll(':scope > .peu[data-foto]')];
   let i = 1;
   const anar = d => {
     i = (i - 1 + d + n) % n + 1;
-    img.src = `${fig.dataset.base}${i}.webp`;
+    img.src = `${fig.dataset.base}${fotos[i - 1]}.webp`;
     img.alt = `${fig.dataset.titol} — ${fig.dataset.txt} ${i}/${n}`;
     compte.textContent = `${i}/${n}`;
     const actual = peus.filter(p => +p.dataset.foto <= i).at(-1);
     for (const p of peus) p.hidden = p !== actual;
     vigilar(fig, img);
-    new Image().src = `${fig.dataset.base}${i % n + 1}.webp`;   // la següent, ja baixada
+    new Image().src = `${fig.dataset.base}${fotos[i % n]}.webp`;   // la següent, ja baixada
   };
   for (const [sel, d] of [['.ant', -1], ['.seg', 1]]) {
     const b = fig.querySelector(sel);
