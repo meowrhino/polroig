@@ -10,6 +10,28 @@
     ] },
     { "ninots": [
       { "silueta": "stroll", "punts": 26, "variacio": 15 }
+    ] },
+    { "ninots": [
+      { "silueta": "about-motxilla", "punts": 55, "variacio": 15 }
+    ] },
+    { "ninots": [
+      { "silueta": "about-telefon", "punts": 34, "variacio": 15 }
     ] }
-  ]
+  ],
+  "rars": {
+    "punts": 10,
+    "variacio": 50,
+    "siluetes": [
+      "eliza",
+      "passacaglia-acordio",
+      "concierto-barroco-banc",
+      "passacaglia-tub",
+      "concierto-barroco-aspiradora",
+      "concierto-barroco-trompeta",
+      "els-encantats",
+      "damoridemort",
+      "heavy-metal",
+      "ofrena-musical"
+    ]
+  }
 }

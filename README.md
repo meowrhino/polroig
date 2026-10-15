@@ -63,10 +63,9 @@ Només es fa un cop.
 | `slug` | l'adreça i el nom de la carpeta de `media/` |
 | `published` | `true` surt a la web; `false` l'amaga (sense cometes) |
 | `pagina` | *opcional*: `true` li dona pàgina pròpia (ara, l'obra pròpia). Sense, el "llegir més" es desplega a la mateixa home |
-| `invertit` | *opcional*: `true` posa la seva pàgina en fons blanc i text negre |
 | `titol` | el nom del projecte |
 | `etiqueta` | *opcional*: com surt a la llista si ha de ser diferent del títol |
-| `detall` | el que surt en rosa en passar el ratolí per la llista |
+| `detall` | el que surt en rosa al costat del títol, a la llista |
 | `peu` | el text sota la foto |
 | `imatges` | quantes fotos hi ha a `media/<slug>/` (el slideshow de la home) |
 | `cartells` | *opcional*: quants cartells hi ha a `media/<slug>/cartells/`; surten a dalt de la seva pàgina, un al costat de l'altre |
@@ -96,6 +95,17 @@ Les línies de punts amb un ninot al final surten de `data/ninots.json`.
 `"cadaProjectes"` diu cada quants projectes de la home surt una línia: `1`, entre tots;
 `2`, cada dos; i així.
 
+Hi ha dos tipus de ninots:
+
+- **els normals** (`"linies"`): surten a totes les pàgines, s'hi repeteixen, i en clicar-los porten a la bio.
+- **els rars** (`"rars"`): personatges escapats d'una obra. Cadascun surt **una sola vegada**,
+  al scroll de la home, mai a la línia de sota o de sobre del seu projecte, i en clicar-lo
+  porta al projecte d'on ve. De quin projecte és, ho diu el nom del fitxer: comença pel slug
+  (`concierto-barroco-banc.svg` → Concierto barroco).
+
+Els de dalt de la home (al costat del menú) són sempre els mateixos; els del scroll es barregen
+a cada visita.
+
 A `"linies"`, cada bloc `{ "ninots": [ ... ] }` és una línia, i cada pàgina les va posant en l'ordre del fitxer:
 la primera, la segona, la tercera… i quan s'acaben torna a començar. Una línia pot portar
 més d'un ninot (`run` i `walk2` van junts).
@@ -115,8 +125,13 @@ Els camps de cada ninot:
 | `punts` | quant ocupen els punts abans del ninot, en % de l'amplada del text (sense `%`) |
 | `variacio` | quant pot créixer o encongir a cada visita, en % de `punts`: `15` vol dir que una línia de 70 fa entre 59,5 i 80,5. `0`, sempre igual |
 
-Per a un ninot nou, posa el seu SVG a `assets/siluetes/` (sense fons, en blanc: a les pàgines amb fons blanc s'inverteix sol) i afegeix-lo
-al JSON.
+A `"rars"`, `"siluetes"` és la llista dels rars, i `"punts"` / `"variacio"` els punts que porten davant.
+
+Per a un ninot nou, posa el seu SVG a `assets/siluetes/` (sense fons, en blanc) i afegeix-lo
+al JSON. **La mida va dins del dibuix**: tots els ninots es pinten a la mateixa alçada, i cada
+SVG té un llenç d'1,24 adults (el `viewBox`) amb el dibuix a baix de tot. Un adult ocupa el 80 %
+del llenç, el nen del cotxet (`stroll`) el 70 % d'un adult, i els rars, el que fan al document
+de figures de Pol (on la trompeta, la més alta, omple el llenç sencer).
 
 ## Veure-ho abans de pujar-ho
 

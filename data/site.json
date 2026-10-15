@@ -1,6 +1,6 @@
 {
   "nom": "Pol Roig Valldosera",
-  "nomCurt": "pol roig",
+  "nomCurt": "Pol Roig",
   "baseUrl": "https://meowrhino.github.io",
   "base": "/polroig",
   "domini": null,
@@ -9,7 +9,8 @@
     "cat",
     "en"
   ],
-  "email": "me@polroigvalldosera.com",
+  "email": "info@polroigvalldosera.com",
+  "instagram": "pol.roig",
   "descripcio": {
     "cat": "Pol Roig Valldosera (Barcelona, 2000), escenògraf i director escènic: escenografia, il·luminació, instal·lació i peces escèniques pròpies.",
     "en": "Pol Roig Valldosera (Barcelona, 2000), set designer and stage director: scenography, lighting, installation and his own stage works."
@@ -23,8 +24,8 @@
   "seccions": [
     {
       "titol": {
-        "cat": "(obra pròpia)",
-        "en": "(solo work)"
+        "cat": "Obres",
+        "en": "Works"
       },
       "projectes": [
         "concierto-barroco",
@@ -35,8 +36,8 @@
     },
     {
       "titol": {
-        "cat": "(escenografia)",
-        "en": "(scenography)"
+        "cat": "Escenografies",
+        "en": "Selected Scenography"
       },
       "projectes": [
         "els-encantats",
@@ -66,7 +67,10 @@
       "ofici": "escenògraf i director escènic",
       "noTrobada": "Aquesta pàgina no existeix.",
       "tancar": "Tancar",
-      "cartell": "cartell"
+      "cartell": "cartell",
+      "midaText": "Mida del text",
+      "contacte": "Informació de contacte",
+      "correu": "Correu electrònic"
     },
     "en": {
       "nomIdioma": "eng",
@@ -79,7 +83,10 @@
       "ofici": "set designer and stage director",
       "noTrobada": "This page does not exist.",
       "tancar": "Close",
-      "cartell": "poster"
+      "cartell": "poster",
+      "midaText": "Text size",
+      "contacte": "Contact information",
+      "correu": "Email"
     }
   }
 }

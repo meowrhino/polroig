@@ -99,13 +99,13 @@ export function crearSitio({ site, projectes, ninots = {}, base = '', text = () 
 
   /** <head> sencer: títol, descripció, idiomes, Open Graph i JSON-LD.
       Sense domini propi, noindex: la web encara és de proves. */
-  function head({ l, titol, desc, path, imatge, jsonld, invertit, indexar = !!site.domini }) {
+  function head({ l, titol, desc, path, imatge, jsonld, indexar = !!site.domini }) {
     return `<!doctype html>
 <html lang="${iso(l)}">
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="theme-color" content="${invertit ? '#ffffff' : '#000000'}">
+  <meta name="theme-color" content="#000000">
   <title>${esc(titol)}</title>
   <meta name="description" content="${esc(desc)}">
   ${indexar ? '' : '<meta name="robots" content="noindex">\n  '}<link rel="canonical" href="${publica(ruta(l, path))}">
@@ -123,33 +123,69 @@ export function crearSitio({ site, projectes, ninots = {}, base = '', text = () 
   <meta name="twitter:card" content="summary_large_image">
   <link rel="icon" href="${raiz('/assets/favicon.svg')}" type="image/svg+xml">
   <link rel="stylesheet" href="${raiz('/css/style.css')}">
+  <script>try { if (localStorage.getItem('gran')) document.documentElement.classList.add('gran'); } catch {}</script>
   <script type="module" src="${raiz('/js/polroig.js')}"></script>
   ${jsonld ? ld(jsonld) : ''}
 </head>
-<body${invertit ? ' class="invertit"' : ''}>`;
+<body>`;
   }
-  const peu = () => `</body>\n</html>\n`;
+  const peu = (l, contacte = true) => `${contacte ? `<footer class="contacte">
+  <a href="mailto:${esc(site.email)}">${esc(site.email)}</a>
+  ${site.instagram ? `<a href="https://www.instagram.com/${esc(site.instagram)}/" target="_blank" rel="noopener">Instagram: @${esc(site.instagram)}</a>` : ''}
+</footer>` : ''}
+<button class="mida" type="button" aria-pressed="false" aria-label="${esc(ui('midaText', l))}" hidden>A+</button>
+</body>
+</html>
+`;
 
-  function capcalera(l, path, esHome = path === '') {
+  function capcalera(l, path) {
     const idiomes = IDIOMES.map(i => i === l
       ? `<a href="${url(i, path)}" aria-current="true">${esc(ui('nomIdioma', i))}</a>`
       : `<a href="${url(i, path)}" hreflang="${iso(i)}" lang="${iso(i)}">${esc(ui('nomIdioma', i))}</a>`).join(' · ');
     return `<header class="top">
-  <a href="${esHome ? url(l, 'bio/') : url(l)}">(${esc(site.nomCurt)})</a>
+  <a href="${path === 'bio/' ? url(l) : url(l, 'bio/')}">${esc(site.nomCurt)}</a>
   <a href="mailto:${esc(site.email)}">${esc(site.email)}</a>
   <span class="idiomes">${idiomes}</span>
-  <a href="${url(l, 'bio/')}">${esc(ui('about', l))}</a>
 </header>`;
   }
 
   /* Línies de punts amb siluetes (data/ninots.json). Cada pàgina les treu en
-     l'ordre del JSON i torna a començar; el JS varia l'amplada dels punts. */
+     l'ordre del JSON i torna a començar; el JS varia l'amplada dels punts i,
+     a la home, barreja els del scroll.
+     Els normals ("linies") porten a la bio. Els rars ("rars") són personatges
+     escapats d'una obra: surten una sola vegada, al scroll de la home, mai al costat
+     del seu projecte, i porten a ell. De quin projecte és, ho diu el nom del
+     fitxer: concierto-barroco-banc.svg → concierto-barroco.
+     Són enllaços repetits (la bio i els projectes ja tenen el seu), així que
+     queden fora del teclat i del lector de pantalla. */
   const linies = Array.isArray(ninots.linies) ? ninots.linies : [];
   const cada = Number.isInteger(ninots.cadaProjectes) && ninots.cadaProjectes > 0 ? ninots.cadaProjectes : 2;
+  const rars = Array.isArray(ninots.rars?.siluetes) ? ninots.rars.siluetes : [];
+  /** El projecte d'on ve un rar: el slug més llarg amb què comença el nom. */
+  const obraDe = sil => publicats.map(p => p.slug).filter(s => sil === s || sil.startsWith(s + '-'))
+    .sort((a, b) => b.length - a.length)[0];
+  const ninot = (sil, href, punts, v, obra) =>
+    `<span class="punts" style="--w:${punts}%" data-v="${v ?? 0}"></span><a class="ninot" href="${href}" tabindex="-1"${obra ? ` data-obra="${obra}"` : ''} style="--m:url(${raiz(`/assets/siluetes/${sil}.svg`)})"><img src="${raiz(`/assets/siluetes/${sil}.svg`)}" alt=""></a>`;
   let tram = 0;   // per on va la llista; cada pàgina el torna a posar a 0
-  const passeig = () => linies.length ? `<div class="passeig" aria-hidden="true">${linies[tram++ % linies.length].ninots
-    .map(n => `<span class="punts" style="--w:${n.punts}%" data-v="${n.variacio ?? 0}"></span><img src="${raiz(`/assets/siluetes/${n.silueta}.svg`)}" alt="">`)
-    .join('')}</div>` : '';
+  /** Una línia. "extra": un ninot rar al final; "veins": els projectes del costat (per al JS). */
+  const passeig = (l, { extra = '', veins } = {}) => linies.length ? `<div class="passeig" aria-hidden="true"${veins ? ` data-veins="${veins.join(' ')}"` : ''}>${linies[tram++ % linies.length].ninots
+    .map(n => ninot(n.silueta, url(l, 'bio/'), n.punts, n.variacio)).join('')}${extra}</div>` : '';
+  /** On va cada rar al scroll de la home: repartits, i mai a la línia de sota o de sobre del seu projecte.
+      Torna un Map índex-de-línia → ninot. */
+  function repartirRars(l, veinsDe, n) {
+    const lloc = new Map();
+    rars.forEach((sil, k) => {
+      const obra = obraDe(sil);
+      if (!obra || !n) return;
+      for (let d = 0, j = Math.floor(k * n / rars.length); d < n; d++, j = (j + 1) % n) {
+        if (lloc.has(j) || veinsDe(j).includes(obra)) continue;
+        const p = perSlug[obra];
+        lloc.set(j, ninot(sil, p.pagina ? url(l, obra + '/') : `${url(l)}#${obra}`, ninots.rars.punts ?? 10, ninots.rars.variacio, obra));
+        return;
+      }
+    });
+    return lloc;
+  }
 
   /** Slideshow: sense JS es veu la primera foto; el JS mostra els botons i el ninot mentre carrega. */
   function slides(p, carpeta, n, l, eager = false) {
@@ -161,15 +197,16 @@ export function crearSitio({ site, projectes, ninots = {}, base = '', text = () 
   <img src="${raiz('/' + primera)}" alt="${esc(alt)}"${wh(primera)}${eager ? ' fetchpriority="high"' : ' loading="lazy"'} decoding="async">${n > 1 ? `
   <button class="ant" type="button" aria-label="${esc(ui('anterior', l))}" hidden></button>
   <button class="seg" type="button" aria-label="${esc(ui('seguent', l))}" hidden></button>
-  <span class="compte" hidden>1/${n}</span>` : ''}
+  <span class="compte" hidden>1/${n}</span>
+  <span class="fletxa" hidden></span>` : ''}
 </figure>`;
   }
 
   /* ---------- pàgines ---------- */
   function home(l) {
     tram = 0;
-    const dalt = passeig();
-    const index = site.seccions.map((s, i) => `${i ? passeig() + passeig() : ''}
+    const dalt = passeig(l);
+    const index = site.seccions.map((s, i) => `${i ? passeig(l) + passeig(l) : ''}
 <section class="index">
   <h2>${esc(t(s.titol, l))}</h2>
   <ul>${s.projectes.filter(slug => perSlug[slug]).map(slug => {
@@ -180,7 +217,10 @@ export function crearSitio({ site, projectes, ninots = {}, base = '', text = () 
   </ul>
 </section>`).join('');
 
-    // Una línia de punts cada "cadaProjectes" projectes (data/ninots.json).
+    // Una línia de punts cada "cadaProjectes" projectes (data/ninots.json), amb els rars repartits.
+    const linia = publicats.map((_, i) => i).filter(i => (i + 1) % cada === 0);
+    const veinsDe = j => [publicats[linia[j]]?.slug, publicats[linia[j] + 1]?.slug].filter(Boolean);
+    const llocRar = repartirRars(l, veinsDe, linia.length);
     const feed = publicats.map((p, i) => `<article class="proj" id="${p.slug}">
 ${slides(p, '', p.imatges, l, i === 0)}
 ${p.peu ? `<p class="peu">${peuHtml(p, l)}${p.pagina
@@ -189,7 +229,7 @@ ${!p.pagina && textDe(p.slug, l) ? `<details class="desplegable">
 <summary><em class="obrir">${esc(ui('llegirMes', l))}</em><em class="tancar">${esc(ui('tancar', l))}</em></summary>
 ${paragrafs(textDe(p.slug, l), p.slug)}
 </details>` : ''}
-</article>${(i + 1) % cada ? '' : '\n' + passeig()}`).join('\n');
+</article>${(i + 1) % cada ? '' : (j => '\n' + passeig(l, { extra: llocRar.get(j), veins: veinsDe(j) }))(linia.indexOf(i))}`).join('\n');
 
     return head({
       l, path: '', titol: site.nom, desc: t(site.descripcio, l), imatge: portada(publicats[0]),
@@ -205,7 +245,7 @@ ${index}
 ${feed}
 </section>
 </main>
-` + peu();
+` + peu(l);
   }
 
   /** El vídeo, amb la seva imatge d'espera (teaser.webm → teaser.poster.webp). */
@@ -226,13 +266,13 @@ ${feed}
       : slides(p, '', p.imatges, l, true);
     return head({
       l, path: p.slug + '/', titol: `${p.titol} — ${site.nom}`,
-      desc: resum(t(p.peu, l) || p.titol), imatge: portada(p), invertit: p.invertit,
+      desc: resum(t(p.peu, l) || p.titol), imatge: portada(p),
       jsonld: { '@type': 'CreativeWork', name: p.titol, url: publica(ruta(l, p.slug + '/')), inLanguage: iso(l),
         description: resum(t(p.peu, l)), image: publica('/' + portada(p)), creator: persona(l) },
     }) + `
 ${capcalera(l, p.slug + '/')}
 <main class="pagina">
-${passeig()}
+${passeig(l)}
 <article>
 <h1 class="sr">${esc(p.titol)}</h1>
 ${dalt}
@@ -243,10 +283,10 @@ ${(p.galeries || []).map(g => `<section class="galeria">${g.titol ? `<h2>${esc(t
 ${slides(p, g.carpeta, g.imatges, l)}
 </section>`).join('\n')}
 </article>
-${passeig()}
+${passeig(l)}
 <p><a class="mes" href="${url(l)}#${p.slug}">${esc(ui('tornar', l))}</a></p>
 </main>
-` + peu();
+` + peu(l);
   }
 
   function bio(l) {
@@ -256,21 +296,26 @@ ${passeig()}
       + `
 ${capcalera(l, 'bio/')}
 <main class="pagina-bio">
-${passeig()}
+${passeig(l)}
 <h1 class="sr">${esc(site.nom)}</h1>
 <img src="${raiz('/media/bio/1.webp')}" alt="${esc(site.nom)}"${wh('media/bio/1.webp')} fetchpriority="high">
 ${paragrafs(textDe('bio', l), 'bio')}
+<section class="contacte-bio">
+<h2>${esc(ui('contacte', l))}</h2>
+<p><em>${esc(ui('correu', l))}: <a href="mailto:${esc(site.email)}">${esc(site.email)}</a></em></p>
+${site.instagram ? `<p><em>Instagram: <a href="https://www.instagram.com/${esc(site.instagram)}/" target="_blank" rel="noopener">@${esc(site.instagram)}</a></em></p>` : ''}
+</section>
 <p><a class="mes" href="${url(l)}">${esc(ui('tornar', l))}</a></p>
 </main>
-` + peu();
+` + peu(l, false);
   }
 
   function noTrobada() {
     tram = 0;
     return head({ l: DEF, path: '', titol: `404 — ${site.nom}`, desc: t(site.descripcio, DEF), indexar: false })
-      + `\n${capcalera(DEF, '', false)}\n<main class="pagina-bio">\n${passeig()}\n`
+      + `\n${capcalera(DEF, '')}\n<main class="pagina-bio">\n${passeig(DEF)}\n`
       + IDIOMES.map(l => `<p lang="${iso(l)}">${esc(ui('noTrobada', l))} <a class="mes" href="${url(l)}">${esc(ui('tornar', l))}</a></p>`).join('\n')
-      + `\n</main>\n` + peu();
+      + `\n</main>\n` + peu(DEF);
   }
 
   /* ---------- el mapa de la web ---------- */
@@ -331,6 +376,13 @@ ${paragrafs(textDe('bio', l), 'bio')}
         if (n.variacio != null && (typeof n.variacio !== 'number' || n.variacio < 0)) avis(qui, `"variacio" de ${n.silueta} ha de ser un número`, true);
       }
     });
+    if (ninots.rars != null) {
+      if (!Array.isArray(ninots.rars.siluetes)) avis('ninots.json', '"rars" ha de portar "siluetes": [ ... ]', true);
+      else for (const sil of ninots.rars.siluetes) {
+        if (!existeix(`assets/siluetes/${sil}.svg`)) avis('ninots.json, rars', `no trobo assets/siluetes/${sil}.svg`, true);
+        if (!obraDe(sil)) avis('ninots.json, rars', `"${sil}" no comença pel slug de cap projecte publicat: no sé on ha de portar`);
+      }
+    }
     return avisos;
   }
 
