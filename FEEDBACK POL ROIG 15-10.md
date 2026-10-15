@@ -83,6 +83,6 @@ Archivo temporal para seguir el feedback final (`feedback-final.pdf`). En la ent
 2. ~~¿Qué proyectos tienen página?~~ → **los cuatro de Obres**, Passacaglia incluida (confirmado por Pol). Passacaglia, de momento sin texto: su "Llegir més" va directo a la página. Cuando mande texto, tendrá el desplegable como las otras.
 3. ~~¿El pre-inicio sale en cada visita o una vez por sesión?~~ → **una vez por sesión, como barbarawong**
 4. Cursiva: obras en cursiva y escenografías no (su texto), o todo en cursiva (el mockup) → **lo verifica Pol**
-5. ~~Los muñecos "about", ¿cuentan como normales?~~ → **sí** (se repiten y llevan a la bio)
+5. ~~Los muñecos "about", ¿cuentan como normales?~~ → **sí**. Pol concreta: los dos "about", el que camina con la cabeza baja (`walk`) y el niño del cochecito (`stroll`) llevan a la **bio**; los dos que caminan juntos (`run` y `walk2`), al **inicio**. Hecho (`"porta": "inici"` en `ninots.json`).
 6. Pre-inicio: ¿con el correo en la cabecera o sin?
 7. ¿Nos manda en grande los esbossos 1, 10 y 12?

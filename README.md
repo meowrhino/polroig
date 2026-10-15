@@ -112,7 +112,7 @@ Les línies de punts amb un ninot al final surten de `data/ninots.json`.
 
 Hi ha dos tipus de ninots:
 
-- **els normals** (`"linies"`): surten a totes les pàgines, s'hi repeteixen, i en clicar-los porten a la bio.
+- **els normals** (`"linies"`): surten a totes les pàgines, s'hi repeteixen, i en clicar-los porten a la bio (o a l'inici, amb `"porta": "inici"`).
 - **els rars** (`"rars"`): personatges escapats d'una obra. Cadascun surt **una sola vegada**,
   al scroll de la home, mai a la línia de sota o de sobre del seu projecte, i en clicar-lo
   porta al projecte d'on ve. De quin projecte és, ho diu el nom del fitxer: comença pel slug
@@ -139,6 +139,7 @@ Els camps de cada ninot:
 | `silueta` | el nom del dibuix: `assets/siluetes/<silueta>.svg` |
 | `punts` | quant ocupen els punts abans del ninot, en % de l'amplada del text (sense `%`) |
 | `variacio` | quant pot créixer o encongir a cada visita, en % de `punts`: `15` vol dir que una línia de 70 fa entre 59,5 i 80,5. `0`, sempre igual |
+| `porta` | *opcional*: on porta en clicar-lo: `"bio"` (si no hi és) o `"inici"` |
 
 A `"rars"`, `"siluetes"` és la llista dels rars, i `"punts"` / `"variacio"` els punts que porten davant.
 

@@ -164,7 +164,7 @@ export function crearSitio({ site, projectes, ninots = {}, base = '', text = () 
   /* Línies de punts amb siluetes (data/ninots.json). Cada pàgina les treu en
      l'ordre del JSON i torna a començar; el JS varia l'amplada dels punts i,
      a la home, barreja els del scroll.
-     Els normals ("linies") porten a la bio. Els rars ("rars") són personatges
+     Els normals ("linies") porten a la bio, o a l'inici si diuen "porta": "inici". Els rars ("rars") són personatges
      escapats d'una obra: surten una sola vegada, al scroll de la home, mai al costat
      del seu projecte, i porten a ell. De quin projecte és, ho diu el nom del
      fitxer: concierto-barroco-banc.svg → concierto-barroco.
@@ -181,7 +181,7 @@ export function crearSitio({ site, projectes, ninots = {}, base = '', text = () 
   let tram = 0;   // per on va la llista; cada pàgina el torna a posar a 0
   /** Una línia. "extra": un ninot rar al final; "veins": els projectes del costat (per al JS). */
   const passeig = (l, { extra = '', veins } = {}) => linies.length ? `<div class="passeig" aria-hidden="true"${veins ? ` data-veins="${veins.join(' ')}"` : ''}>${linies[tram++ % linies.length].ninots
-    .map(n => ninot(n.silueta, url(l, 'bio/'), n.punts, n.variacio)).join('')}${extra}</div>` : '';
+    .map(n => ninot(n.silueta, n.porta === 'inici' ? url(l) : url(l, 'bio/'), n.punts, n.variacio)).join('')}${extra}</div>` : '';
   /** On va cada rar al scroll de la home: repartits, i mai a la línia de sota o de sobre del seu projecte.
       Torna un Map índex-de-línia → ninot. */
   function repartirRars(l, veinsDe, n) {
@@ -445,6 +445,7 @@ ${site.instagram ? `<p><em>Instagram: <a href="https://www.instagram.com/${esc(s
         if (!existeix(`assets/siluetes/${n.silueta}.svg`)) avis(qui, `no trobo assets/siluetes/${n.silueta}.svg`, true);
         if (typeof n.punts !== 'number' || n.punts < 0) avis(qui, `"punts" de ${n.silueta} ha de ser un número (sense %)`, true);
         if (n.variacio != null && (typeof n.variacio !== 'number' || n.variacio < 0)) avis(qui, `"variacio" de ${n.silueta} ha de ser un número`, true);
+        if (n.porta != null && !['bio', 'inici'].includes(n.porta)) avis(qui, `"porta" de ${n.silueta} ha de ser "bio" o "inici"`, true);
       }
     });
     if (ninots.rars != null) {

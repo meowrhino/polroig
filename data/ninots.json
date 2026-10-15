@@ -5,8 +5,8 @@
       { "silueta": "walk", "punts": 45, "variacio": 15 }
     ] },
     { "ninots": [
-      { "silueta": "run", "punts": 70, "variacio": 15 },
-      { "silueta": "walk2", "punts": 8, "variacio": 15 }
+      { "silueta": "run", "punts": 70, "variacio": 15, "porta": "inici" },
+      { "silueta": "walk2", "punts": 8, "variacio": 15, "porta": "inici" }
     ] },
     { "ninots": [
       { "silueta": "stroll", "punts": 26, "variacio": 15 }
