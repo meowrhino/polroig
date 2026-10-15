@@ -5,10 +5,12 @@
     "titol": "Els Encantats",
     "detall": {
       "cat": "(Teatre, Sala Beckett, 2023)",
+      "es": "(Teatro, Sala Beckett, 2023)",
       "en": "(Theater, Sala Beckett, 2023)"
     },
     "peu": {
       "cat": "*Els Encantats*, Sala Beckett, 2023. Espai escènic.\n(Dir. Lucia del Greco / Il·luminació: Cube / Vestuari: Pau Aulí)",
+      "es": "*Els Encantats*, Sala Beckett, 2023. Espacio escénico.\n(Dir. Lucia del Greco / Iluminación: Cube / Vestuario: Pau Aulí)",
       "en": "*Els Encantats*, Sala Beckett, 2023. Scenography.\n(Dir. Lucia del Greco / Lighting Design: Cube / Costume: Pau Aulí)"
     },
     "imatges": 5
@@ -19,10 +21,12 @@
     "titol": "Pura Passió",
     "detall": {
       "cat": "(Teatre, Temporada Alta, 2024)",
+      "es": "(Teatro, Temporada Alta, 2024)",
       "en": "(Theater, Temporada Alta, 2024)"
     },
     "peu": {
       "cat": "*Pura Passió*, Teatre de Salt, Temporada Alta 2024. Espai escènic.\n(Dir. Lucia del Greco / Il·luminació: Cube / Vestuari: Pau Aulí / Construcció del motor: Lali Canosa)",
+      "es": "*Pura Passió*, Teatre de Salt, Temporada Alta 2024. Espacio escénico.\n(Dir. Lucia del Greco / Iluminación: Cube / Vestuario: Pau Aulí / Construcción del motor: Lali Canosa)",
       "en": "*Pura Passió*, Teatre de Salt, Temporada Alta 2024. Scenography.\n(Dir. Lucia del Greco / Lighting: Cube / Costume: Pau Aulí / Engine construction: Lali Canosa)"
     },
     "imatges": 5
@@ -34,10 +38,12 @@
     "titol": "Concierto barroco",
     "detall": {
       "cat": "(Acció teatral, Escenes L’Auditori, 2025)",
+      "es": "(Acción teatral, Escenes L’Auditori, 2025)",
       "en": "(Theatrical action, Escenes L’Auditori, 2025)"
     },
     "peu": {
       "cat": "*Concierto barroco*, Escenes L’Auditori, 2025. Direcció, dramatúrgia i espai escènic.\n(Direcció musical: Dani Espasa / ESMUC Ensemble)",
+      "es": "*Concierto barroco*, Escenes L’Auditori, 2025. Dirección, dramaturgia y espacio escénico.\n(Dirección musical: Dani Espasa / ESMUC Ensemble)",
       "en": "*Concierto barroco*, Escenes L’Auditori, 2025. Stage direction, dramaturgy and scenography.\n(Conductor: Dani Espasa / ESMUC Ensemble)"
     },
     "imatges": 18,
@@ -48,6 +54,7 @@
         "imatges": 16,
         "titol": {
           "cat": "(esbossos)",
+          "es": "(bocetos)",
           "en": "(sketches)"
         }
       },
@@ -56,6 +63,7 @@
         "imatges": 18,
         "titol": {
           "cat": "(fotografia: Lupe Blanco)",
+          "es": "(fotografía: Lupe Blanco)",
           "en": "(photography: Lupe Blanco)"
         }
       }
@@ -68,10 +76,12 @@
     "titol": "Dejós deth bòsc",
     "detall": {
       "cat": "(Teatre, Teatre Estudi, 2024)",
+      "es": "(Teatro, Teatre Estudi, 2024)",
       "en": "(Theater, Teatre Estudi, 2024)"
     },
     "peu": {
       "cat": "*Dejós deth bòsc*, Teatre Estudi, 2024. Espai escènic i il·luminació.\n(Dir. Jordi Oriol / Text: Alberto Conejero / Espai sonor: Carles Pedragosa / amb Hannah Bilsky i Montse Escolano)",
+      "es": "*Dejós deth bòsc*, Teatre Estudi, 2024. Espacio escénico e iluminación.\n(Dir. Jordi Oriol / Texto: Alberto Conejero / Espacio sonoro: Carles Pedragosa / con Hannah Bilsky y Montse Escolano)",
       "en": "*Dejós deth bòsc*, Teatre Estudi, 2024. Scenography and lighting.\n(Dir. Jordi Oriol / Text: Alberto Conejero / Sound design: Carles Pedragosa / with Hannah Bilsky and Montse Escolano)"
     },
     "imatges": 7
@@ -82,10 +92,12 @@
     "titol": "Expulsió",
     "detall": {
       "cat": "(Teatre, Sala Beckett, 2025)",
+      "es": "(Teatro, Sala Beckett, 2025)",
       "en": "(Theater, Sala Beckett, 2025)"
     },
     "peu": {
       "cat": "*Expulsió*, Sala Beckett (Sala de Baix), 2025. Espai escènic.\n(Dir. Toni Casares / Text: Pau Miró / Il·luminació: Mireia Sintes / Vestuari: Joana Martí / Construcció dels artefactes lumínics: José Luís Salmerón)",
+      "es": "*Expulsió*, Sala Beckett (Sala de Baix), 2025. Espacio escénico.\n(Dir. Toni Casares / Texto: Pau Miró / Iluminación: Mireia Sintes / Vestuario: Joana Martí / Construcción de los artefactos lumínicos: José Luís Salmerón)",
       "en": "*Expulsió*, Sala Beckett (Sala de Baix), 2025. Scenography.\n(Dir. Toni Casares / Text: Pau Miró / Light design: Mireia Sintes / Costume: Joana Martí / Lights artefacts construction: José Luís Salmerón)"
     },
     "imatges": 8
@@ -97,17 +109,20 @@
     "titol": "Eliza",
     "etiqueta": {
       "cat": "Eliza - òpera",
+      "es": "Eliza - ópera",
       "en": "Eliza - opera"
     },
     "detall": {
       "cat": "(Òpera de cambra, Gran Teatre del Liceu, 2024)",
+      "es": "(Ópera de cámara, Gran Teatre del Liceu, 2024)",
       "en": "(Chamber opera, Gran Teatre del Liceu, 2024)"
     },
     "peu": {
       "cat": "*Eliza* (òpera de cambra), encàrrec del Gran Teatre del Liceu, 2024. Direcció d’escena.\n(Composició: Ferran Cruixent / Llibret: Pau Miró / Edició Oh!pera 2024)",
+      "es": "*Eliza* (ópera de cámara), encargo del Gran Teatre del Liceu, 2024. Dirección de escena.\n(Composición: Ferran Cruixent / Libreto: Pau Miró / Edición Oh!pera 2024)",
       "en": "*Eliza* (chamber opera), commissioned by Gran Teatre del Liceu, 2024. Stage direction.\n(Score: Ferran Cruixent / Libretto: Pau Miró / Oh!pera 2024 edition)"
     },
-    "imatges": 20
+    "imatges": 12
   },
   {
     "slug": "quiso-negro",
@@ -115,10 +130,12 @@
     "titol": "Quiso Negro",
     "detall": {
       "cat": "(Dansa, Mercat de les Flors / Grec, 2024)",
+      "es": "(Danza, Mercat de les Flors / Grec, 2024)",
       "en": "(Dance, Mercat de les Flors / Grec, 2024)"
     },
     "peu": {
       "cat": "*Quiso Negro*, Mercat de les Flors, Festival Grec 2024. Espai escènic.\n(Dir. i coreo. Ester Guntín / Disseny d’il·luminació: Andreu Fàbregas / Vestuari: Joan Ros / Fotografia: Pol Rebaque)",
+      "es": "*Quiso Negro*, Mercat de les Flors, Festival Grec 2024. Espacio escénico.\n(Dir. y coreo. Ester Guntín / Diseño de iluminación: Andreu Fàbregas / Vestuario: Joan Ros / Fotografía: Pol Rebaque)",
       "en": "*Quiso Negro*, Mercat de les Flors, Festival Grec 2024. Scenography.\n(Dir. & choreography: Ester Guntín / Lighting design: Andreu Fàbregas / Costume: Joan Ros / Photography: Pol Rebaque)"
     },
     "imatges": 9
@@ -129,10 +146,12 @@
     "titol": "El que és nostre",
     "detall": {
       "cat": "(Teatre, La Llotja de Lleida, 2024)",
+      "es": "(Teatro, La Llotja de Lleida, 2024)",
       "en": "(Theater, La Llotja de Lleida, 2024)"
     },
     "peu": {
       "cat": "*El que és nostre*, La Llotja de Lleida, 2024. Espai escènic. Obra realitzada amb intèrprets professionals i temporers de diferents països que en algun moment han passat per la província de Lleida a treballar a la recollida de la fruita.\n(Dir. Albert Baldomà / Disseny d’il·luminació: Mireia Sintes / Vestuari: Pau Aulí). Imatges del *work in progress*.",
+      "es": "*El que és nostre*, La Llotja de Lleida, 2024. Espacio escénico. Obra realizada con intérpretes profesionales y temporeros de distintos países que en algún momento han pasado por la provincia de Lleida a trabajar en la recogida de la fruta.\n(Dir. Albert Baldomà / Diseño de iluminación: Mireia Sintes / Vestuario: Pau Aulí). Imágenes del *work in progress*.",
       "en": "*El que és nostre*, La Llotja de Lleida, 2024. Scenography. Created with professional performers and seasonal workers from different countries who, at some point, have lived in the province of Lleida to work in the fruit harvest.\n(Director: Albert Baldomà / Lighting design: Mireia Sintes / Costume design: Pau Aulí). Work-in-progress images."
     },
     "imatges": 9
@@ -143,10 +162,12 @@
     "titol": "Heavy Metal",
     "detall": {
       "cat": "(Acció site-specific, MACBA / Grec, 2026)",
+      "es": "(Acción site-specific, MACBA / Grec, 2026)",
       "en": "(Site-specific performance, MACBA / Grec, 2026)"
     },
     "peu": {
       "cat": "*Heavy-Metal*, acció site specific a l’antiga presó La Model, produït pel MACBA en col·laboració amb el Festival Grec 2026. *Mise-en-scène* i instal·lació.\n(Direcció i composició musical: ASIA / Curadoria: Sabel Gavaldon)",
+      "es": "*Heavy-Metal*, acción site specific en la antigua cárcel La Model, producida por el MACBA en colaboración con el Festival Grec 2026. *Mise-en-scène* e instalación.\n(Dirección y composición musical: ASIA / Comisariado: Sabel Gavaldon)",
       "en": "*Heavy-Metal*, site-specific performance at the former La Model prison, produced by MACBA and Festival Grec 2026. *Mise-en-scène* and installation.\n(Musical composition and direction: ASIA / Curator: Sabel Gavaldon)"
     },
     "imatges": 7
@@ -157,14 +178,17 @@
     "titol": "Desplaçats",
     "etiqueta": {
       "cat": "Desplaçats - instal·lació",
+      "es": "Desplaçats - instal·lació",
       "en": "Desplaçats - instal·lació"
     },
     "detall": {
       "cat": "(Instal·lació, Museu Apel·les Fenosa, 2026)",
+      "es": "(Instalación, Museu Apel·les Fenosa, 2026)",
       "en": "(Installation, Museu Apel·les Fenosa, 2026)"
     },
     "peu": {
       "cat": "*Desplaçats*. Instal·lació a partir d’una blusa de seda confeccionada per Mercè Rodoreda, per l’exposició *Desplaçats. Rodoreda i Fenosa. Solidaritat i resiliència en un bucle atemporal* al Museu Apel·les Fenosa, 2026.\n(Autoria: Pol Roig / Curadoria: Nekane Aramburu)",
+      "es": "*Desplaçats*. Instalación a partir de una blusa de seda confeccionada por Mercè Rodoreda, para la exposición *Desplaçats. Rodoreda i Fenosa. Solidaritat i resiliència en un bucle atemporal* en el Museu Apel·les Fenosa, 2026.\n(Autoría: Pol Roig / Comisariado: Nekane Aramburu)",
       "en": "*Desplaçats*. Installation based on a silk blouse made by Mercè Rodoreda, for the exhibition *Displaced. Rodoreda and Fenosa. Solidarity and Resilience in a Timeless Loop* at the Apel·les Fenosa Museum, 2026.\n(Artist: Pol Roig / Curator: Nekane Aramburu)"
     },
     "imatges": 14
@@ -175,10 +199,12 @@
     "titol": "Guitarricadelafuente",
     "detall": {
       "cat": "(Gira musical internacional, 2025-2026)",
+      "es": "(Gira musical internacional, 2025-2026)",
       "en": "(International music tour, 2025-2026)"
     },
     "peu": {
       "cat": "*Guitarricadelafuente*, dissenys d’espai per les gires de concerts i de festivals de *Spanish Leather*, 2025–2026.\n(Dir. creativa i estilisme: Luca Guarini / Disseny d’il·luminació: Oscila / Mgmt: Lucas Duran / Ajudantia d’espai: Cristina Agulló / Dir. tècnica: Alex Aparicio)",
+      "es": "*Guitarricadelafuente*, diseños de espacio para las giras de conciertos y festivales de *Spanish Leather*, 2025–2026.\n(Dir. creativa y estilismo: Luca Guarini / Diseño de iluminación: Oscila / Mgmt: Lucas Duran / Ayudantía de espacio: Cristina Agulló / Dir. técnica: Alex Aparicio)",
       "en": "*Guitarricadelafuente*, scenography for the concert and festival tours of *Spanish Leather*, 2025–2026.\n(Creative dir. and styling: Luca Guarini / Lighting design: Oscila / Mgmt: Lucas Duran / Scenography assistant: Cristina Agulló / Tech. dir.: Alex Aparicio)"
     },
     "imatges": 15
@@ -189,10 +215,12 @@
     "titol": "Requiem",
     "detall": {
       "cat": "(Concert, Palau de la Música, 2026)",
+      "es": "(Concierto, Palau de la Música, 2026)",
       "en": "(Concert, Palau de la Música, 2026)"
     },
     "peu": {
       "cat": "*Requiem*, Palau de la Música, 2026. Espai escènic i il·luminació.\n(Dir. i composició musical: Clara Aguilar / amb Frames Percussion i el Cor de Cambra del Palau)",
+      "es": "*Requiem*, Palau de la Música, 2026. Espacio escénico e iluminación.\n(Dir. y composición musical: Clara Aguilar / con Frames Percussion y el Cor de Cambra del Palau)",
       "en": "*Requiem*, Palau de la Música, 2026. Scenography & Lighting Design.\n(Dir. & Musical Composition: Clara Aguilar / with Frames Percussion & Cor de Cambra del Palau)"
     },
     "imatges": 4
@@ -203,10 +231,12 @@
     "titol": "Damoridemort",
     "detall": {
       "cat": "(Banda, direcció creativa 2023—actualitat)",
+      "es": "(Banda, dirección creativa 2023—actualidad)",
       "en": "(Band, Creative Direction 2023—now)"
     },
     "peu": {
       "cat": "*Damoridemort*, col·laboració creativa permanent. Imatges 1-4: concert al MIRA Festival, 2024 (Fotografia: Lupe Blanco). Imatges 5-7: concert presentació a la Sala Meteoro, 2023.",
+      "es": "*Damoridemort*, colaboración creativa permanente. Imágenes 1-4: concierto en el MIRA Festival, 2024 (Fotografía: Lupe Blanco). Imágenes 5-7: concierto de presentación en la Sala Meteoro, 2023.",
       "en": "*Damoridemort*, ongoing creative collaboration. Images 1–4: live show at MIRA Festival, 2024 (Photography: Lupe Blanco). Images 5–7: launch show at Sala Meteoro, 2023."
     },
     "imatges": 7
@@ -218,11 +248,13 @@
     "titol": "Ofrena musical",
     "detall": {
       "cat": "(Acció teatral, ARTefACTe, 2024)",
+      "es": "(Acción teatral, ARTefACTe, 2024)",
       "en": "(Theatrical action, ARTefACTe, 2024)"
     },
     "peu": {
-      "cat": "*Ofrena musical*, Festival ARTefACTe, 2024. Acció sobre una peça sonora d’Ari Cardozo.",
-      "en": "*Ofrena musical*, Festival ARTefACTe, 2024. Performance based on a sound piece by Ari Cardozo."
+      "cat": "*Ofrena Musical*, ARTeFACte, 2024. Acció teatral d’Erika Michi i Pol Roig, sobre una composició original en viu d’Ari Cardozo.\n(Programa Corretja amb La Mansió d’El Pumarejo)",
+      "es": "*Ofrena Musical*, ARTeFACte, 2024. Acción teatral de Erika Michi y Pol Roig, sobre una composición original en directo de Ari Cardozo.\n(Programa Corretja con La Mansió d’El Pumarejo)",
+      "en": "*Ofrena Musical*, ARTeFACte, 2024. Theatrical action by Erika Michi and Pol Roig.\n(Corretja programme with La Mansió d’El Pumarejo)"
     },
     "imatges": 8
   },
@@ -233,10 +265,12 @@
     "titol": "Passacaglia",
     "detall": {
       "cat": "(AV, 2026)",
+      "es": "(AV, 2026)",
       "en": "(AV, 2026)"
     },
     "peu": {
       "cat": "*Passacaglia*, 2026. Properament. [Full de sala](full-de-sala.pdf).",
+      "es": "*Passacaglia*, 2026. Próximamente. [Hoja de sala](full-de-sala.pdf).",
       "en": "*Passacaglia*, 2026. Coming soon. [Programme notes](full-de-sala.pdf)."
     },
     "imatges": 1
@@ -248,7 +282,34 @@
     "imatges": 8,
     "detall": {
       "cat": "(Selecció adicional de projectes)",
+      "es": "(Selección adicional de proyectos)",
       "en": "(Additional projects)"
-    }
+    },
+    "peus": [
+      {
+        "foto": 1,
+        "cat": "Disseny d’il·luminació pel show S/S 2026 de Paloma Wool, a la Salle Rossini de París, 2025.",
+        "es": "Diseño de iluminación para el show S/S 2026 de Paloma Wool, en la Salle Rossini de París, 2025.",
+        "en": "Lighting design for Paloma Wool’s S/S 2026 show at the Salle Rossini, Paris, 2025."
+      },
+      {
+        "foto": 2,
+        "cat": "Escenografia per Paloma Wool, 2026. Habitació a escala 1:3.",
+        "es": "Escenografía para Paloma Wool, 2026. Habitación a escala 1:3.",
+        "en": "Set design for Paloma Wool, 2026. A room at 1:3 scale."
+      },
+      {
+        "foto": 3,
+        "cat": "Escenografia i vestuari per *Clariana* de Quim Palmada Belda, Festival Turbina, 2023.",
+        "es": "Escenografía y vestuario para *Clariana* de Quim Palmada Belda, Festival Turbina, 2023.",
+        "en": "Set and costume design for *Clariana* by Quim Palmada Belda, Festival Turbina, 2023."
+      },
+      {
+        "foto": 5,
+        "cat": "Disseny d’il·luminació per *¿Qué hace una chica como tú en un sitio como este?* d’Ari Cardozo, Beca Barcelona Producció a La Capella, 2023.",
+        "es": "Diseño de iluminación para *¿Qué hace una chica como tú en un sitio como este?* de Ari Cardozo, Beca Barcelona Producció en La Capella, 2023.",
+        "en": "Lighting design for *¿Qué hace una chica como tú en un sitio como este?* by Ari Cardozo, Barcelona Producció grant at La Capella, 2023."
+      }
+    ]
   }
 ]

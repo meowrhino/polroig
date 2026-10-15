@@ -199,6 +199,41 @@ img, video { display: block; max-width: 100%; }
 
 .pagina video { width: min(100%, var(--col)); height: auto; background: #111; margin: 3em 0; }
 .pagina .text { margin: 3em 0 5em; }
+/* Dins del text d'una pàgina: cites en rosa, slideshows i vídeo amb el seu peu, crèdits a dues columnes. */
+.cita { margin: 2em 0; color: var(--rosa); }
+.cita p { max-width: 38em; }
+.text a { color: var(--rosa); }
+.text .bloc { margin: 3em 0; }
+.text .bloc video { margin: 0; }
+.columnes { columns: 2; column-gap: 2em; max-width: var(--col); margin: 1em 0 3em; }
+.columnes p { break-inside: avoid; max-width: none; }
+
+/* ---------- l'entrada (abans de la home) ----------
+   Una foto a pantalla completa amb la capçalera a sobre. Les línies de punts s'escriuen cap a
+   la dreta a salts, com lletres, i el ninot fa de cursor: s'atura i parpelleja, i continua. */
+.entrada { display: none; }
+html.amb-entrada { overflow: hidden; }
+html.amb-entrada .top { position: relative; z-index: 11; }
+html.amb-entrada .entrada {
+  display: block;
+  position: fixed;
+  inset: 0;
+  z-index: 10;
+  background: #000;
+  cursor: pointer;
+  transition: opacity .4s;
+}
+.entrada.fora { opacity: 0; pointer-events: none; }
+.entrada > img { width: 100%; height: 100%; object-fit: cover; }
+.escriptura { position: absolute; left: var(--marge); right: var(--marge); top: 50%; transform: translateY(-50%); }
+.escriptura .passeig { margin: calc(var(--u) * 1.2) 0; }
+.escriptura .punts { width: 0; animation: escriure 7s steps(30, end) infinite; animation-delay: calc(var(--k) * -2.3s); }
+.escriptura img { animation: cursor 7s step-end infinite; animation-delay: calc(var(--k) * -2.3s); }
+@keyframes escriure { 0% { width: 0; } 35%, 55% { width: 35%; } 90%, 100% { width: 70%; } }
+@keyframes cursor {
+  0%, 35% { opacity: 1; } 39% { opacity: 0; } 43% { opacity: 1; } 47% { opacity: 0; } 51%, 90% { opacity: 1; }
+  93% { opacity: 0; } 96% { opacity: 1; } 99% { opacity: 0; }
+}
 
 /* ---------- peu: contacte i mida de lletra ---------- */
 .contacte { display: flex; flex-wrap: wrap; gap: .4em 1.6em; max-width: var(--col); margin-top: calc(var(--u) * 4); }
@@ -221,4 +256,5 @@ img, video { display: block; max-width: 100%; }
   .index li { margin-bottom: .5em; }
   .index .detall { font-size: .9em; }    /* el rosa, a sota del títol */
   .feed { margin-top: calc(var(--u) * 4); }
+  .columnes { columns: 1; }
 }

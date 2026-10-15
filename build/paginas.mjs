@@ -73,8 +73,20 @@ export function crearSitio({ site, projectes, ninots = {}, base = '', text = () 
     .replace(/\[([^\]]+)\]\(([^)\s]+)\)/g, (_, txt, href) => /^(https?:|mailto:)/.test(href)
       ? `<a href="${href}" target="_blank" rel="noopener">${txt}</a>`
       : `<a href="${raiz(`/media/${slug}/${href}`)}" target="_blank">${txt}</a>`);
-  const paragrafs = (s, slug) => String(s || '').split(/\n\s*\n/).map(x => x.trim()).filter(Boolean)
-    .map(x => `<p>${md(x, slug).replace(/\n/g, '<br>')}</p>`).join('\n');
+  const blocs = s => String(s || '').split(/\n\s*\n/).map(x => x.trim()).filter(Boolean);
+  /** Un paràgraf que comença per "> " és una cita: surt en rosa. */
+  const paragraf = (x, slug) => /^>\s/.test(x)
+    ? `<blockquote class="cita"><p>${md(x.replace(/^>\s*/gm, ''), slug).replace(/\n/g, '<br>')}</p></blockquote>`
+    : `<p>${md(x, slug).replace(/\n/g, '<br>')}</p>`;
+  const paragrafs = (s, slug) => blocs(s).map(x => paragraf(x, slug)).join('\n');
+  /** El primer paràgraf de text de debò (ni cita ni marca): el resum del "llegir més". */
+  const primer = s => blocs(s).find(x => !/^(>\s|\[\[)/.test(x)) || '';
+  /* Marques dins del text d'una pàgina, cadascuna en un paràgraf sol:
+       [[slides]]  [[video]]  [[galeria:bocetos]]   el slideshow, el vídeo o una galeria, aquí
+       [[slides | Peu de foto]]                     amb un peu a sota
+       [[columnes]] … [[/columnes]]                 el que hi ha entremig, a dues columnes */
+  const MARCA = /^\[\[\s*(\/?[a-z]+)(?::([a-z0-9-]+))?\s*(?:\|\s*([\s\S]+?))?\s*\]\]$/;
+  const marques = s => blocs(s).map(x => MARCA.exec(x)).filter(Boolean);
   /** 155 caràcters nets per a la meta description. */
   const pla = s => String(s || '').replace(/\*|\[|\]\([^)]*\)/g, '').replace(/\s+/g, ' ').trim();
   const resum = s => { const p = pla(s); return p.length <= 155 ? p : p.slice(0, 152).replace(/\s+\S*$/, '') + '…'; };
@@ -95,11 +107,11 @@ export function crearSitio({ site, projectes, ninots = {}, base = '', text = () 
     jobTitle: ui('ofici', l), image: publica('/media/bio/1.webp') });
 
   /* ---------- trossos ---------- */
-  const LOCALE = { cat: 'ca_ES', en: 'en_GB' };
+  const LOCALE = { cat: 'ca_ES', es: 'es_ES', en: 'en_GB' };
 
   /** <head> sencer: títol, descripció, idiomes, Open Graph i JSON-LD.
       Sense domini propi, noindex: la web encara és de proves. */
-  function head({ l, titol, desc, path, imatge, jsonld, indexar = !!site.domini }) {
+  function head({ l, titol, desc, path, imatge, jsonld, extra = '', indexar = !!site.domini }) {
     return `<!doctype html>
 <html lang="${iso(l)}">
 <head>
@@ -123,7 +135,7 @@ export function crearSitio({ site, projectes, ninots = {}, base = '', text = () 
   <meta name="twitter:card" content="summary_large_image">
   <link rel="icon" href="${raiz('/assets/favicon.svg')}" type="image/svg+xml">
   <link rel="stylesheet" href="${raiz('/css/style.css')}">
-  <script>try { if (localStorage.getItem('gran')) document.documentElement.classList.add('gran'); } catch {}</script>
+  <script>try { if (localStorage.getItem('gran')) document.documentElement.classList.add('gran'); } catch {}</script>${extra}
   <script type="module" src="${raiz('/js/polroig.js')}"></script>
   ${jsonld ? ld(jsonld) : ''}
 </head>
@@ -223,19 +235,25 @@ export function crearSitio({ site, projectes, ninots = {}, base = '', text = () 
     const llocRar = repartirRars(l, veinsDe, linia.length);
     const feed = publicats.map((p, i) => `<article class="proj" id="${p.slug}">
 ${slides(p, '', p.imatges, l, i === 0)}
-${p.peu ? `<p class="peu">${peuHtml(p, l)}${p.pagina
+${(p.peus || []).map((x, k) => `<p class="peu" data-foto="${x.foto}"${k ? ' hidden' : ''}>${md(t(x, l), p.slug)}</p>`).join('\n')}
+${p.peu ? `<p class="peu">${peuHtml(p, l)}${p.pagina && !textDe(p.slug, l)
       ? ` <a class="mes" href="${url(l, p.slug + '/')}"><em>${esc(ui('llegirMes', l))}</em></a>` : ''}</p>` : ''}
-${!p.pagina && textDe(p.slug, l) ? `<details class="desplegable">
+${textDe(p.slug, l) ? `<details class="desplegable">
 <summary><em class="obrir">${esc(ui('llegirMes', l))}</em><em class="tancar">${esc(ui('tancar', l))}</em></summary>
-${paragrafs(textDe(p.slug, l), p.slug)}
+${p.pagina
+      // Amb pàgina pròpia, el desplegable és el primer paràgraf i porta a la resta.
+      ? paragrafs(primer(textDe(p.slug, l)), p.slug).replace(/<\/p>$/,
+        ` <a class="mes" href="${url(l, p.slug + '/')}"><em>${esc(ui('veurePagina', l))}</em></a></p>`)
+      : paragrafs(textDe(p.slug, l), p.slug)}
 </details>` : ''}
 </article>${(i + 1) % cada ? '' : (j => '\n' + passeig(l, { extra: llocRar.get(j), veins: veinsDe(j) }))(linia.indexOf(i))}`).join('\n');
 
     return head({
       l, path: '', titol: site.nom, desc: t(site.descripcio, l), imatge: portada(publicats[0]),
-      jsonld: persona(l),
+      jsonld: persona(l), extra: entrada.length ? ENTRADA_HEAD : '',
     }) + `
 ${capcalera(l, '')}
+${entradaHtml(l)}
 <main>
 <h1 class="sr">${esc(site.nom)}</h1>
 ${dalt}
@@ -248,15 +266,52 @@ ${feed}
 ` + peu(l);
   }
 
+  /* ---------- l'entrada ----------
+     Abans de la home, una foto a l'atzar de media/entrada/ (site.json → "entrada") amb la
+     capçalera a sobre i línies de punts que s'escriuen amb el ninot fent de cursor. Un clic
+     (o Enter, Espai, Esc) i entres. Una vegada per sessió, com barbarawong; sense JS, amb
+     "menys moviment" al sistema o si l'adreça porta a un projecte (#slug), no surt. El <head> decideix abans de pintar (html.amb-entrada)
+     perquè la home no faci pampallugues; js/polroig.js la treu. */
+  const entrada = Array.isArray(ninots.entrada) && site.entrada?.imatges > 0 ? ninots.entrada : [];
+  const ENTRADA_HEAD = `
+  <script>try { if (!location.hash && !sessionStorage.getItem('entrada') && !matchMedia('(prefers-reduced-motion: reduce)').matches) document.documentElement.classList.add('amb-entrada'); } catch {}</script>`;
+  const entradaHtml = l => entrada.length ? `<div class="entrada">
+  <img alt="" data-n="${site.entrada.imatges}" data-base="${raiz('/media/entrada/')}">
+  <script>{ const i = document.currentScript.previousElementSibling; if (document.documentElement.classList.contains('amb-entrada')) i.src = i.dataset.base + (1 + Math.floor(Math.random() * i.dataset.n)) + '.webp'; }</script>
+  <div class="escriptura" aria-hidden="true">${entrada.map((sil, k) => `
+    <div class="passeig" style="--k:${k}"><span class="punts"></span><img src="${raiz(`/assets/siluetes/${sil}.svg`)}" alt=""></div>`).join('')}
+  </div>
+  <button class="sr" type="button">${esc(ui('entrar', l))}</button>
+</div>` : '';
+
   /** El vídeo, amb la seva imatge d'espera (teaser.webm → teaser.poster.webp). */
   function video(p) {
     const poster = `media/${p.slug}/${p.video.replace(/\.\w+$/, '.poster.webp')}`;
     return `<video src="${raiz(`/media/${p.slug}/${p.video}`)}" poster="${raiz('/' + poster)}"${wh(poster)} controls playsinline preload="none"></video>`;
   }
 
+  /** El text de la pàgina, amb les marques (veure MARCA) substituïdes. */
+  function cos(p, l, txt) {
+    const peuDe = c => (c ? `\n<p class="peu">${md(c, p.slug)}</p>` : '');
+    return blocs(txt).map(x => {
+      const m = MARCA.exec(x);
+      if (!m) return paragraf(x, p.slug);
+      const [, nom, arg, c] = m;
+      if (nom === 'columnes') return '<div class="columnes">';
+      if (nom === '/columnes') return '</div>';
+      if (nom === 'slides') return `<div class="bloc">${slides(p, '', p.imatges, l)}${peuDe(c)}</div>`;
+      if (nom === 'video' && p.video) return `<div class="bloc">${video(p)}${peuDe(c)}</div>`;
+      const g = nom === 'galeria' && (p.galeries || []).find(g => g.carpeta === arg);
+      if (g) return `<div class="bloc">${slides(p, g.carpeta, g.imatges, l)}${peuDe(c)}</div>`;
+      return '';   // marca desconeguda: el build ja n'avisa
+    }).join('\n');
+  }
+
   function projecte(p, l) {
     tram = 0;
     const txt = textDe(p.slug, l);
+    // El vídeo i les galeries que el text no col·loca amb una marca van al seu lloc de sempre.
+    const posats = marques(txt).map(m => (m[1] === 'galeria' ? m[2] : m[1]));
     // A dalt, els cartells fixos un al costat de l'altre; si no n'hi ha, el slideshow.
     const dalt = p.cartells
       ? `<div class="cartells">${Array.from({ length: p.cartells }, (_, i) => {
@@ -277,9 +332,9 @@ ${passeig(l)}
 <h1 class="sr">${esc(p.titol)}</h1>
 ${dalt}
 ${p.peu ? `<p class="peu">${peuHtml(p, l)}</p>` : ''}
-${p.video ? video(p) : ''}
-${txt ? `<div class="text">\n${paragrafs(txt, p.slug)}\n</div>` : ''}
-${(p.galeries || []).map(g => `<section class="galeria">${g.titol ? `<h2>${esc(t(g.titol, l))}</h2>` : ''}
+${p.video && !posats.includes('video') ? video(p) : ''}
+${txt ? `<div class="text">\n${cos(p, l, txt)}\n</div>` : ''}
+${(p.galeries || []).filter(g => !posats.includes(g.carpeta)).map(g => `<section class="galeria">${g.titol ? `<h2>${esc(t(g.titol, l))}</h2>` : ''}
 ${slides(p, g.carpeta, g.imatges, l)}
 </section>`).join('\n')}
 </article>
@@ -359,7 +414,19 @@ ${site.instagram ? `<p><em>Instagram: <a href="https://www.instagram.com/${esc(s
       }
       if (p.video && !existeix(`media/${p.slug}/${p.video}`)) avis(qui, `no trobo media/${p.slug}/${p.video}`, true);
       if (p.peu) for (const l of IDIOMES) if (!p.peu[l]) avis(qui, `falta el peu en "${l}"`);
+      if (p.peus != null) {
+        if (!Array.isArray(p.peus)) avis(qui, '"peus" ha de ser una llista: [ ... ]', true);
+        else p.peus.forEach((x, k) => {
+          if (!Number.isInteger(x?.foto) || x.foto < 1 || x.foto > p.imatges) avis(qui, `el peu ${k + 1} ha de dir des de quina "foto" va (un número de l'1 al ${p.imatges})`, true);
+          for (const l of IDIOMES) if (!x?.[l]) avis(qui, `al peu ${k + 1} li falta "${l}"`);
+        });
+      }
       for (const l of IDIOMES) if (text(p.slug, DEF) && !text(p.slug, l)) avis(qui, `falta media/${p.slug}/text.${l}.md`);
+      for (const l of IDIOMES) for (const [marca, nom, arg] of marques(text(p.slug, l))) {
+        const bona = ['slides', 'columnes', '/columnes'].includes(nom) || (nom === 'video' && p.video)
+          || (nom === 'galeria' && (p.galeries || []).some(g => g.carpeta === arg));
+        if (!bona) avis(qui, `a text.${l}.md, "[[${nom}${arg ? ":" + arg : ""}]]" no porta enlloc: mira el nom de la galeria o que el projecte tingui vídeo`);
+      }
     });
     for (const s of site.seccions) for (const slug of s.projectes)
       if (!projectes.some(p => p?.slug === slug)) avis('site.json', `la secció "${t(s.titol, DEF)}" diu "${slug}", i aquest projecte no existeix`);
@@ -367,6 +434,10 @@ ${site.instagram ? `<p><em>Instagram: <a href="https://www.instagram.com/${esc(s
       avis(p.slug, 'no surt a cap llista de site.json → seccions');
     if (!Number.isInteger(ninots.cadaProjectes) || ninots.cadaProjectes < 1) avis('ninots.json', '"cadaProjectes" ha de ser un número sencer, 1 o més', true);
     if (!Array.isArray(ninots.linies)) avis('ninots.json', '"linies" ha de ser una llista: [ ... ]', true);
+    for (const sil of Array.isArray(ninots.entrada) ? ninots.entrada : [])
+      if (!existeix(`assets/siluetes/${sil}.svg`)) avis('ninots.json, entrada', `no trobo assets/siluetes/${sil}.svg`, true);
+    if (site.entrada) for (let i = 1; i <= site.entrada.imatges; i++)
+      if (!existeix(`media/entrada/${i}.webp`)) avis('site.json, entrada', `no trobo media/entrada/${i}.webp`, true);
     else ninots.linies.forEach((tr, i) => {
       if (!Array.isArray(tr?.ninots)) return avis('ninots.json', `la línia ${i + 1} no té "ninots": [ ... ]`, true);
       for (const n of tr.ninots) {

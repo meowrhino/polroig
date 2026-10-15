@@ -51,9 +51,9 @@ Només es fa un cop.
   "slug": "eliza",
   "published": true,
   "titol": "Eliza",
-  "etiqueta": { "cat": "Eliza [òpera]", "en": "Eliza [opera]" },
-  "detall": { "cat": "(òpera de cambra, Gran Teatre del Liceu, 2024)", "en": "(chamber opera, …)" },
-  "peu": { "cat": "*Eliza* (òpera de cambra), …", "en": "*Eliza* (chamber opera), …" },
+  "etiqueta": { "cat": "Eliza - òpera", "es": "Eliza - ópera", "en": "Eliza - opera" },
+  "detall": { "cat": "(Òpera de cambra, Gran Teatre del Liceu, 2024)", "es": "(Ópera de cámara, …)", "en": "(Chamber opera, …)" },
+  "peu": { "cat": "*Eliza* (òpera de cambra), …", "es": "*Eliza* (ópera de cámara), …", "en": "*Eliza* (chamber opera), …" },
   "imatges": 20
 }
 ```
@@ -67,18 +67,20 @@ Només es fa un cop.
 | `etiqueta` | *opcional*: com surt a la llista si ha de ser diferent del títol |
 | `detall` | el que surt en rosa al costat del títol, a la llista |
 | `peu` | el text sota la foto |
+| `peus` | *opcional*: un peu diferent segons la foto, per als projectes que en barregen uns quants (el "+++"). Cada peu diu des de quina foto val, fins al següent: `[{ "foto": 1, "cat": "…", "es": "…", "en": "…" }, { "foto": 3, "cat": "…", "es": "…", "en": "…" }]` |
 | `imatges` | quantes fotos hi ha a `media/<slug>/` (el slideshow de la home) |
 | `cartells` | *opcional*: quants cartells hi ha a `media/<slug>/cartells/`; surten a dalt de la seva pàgina, un al costat de l'altre |
-| `galeries` | *opcional*: slideshows extra a la seva pàgina, sota el text. Cada galeria és una subcarpeta de `media/<slug>/` amb les fotos `1.webp`, `2.webp`…: `[{ "carpeta": "bocetos", "imatges": 16, "titol": { "cat": "(esbossos)", "en": "(sketches)" } }]` |
+| `galeries` | *opcional*: slideshows extra a la seva pàgina, sota el text. Cada galeria és una subcarpeta de `media/<slug>/` amb les fotos `1.webp`, `2.webp`…: `[{ "carpeta": "bocetos", "imatges": 16, "titol": { "cat": "(esbossos)", "es": "(bocetos)", "en": "(sketches)" } }]` |
 | `video` | *opcional*: un vídeo a la seva pàgina, sota el peu: `"video": "teaser.webm"`. Al costat hi ha d'haver la imatge que es veu abans de donar-li al play, amb el mateix nom acabat en `.poster.webp` (`teaser.poster.webp`) |
 
-Cada text va en els dos idiomes: `{ "cat": "…", "en": "…" }`. Si en falta un, surt el català.
+Cada text va en els tres idiomes: `{ "cat": "…", "es": "…", "en": "…" }`. Si en falta un, surt el català.
 
 ### Textos llargs
 
 El text del "llegir més" va en un fitxer a part, un per idioma:
-`media/<slug>/text.cat.md` i `media/<slug>/text.en.md`. Si el projecte té `"pagina": true`,
-el text surt a la seva pàgina; si no, es desplega a la home amb "Llegir més".
+`media/<slug>/text.cat.md`, `media/<slug>/text.es.md` i `media/<slug>/text.en.md`. A la home, "Llegir més" el desplega
+sota el peu. Si el projecte té `"pagina": true`, el desplegable només mostra el primer paràgraf,
+amb "Veure la pàgina sencera" al final, i el text sencer surt a la seva pàgina.
 
 Al `peu`, `\n` fa un salt de línia: així els crèdits entre parèntesis van a la línia de sota.
 
@@ -87,6 +89,19 @@ Dins de qualsevol text:
 - una línia en blanc separa paràgrafs
 - `*cursiva*` · `**negreta**`
 - `[text de l'enllaç](https://…)`, o `[Full de sala](full-de-sala.pdf)` per a un fitxer de la carpeta del projecte
+- un paràgraf que comença per `> ` és una cita: surt en rosa
+
+A la pàgina d'un projecte, el text pot col·locar el slideshow, el vídeo i les galeries on toqui,
+cadascun en un paràgraf sol, i amb un peu a sota després de `|`:
+
+```
+[[slides]]
+[[video | Teaser dirigit per…]]
+[[galeria:bocetos | Esbossos preliminars de Pol Roig…]]
+```
+
+I el que vagi entre `[[columnes]]` i `[[/columnes]]` surt a dues columnes (la fitxa artística).
+El vídeo i les galeries que el text no col·loca surten al final, com sempre.
 
 ## Els ninots
 
@@ -132,6 +147,14 @@ al JSON. **La mida va dins del dibuix**: tots els ninots es pinten a la mateixa 
 SVG té un llenç d'1,24 adults (el `viewBox`) amb el dibuix a baix de tot. Un adult ocupa el 80 %
 del llenç, el nen del cotxet (`stroll`) el 70 % d'un adult, i els rars, el que fan al document
 de figures de Pol (on la trompeta, la més alta, omple el llenç sencer).
+
+## L'entrada
+
+Abans de la home surt una foto a l'atzar a pantalla completa, amb la capçalera a sobre i dues
+línies de punts que s'escriuen. Un clic (o Enter, Espai, Esc) i entres. Surt una vegada per sessió.
+
+- Les fotos: `media/entrada/1.webp`, `2.webp`… i quantes n'hi ha a `data/site.json` → `"entrada": { "imatges": 10 }`.
+- Els ninots de les dues línies: `data/ninots.json` → `"entrada": ["walk2", "stroll"]`.
 
 ## Veure-ho abans de pujar-ho
 

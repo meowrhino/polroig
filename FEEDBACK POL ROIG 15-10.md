@@ -4,7 +4,7 @@ Archivo temporal para seguir el feedback final (`feedback-final.pdf`). En la ent
 
 ✅ hecho · 🟡 a medias · ⬜ pendiente · ❓ hay que preguntárselo a Pol
 
-**Estado:** 20 hechos, 1 a medias, 8 pendientes y 2 a preguntar. Quedan unas **10–11 h**.
+**Estado:** todo hecho menos lo que depende de Pol: revisar las traducciones (es, en) y las preguntas de abajo.
 
 ---
 
@@ -56,23 +56,23 @@ Archivo temporal para seguir el feedback final (`feedback-final.pdf`). En la ent
 
 | # | Punto | Estado | Notas |
 |---|---|---|---|
-| 14 | "Llegir més" en dos pasos (desplegable con el resumen → "Veure la pàgina sencera") | ⬜ | Resumen en `resum.cat.md` / `resum.en.md`. **1 h.** |
+| 14 | "Llegir més" en dos pasos (desplegable con el resumen → "Veure la pàgina sencera") | ✅ | En los proyectos con página, el desplegable muestra el primer párrafo del texto (en Concierto barroco, el mismo que marca Pol) con "Veure la pàgina sencera" al final. No hace falta un archivo de resumen aparte. Passacaglia, que no tiene texto, va directa a su página. |
 | 15 | Blanco o negro | ✅ | Todo negro (Amalia: "todo o nada"). Ya no hay páginas blancas. |
-| 16 | Estructura de Concierto barroco | ⬜ | Carteles → cita Benjamin (rosa) → texto → carrusel de la home → ficha a 2 columnas (la nueva, más larga) → teaser con subtítulo → "Comentari, per Pol Roig i David Aguilar" → cita Carpentier → esbossos con subtítulo → texto → cita Owens → "Descarrega els textos" (`textos.pdf`) → fotos de Lupe con subtítulo. Carruseles y vídeo intercalados con marcas en el `.md`; citas en rosa. **3 h.** |
-| 16b | Recortar el cartel central para que coincida por abajo con los otros dos | ⬜ | Lo hago yo. **10 min.** |
+| 16 | Estructura de Concierto barroco | ✅ | Con su estructura: carteles → cita → texto → slideshow → ficha a 2 columnas → teaser con pie → comentario → cita → esbossos con pie → texto → cita → "Descarrega els textos" → fotos de Lupe con pie. Las citas en rosa. Se hace con marcas dentro del `.md` (explicado en el README). Corregido sin preguntar: "Quim Palmado" → Palmada, "Rodíguez" → Rodríguez, "Ospedalle" → Ospedale. El inglés lo traduzco yo, citas incluidas (desde el catalán): que lo revise. El pie de la home sigue debajo de los carteles. |
+| 16b | Recortar el cartel central para que coincida por abajo con los otros dos | ✅ | Recortados 72px de acera por abajo: ahora acaba a la misma altura que los otros dos. |
 | 17 | Esbossos que se ven peor | ❓ | Son los dibujos de la galería "(esbossos)" de la página de Concierto barroco (`media/concierto-barroco/bocetos/`). No es la compresión de la web: los esbossos **1, 10 y 12** llegaron a ~835px (los demás, a 2000px). Hay que pedirle esos tres en grande. (El 8 pesa poco porque es una foto casi negra, no porque esté mal.) |
-| 18a | Eliza: quitar las fotos 7, 8, 9, 10, 13, 17, 18 y 19 | ⬜ | Quedan 12. **10 min.** |
+| 18a | Eliza: quitar las fotos 7, 8, 9, 10, 13, 17, 18 y 19 | ✅ | Quedan 12, renumeradas del 1 al 12. |
 | 18b | Eliza: subrayar los enlaces de prensa | ✅ | Todos los enlaces dentro de los textos van subrayados. |
-| 18c | Eliza: desplegable nuevo | ⬜ | Parte del 14. |
-| 19 | Ofrena musical: textos nuevos (resumen, página entera, créditos, inglés) | ⬜ | **30 min.** |
+| 18c | Eliza: desplegable nuevo | ✅ | Como el 14. |
+| 19 | Ofrena musical: textos nuevos (resumen, página entera, créditos, inglés) | ✅ | Pie, texto de la página (con el párrafo de Bach y los créditos) e inglés. Corregido "de d’Erika" → "d’Erika". En el pie escribe **ARTeFACte** y en el menú **ARTefACTe**: que elija. En el pie inglés falta "sobre una composición de Ari Cardozo": que diga si lo añadimos. |
 
 ## Últimas peticiones
 
 | # | Punto | Estado | Notas |
 |---|---|---|---|
-| 20 | "+++": el pie cambia con cada foto | ⬜ | Pies: 1 / 2 / 3–4 / 5–8. **45 min.** |
-| 21 | Español | ⬜ | Traduzco con IA, añado `esp` a la cabecera y le enseño a corregir en GitHub. **2 h.** |
-| 22 | Pre-inicio: foto fija al azar, cabecera y puntos con muñeco que se escriben y parpadean; un clic y entras | 🟡 | Las 10 fotos están en `media/portada/`; la pantalla en sí **aún no está hecha** (por eso no sale en el localhost). Será una capa encima de la home, **como en barbarawong**: una vez por sesión (`sessionStorage`), entrar con clic, Enter, Espacio o Escape, fundido de 0,4 s, y no sale si el sistema pide menos movimiento. La **7** es casi negra entera: así viene en su original. Ver pregunta 6. **3 h.** |
+| 20 | "+++": el pie cambia con cada foto | ✅ | Cada pie dice desde qué foto vale (`"peus"` en `projectes.json`): 1 / 2 / 3–4 / 5–8. Sin JS se ve el primero. |
+| 21 | Español | ✅ | Traducido con IA todo (menú, pies, bio, textos de las páginas, Concierto barroco entero): **que Pol lo revise**. La cabecera dice "cat · esp · eng" y el español vive en `/es/`. Para corregir: en los JSON, el campo `"es"`; los textos largos, en `media/<proyecto>/text.es.md`. |
+| 22 | Pre-inicio: foto fija al azar, cabecera y puntos con muñeco que se escriben y parpadean; un clic y entras | ✅ | Como barbarawong: una vez por sesión, se entra con clic, Enter, Espacio o Escape, fundido de 0,4 s; no sale si el sistema pide menos movimiento ni si el enlace lleva a un proyecto (`/#concierto-barroco`). Foto al azar de `media/entrada/`, cabecera encima, dos líneas de puntos que se escriben a saltos con el muñeco (walk2 y stroll) parpadeando como cursor en cada pausa. La foto **7** es casi negra entera (así viene). Ver pregunta 6. |
 | 23 | Fotos nuevas de Quiso Negro, crédito Pol Rebaque | ✅ | 9 fotos; el crédito va en el pie. |
 
 ---
@@ -80,18 +80,9 @@ Archivo temporal para seguir el feedback final (`feedback-final.pdf`). En la ent
 ## Preguntas para Pol
 
 1. ¿El correo es `info@polroigvalldosera.com` en todas partes? (Ya está puesto así.) → **se lo pregunta manu**
-2. Hoy tienen página propia **cuatro** proyectos: Concierto barroco, Eliza, Ofrena musical y **Passacaglia**. La de Passacaglia está vacía (1 foto + "Properament" + el full de sala), así que en la práctica son las tres que él cuenta. Propuesta: quitarle la página a Passacaglia hasta que tenga texto. En la home seguiría con su foto y el enlace al full de sala. ¿Le parece bien?
+2. ~~¿Qué proyectos tienen página?~~ → **los cuatro de Obres**, Passacaglia incluida (confirmado por Pol). Passacaglia, de momento sin texto: su "Llegir més" va directo a la página. Cuando mande texto, tendrá el desplegable como las otras.
 3. ~~¿El pre-inicio sale en cada visita o una vez por sesión?~~ → **una vez por sesión, como barbarawong**
 4. Cursiva: obras en cursiva y escenografías no (su texto), o todo en cursiva (el mockup) → **lo verifica Pol**
 5. ~~Los muñecos "about", ¿cuentan como normales?~~ → **sí** (se repiten y llevan a la bio)
 6. Pre-inicio: ¿con el correo en la cabecera o sin?
 7. ¿Nos manda en grande los esbossos 1, 10 y 12?
-
-## Orden que propongo para lo que queda
-
-1. Eliza (fotos) y Ofrena (textos): 40 min, son solo datos.
-2. "Llegir més" en dos pasos: 1 h.
-3. Página de Concierto barroco: 3 h.
-4. "+++" con pies: 45 min.
-5. Español: 2 h.
-6. Pre-inicio: 3 h.

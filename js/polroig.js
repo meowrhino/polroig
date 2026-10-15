@@ -6,6 +6,7 @@
 //   2. slideshow         passar les fotos, i el ninot caminant mentre carreguen
 //   3. #projecte         l'adreça diu quin projecte estàs mirant
 //   4. A+                la lletra gran, si algú la necessita
+//   5. entrada           la foto d'abans de la home: un clic i entres
 
 /* ---------- 1. línies de punts ---------- */
 // Els ninots del scroll de la home (els del menú, quiets), barrejats a cada visita.
@@ -61,12 +62,16 @@ for (const fig of document.querySelectorAll('.slides')) {
   if (n < 2) continue;
 
   const compte = fig.querySelector('.compte');
+  // Si el projecte té un peu per a cada grup de fotos ("peus"), es veu el de la foto on ets.
+  const peus = [...fig.parentElement.querySelectorAll(':scope > .peu[data-foto]')];
   let i = 1;
   const anar = d => {
     i = (i - 1 + d + n) % n + 1;
     img.src = `${fig.dataset.base}${i}.webp`;
     img.alt = `${fig.dataset.titol} — ${fig.dataset.txt} ${i}/${n}`;
     compte.textContent = `${i}/${n}`;
+    const actual = peus.filter(p => +p.dataset.foto <= i).at(-1);
+    for (const p of peus) p.hidden = p !== actual;
     vigilar(fig, img);
     new Image().src = `${fig.dataset.base}${i % n + 1}.webp`;   // la següent, ja baixada
   };
@@ -108,4 +113,20 @@ if (mida) {
     try { gran ? localStorage.setItem('gran', '1') : localStorage.removeItem('gran'); } catch { /* sense memòria: només aquesta pàgina */ }
     pintar();
   });
+}
+
+/* ---------- 5. entrada ---------- */
+// El <head> ja ha decidit si surt (html.amb-entrada). Aquí, entrar: clic, Enter, Espai o Esc.
+const entrada = document.querySelector('.entrada');
+if (entrada && document.documentElement.classList.contains('amb-entrada')) {
+  const tecla = e => { if (['Enter', ' ', 'Escape'].includes(e.key)) { e.preventDefault(); entrar(); } };
+  const entrar = () => {
+    try { sessionStorage.setItem('entrada', '1'); } catch { /* sense memòria: tornarà a sortir */ }
+    removeEventListener('keydown', tecla);
+    entrada.classList.add('fora');
+    setTimeout(() => { document.documentElement.classList.remove('amb-entrada'); entrada.remove(); }, 400);
+  };
+  entrada.addEventListener('click', entrar);
+  addEventListener('keydown', tecla);
+  entrada.querySelector('button').focus({ preventScroll: true });
 }
