@@ -51,9 +51,9 @@ Només es fa un cop.
   "slug": "eliza",
   "published": true,
   "titol": "Eliza",
-  "etiqueta": { "cat": "Eliza - òpera", "es": "Eliza - ópera", "en": "Eliza - opera" },
-  "detall": { "cat": "(Òpera de cambra, Gran Teatre del Liceu, 2024)", "es": "(Ópera de cámara, …)", "en": "(Chamber opera, …)" },
-  "peu": { "cat": "*Eliza* (òpera de cambra), …", "es": "*Eliza* (ópera de cámara), …", "en": "*Eliza* (chamber opera), …" },
+  "etiqueta": { "cat": "Eliza - òpera", "en": "Eliza - opera" },
+  "detall": { "cat": "(Òpera de cambra, Gran Teatre del Liceu, 2024)", "en": "(Chamber opera, …)" },
+  "peu": { "cat": "*Eliza* (òpera de cambra), …", "en": "*Eliza* (chamber opera), …" },
   "imatges": 20
 }
 ```
@@ -67,18 +67,18 @@ Només es fa un cop.
 | `etiqueta` | *opcional*: com surt a la llista si ha de ser diferent del títol |
 | `detall` | el que surt en rosa al costat del títol, a la llista |
 | `peu` | el text sota la foto |
-| `peus` | *opcional*: un peu diferent segons la foto, per als projectes que en barregen uns quants (el "+++"). Cada peu diu des de quina foto val, fins al següent: `[{ "foto": 1, "cat": "…", "es": "…", "en": "…" }, { "foto": 3, "cat": "…", "es": "…", "en": "…" }]` |
+| `peus` | *opcional*: un peu diferent segons la foto, per als projectes que en barregen uns quants (el "+++"). Cada peu diu des de quina foto val, fins al següent: `[{ "foto": 1, "cat": "…", "en": "…" }, { "foto": 3, "cat": "…", "en": "…" }]` |
 | `imatges` | quantes fotos hi ha a `media/<slug>/` (el slideshow de la home) |
 | `cartells` | *opcional*: quants cartells hi ha a `media/<slug>/cartells/`; surten a dalt de la seva pàgina, un al costat de l'altre |
-| `galeries` | *opcional*: slideshows extra a la seva pàgina, sota el text. Cada galeria és una subcarpeta de `media/<slug>/` amb les fotos `1.webp`, `2.webp`…: `[{ "carpeta": "bocetos", "imatges": 16, "titol": { "cat": "(esbossos)", "es": "(bocetos)", "en": "(sketches)" } }]` |
+| `galeries` | *opcional*: slideshows extra a la seva pàgina, sota el text. Cada galeria és una subcarpeta de `media/<slug>/` amb les fotos `1.webp`, `2.webp`…: `[{ "carpeta": "bocetos", "imatges": 16, "titol": { "cat": "(esbossos)", "en": "(sketches)" } }]` |
 | `video` | *opcional*: un vídeo a la seva pàgina, sota el peu: `"video": "teaser.webm"`. Al costat hi ha d'haver la imatge que es veu abans de donar-li al play, amb el mateix nom acabat en `.poster.webp` (`teaser.poster.webp`) |
 
-Cada text va en els tres idiomes: `{ "cat": "…", "es": "…", "en": "…" }`. Si en falta un, surt el català.
+Cada text va en els dos idiomes: `{ "cat": "…", "en": "…" }`. Si en falta un, surt el català.
 
 ### Textos llargs
 
 El text del "llegir més" va en un fitxer a part, un per idioma:
-`media/<slug>/text.cat.md`, `media/<slug>/text.es.md` i `media/<slug>/text.en.md`. A la home, "Llegir més" el desplega
+`media/<slug>/text.cat.md` i `media/<slug>/text.en.md`. A la home, "Llegir més" el desplega
 sota el peu. Si el projecte té `"pagina": true`, el desplegable només mostra el primer paràgraf,
 amb "Veure la pàgina sencera" al final, i el text sencer surt a la seva pàgina.
 

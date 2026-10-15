@@ -4,7 +4,7 @@ Archivo temporal para seguir el feedback final (`feedback-final.pdf`). En la ent
 
 ✅ hecho · 🟡 a medias · ⬜ pendiente · ❓ hay que preguntárselo a Pol
 
-**Estado:** todo hecho menos lo que depende de Pol: revisar las traducciones (es, en) y las preguntas de abajo.
+**Estado:** todo hecho menos lo que depende de Pol: revisar las traducciones al inglés y las preguntas de abajo.
 
 ---
 
@@ -16,7 +16,7 @@ Archivo temporal para seguir el feedback final (`feedback-final.pdf`). En la ent
 | 2 | Subrayado al pasar el cursor por los títulos | ✅ | Títulos del índice. |
 | 3 | Rosa más vivo | ✅ | `#ff95ca`, sacado con el cuentagotas del mockup. |
 | 4 | Menú rosa siempre visible en escritorio | ✅ | En móvil, el rosa va debajo de cada título (antes no salía). |
-| 5 | Cabecera "Pol Roig · info@… · cat · esp · eng", about fuera del menú, contacto al pie | ✅ | Va en **rosa**, como en su documento, con el idioma actual en blanco. "Pol Roig" lleva a la bio. Al pie de todas las páginas: correo + Instagram. Falta `esp` (punto 21). |
+| 5 | Cabecera "Pol Roig · info@… · cat · eng", about fuera del menú, contacto al pie | ✅ | Va en **rosa**, como en su documento, con el idioma actual en blanco. "Pol Roig" lleva a la bio. Al pie de todas las páginas: correo + Instagram. |
 | 5b | Correo `info@` en lugar de `me@` | ✅ | Ver pregunta 1. |
 
 ## Muñecos
@@ -71,7 +71,7 @@ Archivo temporal para seguir el feedback final (`feedback-final.pdf`). En la ent
 | # | Punto | Estado | Notas |
 |---|---|---|---|
 | 20 | "+++": el pie cambia con cada foto | ✅ | Cada pie dice desde qué foto vale (`"peus"` en `projectes.json`): 1 / 2 / 3–4 / 5–8. Sin JS se ve el primero. |
-| 21 | Español | ✅ | Traducido con IA todo (menú, pies, bio, textos de las páginas, Concierto barroco entero): **que Pol lo revise**. La cabecera dice "cat · esp · eng" y el español vive en `/es/`. Para corregir: en los JSON, el campo `"es"`; los textos largos, en `media/<proyecto>/text.es.md`. |
+| 21 | Español | — | **No**: manu decide que esta web va solo en cat/en (16/10). Estaba hecho; se quitó y queda en el historial de git (`1a6615b`) por si se recupera. La cabecera dice "cat · eng". |
 | 22 | Pre-inicio: foto fija al azar, cabecera y puntos con muñeco que se escriben y parpadean; un clic y entras | ✅ | Como barbarawong: una vez por sesión, se entra con clic, Enter, Espacio o Escape, fundido de 0,4 s; no sale si el sistema pide menos movimiento ni si el enlace lleva a un proyecto (`/#concierto-barroco`). Foto al azar de `media/entrada/`, cabecera encima, dos líneas de puntos que se escriben a saltos con el muñeco (walk2 y stroll) parpadeando como cursor en cada pausa. La foto **7** es casi negra entera (así viene). Ver pregunta 6. |
 | 23 | Fotos nuevas de Quiso Negro, crédito Pol Rebaque | ✅ | 9 fotos; el crédito va en el pie. |
 
