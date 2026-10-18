@@ -235,6 +235,37 @@ html.amb-entrada .entrada {
   93% { opacity: 0; } 96% { opacity: 1; } 99% { opacity: 0; }
 }
 
+/* ---------- el loader de la transició (css/transicion.css) ----------
+   El dibuix de l'entrada, sobre negre: una línia de punts que s'escriu amb el ninot de cursor.
+   Tot en un sol pseudoelement: els punts (fins al ninot, content-box) i el ninot a la dreta;
+   el cursor parpelleja amagant la capa del ninot. */
+.tapada body::after,
+.cargando body::after {
+  --an: calc(var(--hn) * 324 / 647);    /* l'amplada del ninot (walk2.svg) */
+  left: var(--marge);
+  translate: 0 -50%;
+  width: var(--an);
+  height: var(--hn);
+  padding-right: var(--an);
+  box-sizing: border-box;
+  background:
+    url(../assets/siluetes/walk2.svg) right bottom / auto 100% no-repeat border-box,
+    radial-gradient(circle, var(--fg) 0 .07em, transparent .085em) left bottom .05em / .42em .2em repeat-x content-box;
+  background-clip: border-box, content-box;
+}
+:root { --carga-anim: escriure-carga 7s steps(30, end) .5s infinite both, cursor-carga 7s step-end .5s infinite; }
+@keyframes escriure-carga {
+  0% { width: var(--an); }
+  35%, 55% { width: calc(var(--an) + (100vw - 2 * var(--marge)) * .35); }
+  90%, 100% { width: calc(var(--an) + (100vw - 2 * var(--marge)) * .7); }
+}
+@keyframes cursor-carga {
+  0%, 35% { background-size: auto 100%, .42em .2em; } 39% { background-size: 0 0, .42em .2em; }
+  43% { background-size: auto 100%, .42em .2em; } 47% { background-size: 0 0, .42em .2em; }
+  51%, 90% { background-size: auto 100%, .42em .2em; } 93% { background-size: 0 0, .42em .2em; }
+  96% { background-size: auto 100%, .42em .2em; } 99% { background-size: 0 0, .42em .2em; }
+}
+
 /* ---------- peu: contacte i mida de lletra ---------- */
 .contacte { display: flex; flex-wrap: wrap; gap: .4em 1.6em; max-width: var(--col); margin-top: calc(var(--u) * 4); }
 .mida {

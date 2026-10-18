@@ -24,5 +24,5 @@ js/polroig.js         el único JS, y solo añade: líneas de puntos, slideshow,
 - **og:image**: 1200×630 JPG con sharp (`npm ci`), en `.cache/og/` (fuera de git), copiadas a `dist/og/`. Sin sharp, avisa y comparte la foto tal cual.
 - **SEO**: canonical, `hreflang` ca/en, Open Graph y JSON-LD (Person, ProfilePage, CreativeWork). El 404 no se indexa.
 - **Publicar, uno en cada copia**: la nuestra, `.github/workflows/deploy.yml` a GitHub Pages (solo corre en `meowrhino`); la de Pol, Workers Builds con `wrangler.jsonc`. El build mira dónde está: con `GITHUB_ACTIONS`, base `/polroig` y `noindex`; si no, la raíz y el `url` de `site.json` (con `url`, se indexa).
-- **Transición**: la de la casa (`js/transicion.js` + `css/transicion.css`, de almarbra, y el script del `<head>` en `paginas.mjs`), sin dibujo propio: fundido al negro.
+- **Transición**: la de la casa (`js/transicion.js` + `css/transicion.css`, de almarbra, y el script del `<head>` en `paginas.mjs`), fundido al negro; el loader, el dibujo de la entrada (la línea de puntos que se escribe con el ninot walk2), en `css/style.css`.
 - **Traspaso**: [TRASPASO.md](TRASPASO.md).

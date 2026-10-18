@@ -6,7 +6,8 @@
 //   2. slideshow         passar les fotos, i el ninot caminant mentre carreguen
 //   3. #projecte         l'adreça diu quin projecte estàs mirant
 //   4. A+                la lletra gran, si algú la necessita
-//   5. entrada           la foto d'abans de la home: un clic i entres
+//   5. entrada           la foto d'abans de la home: entres amb un clic, o sola quan la
+//                        web ha carregat i ha passat la pausa
 
 /* ---------- 1. línies de punts ---------- */
 // Els ninots del scroll de la home (els del menú, quiets), barrejats a cada visita.
@@ -117,11 +118,15 @@ if (mida) {
 }
 
 /* ---------- 5. entrada ---------- */
-// El <head> ja ha decidit si surt (html.amb-entrada). Aquí, entrar: clic, Enter, Espai o Esc.
+// El <head> ja ha decidit si surt (html.amb-entrada). Aquí, entrar: clic, Enter, Espai o Esc,
+// o sola quan la home ha carregat i han passat PAUSA ms (una estona de silenci). Si encara
+// no ha carregat, s'espera: fa de loader.
+const PAUSA = 5000;
 const entrada = document.querySelector('.entrada');
 if (entrada && document.documentElement.classList.contains('amb-entrada')) {
   const tecla = e => { if (['Enter', ' ', 'Escape'].includes(e.key)) { e.preventDefault(); entrar(); } };
   const entrar = () => {
+    if (entrada.classList.contains('fora')) return;
     try { sessionStorage.setItem('entrada', '1'); } catch { /* sense memòria: tornarà a sortir */ }
     removeEventListener('keydown', tecla);
     entrada.classList.add('fora');
@@ -130,4 +135,7 @@ if (entrada && document.documentElement.classList.contains('amb-entrada')) {
   entrada.addEventListener('click', entrar);
   addEventListener('keydown', tecla);
   entrada.querySelector('button').focus({ preventScroll: true });
+  const carregada = document.readyState === 'complete' ? Promise.resolve()
+    : new Promise(r => addEventListener('load', r, { once: true }));
+  Promise.all([carregada, new Promise(r => setTimeout(r, PAUSA))]).then(entrar);
 }

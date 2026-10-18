@@ -132,7 +132,8 @@ export function crearSitio({ site, projects, about = {}, figures = {}, base = ''
   /* La transició entre pàgines, la de la casa (JAMstack, patrones.md §6c), copiada
      tal qual d'almarbra: js/transicion.js i css/transicion.css, i aquest script,
      que tapa la pàgina abans de pintar si s'hi arriba des d'una altra de la web.
-     Sense dibuix propi (window.dibujo): un fos al negre i un quadradet que batega. */
+     Sense dibuix propi (window.dibujo): un fos al negre. El loader és el dibuix de l'entrada
+     (la línia de punts que s'escriu amb el ninot), a css/style.css. */
   const headScript = `<script>{
 const html = document.documentElement;
 html.classList.add('js');
