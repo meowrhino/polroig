@@ -6,7 +6,6 @@
    ============================================================ */
 import { readFileSync, writeFileSync, mkdirSync, rmSync, cpSync, existsSync, readdirSync, statSync } from 'node:fs';
 import { createHash } from 'node:crypto';
-import { execFileSync } from 'node:child_process';
 import { dirname, join } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { crearSitio, llegirJSON } from './paginas.mjs';
@@ -30,9 +29,15 @@ try {
   }
 } catch (e) { sortir(e.message); }
 
-/* Subcarpeta on se serveix: a GitHub Pages, el nom del repo; amb domini
-   propi, buida. Es pot forçar amb BASE= (per exemple, a Cloudflare). */
-const base = process.env.BASE ?? (site.domain ? '' : site.base ?? '');
+/* On es publica, segons on es construeix (JAMstack, patrones.md §5):
+   a l'Action de GitHub (la nostra còpia), meowrhino.github.io/polroig/ i sense
+   indexar; a qualsevol altre lloc (Cloudflare, a la còpia de Pol), l'arrel i el
+   domini de site.json → "url", i s'indexa si n'hi ha. */
+const github = process.env.GITHUB_ACTIONS === 'true';
+const [owner, repo] = (process.env.GITHUB_REPOSITORY || 'meowrhino/polroig').split('/');
+const base = github ? `/${repo}` : '';
+const origen = github ? `https://${owner}.github.io` : String(site.url || '').replace(/\/$/, '');
+const indexar = !github && !!site.url;
 
 /** Amplada i alçada d'un webp, llegides de la capçalera: van al <img>
     perquè el navegador reservi el forat abans que baixi la foto. */
@@ -56,41 +61,52 @@ function mida(rel) {
 /* La imatge per compartir (og:image): 1200×630 en JPG, que és el que esperen
    WhatsApp, Instagram i companyia. Les fotos horitzontals omplen el requadre
    (retallant el que sobra); les verticals i els cartells hi caben sencers, sobre
-   negre. La fa el build amb ffmpeg (a l'Action l'instal·la el workflow) a
-   .cache/og/, amb un nom segons la foto, i només la refà si la foto canvia.
-   Sense ffmpeg es comparteix la foto tal qual i s'avisa. */
-let ffmpeg = true;
-const ogs = new Map();
-function og(rel) {
-  if (ogs.has(rel)) return ogs.get(rel);
-  const nom = createHash('sha1').update(rel).digest('hex').slice(0, 12) + '.jpg';
-  const cache = join(ROOT, '.cache', 'og', nom);
-  let fet = existsSync(cache) && statSync(cache).mtimeMs >= statSync(join(ROOT, rel)).mtimeMs;
-  if (!fet && ffmpeg) {
-    const m = mida(rel);
-    const vf = m && m.w / m.h >= 1.2
-      ? 'scale=1200:630:force_original_aspect_ratio=increase,crop=1200:630'
-      : 'scale=1200:630:force_original_aspect_ratio=decrease,pad=1200:630:(ow-iw)/2:(oh-ih)/2:black';
-    try {
-      mkdirSync(dirname(cache), { recursive: true });
-      execFileSync('ffmpeg', ['-y', '-loglevel', 'error', '-i', join(ROOT, rel), '-vf', vf, '-q:v', '3', cache]);
-      fet = true;
-    } catch {
-      ffmpeg = false;
-      console.warn('⚠ sense ffmpeg (brew install ffmpeg): en compartir surt la foto tal qual');
+   negre. Les fa el build amb sharp (npm ci) a .cache/og/, amb un nom segons
+   la foto, i només les refà si la foto canvia. Sense sharp es comparteix la
+   foto tal qual i s'avisa. Les plantilles demanen la og mentre pinten, i sharp
+   va a part: una primera passada apunta quines calen, es fan, i es pinta. */
+const ogNom = rel => createHash('sha1').update(rel).digest('hex').slice(0, 12) + '.jpg';
+const ogFetes = new Map();   // foto → og/<nom>.jpg, les que hi són
+async function ferOgs(rels) {
+  let sharp = null;
+  for (const rel of rels) {
+    const cache = join(ROOT, '.cache', 'og', ogNom(rel));
+    if (!(existsSync(cache) && statSync(cache).mtimeMs >= statSync(join(ROOT, rel)).mtimeMs)) {
+      try {
+        sharp ??= (await import('sharp')).default;
+        const m = mida(rel);
+        mkdirSync(dirname(cache), { recursive: true });
+        await sharp(join(ROOT, rel))
+          .resize(1200, 630, m && m.w / m.h >= 1.2 ? { fit: 'cover' } : { fit: 'contain', background: '#000' })
+          .flatten({ background: '#000' }).jpeg({ quality: 85, mozjpeg: true }).toFile(cache);
+      } catch (e) {
+        console.warn(`⚠ sense sharp (${e.code || e.message}): en compartir surt la foto tal qual. Arregla-ho amb: npm ci`);
+        return;
+      }
     }
+    ogFetes.set(rel, `og/${ogNom(rel)}`);
   }
-  const sortida = fet ? `og/${nom}` : null;
-  if (fet) { mkdirSync(join(OUT, 'og'), { recursive: true }); cpSync(cache, join(OUT, sortida)); }
-  ogs.set(rel, sortida);
+}
+function og(rel) {
+  const sortida = ogFetes.get(rel) ?? null;
+  if (sortida && !existsSync(join(OUT, sortida))) {
+    mkdirSync(join(OUT, 'og'), { recursive: true });
+    cpSync(join(ROOT, '.cache', 'og', ogNom(rel)), join(OUT, sortida));
+  }
   return sortida;
 }
 
-const sitio = crearSitio({ site, projects, about, figures, base, mida, og });
-
-const avisos = sitio.revisar(rel => existsSync(join(ROOT, rel)));
+const opcions = { site, projects, about, figures, base, origen, indexar, mida };
+const avisos = crearSitio(opcions).revisar(rel => existsSync(join(ROOT, rel)));
 for (const a of avisos) console.warn(`${a.greu ? '✗' : '⚠'} ${a.qui}: ${a.txt}`);
 if (avisos.some(a => a.greu)) sortir('Hi ha errors a les dades (marcats amb ✗ a dalt). No es publica res fins que s\'arreglin.');
+
+const calen = new Set();
+const prova = crearSitio({ ...opcions, og: rel => (calen.add(rel), null) });
+for (const r of prova.rutes()) r.pintar();
+prova.noTrobada();
+await ferOgs(calen);
+const sitio = crearSitio({ ...opcions, og });
 
 /* ---------- escriure ---------- */
 rmSync(OUT, { recursive: true, force: true });
@@ -110,15 +126,14 @@ for (const r of rutes) {
 writeFileSync(join(OUT, '404.html'), sitio.noTrobada());
 writeFileSync(join(OUT, 'sitemap.xml'), `<?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
-${rutes.map(r => `  <url><loc>${sitio.publica(r.ruta)}</loc></url>`).join('\n')}
+${rutes.filter(r => !r.ocult).map(r => `  <url><loc>${sitio.publica(r.ruta)}</loc></url>`).join('\n')}
 </urlset>
 `);
-// Sense domini propi la web és de proves: no s'indexa.
-writeFileSync(join(OUT, 'robots.txt'), site.domain
+// A github.io, o sense domini a site.json, la web és de proves: no s'indexa.
+writeFileSync(join(OUT, 'robots.txt'), indexar
   ? `User-agent: *\nAllow: /\nSitemap: ${sitio.publica('/sitemap.xml')}\n`
   : 'User-agent: *\nDisallow: /\n');
 writeFileSync(join(OUT, '.nojekyll'), '');
-if (site.domain) writeFileSync(join(OUT, 'CNAME'), site.domain + '\n');
 
 console.log(`✓ ${rutes.length} pàgines · ${sitio.publicats.length} projectes · ${sitio.IDIOMES.length} idiomes`
   + `${avisos.length ? ` · ${avisos.length} avisos` : ''}`);

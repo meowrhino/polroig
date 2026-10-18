@@ -20,9 +20,9 @@ build/preview.mjs     vista previa de Live Server (index.html, /?p=/en/eliza/)
 js/polroig.js         el único JS, y solo añade: líneas de puntos, slideshow, #proyecto, A+, entrada
 ```
 
-- **Publicado = está en `feed`**. Las dos `lists` dicen qué sale en el índice; el build avisa si no cuadran.
-- **og:image**: 1200×630 JPG con ffmpeg, en `.cache/og/` (fuera de git), copiadas a `dist/og/`. Sin ffmpeg, la foto tal cual.
+- **Publicado = está en `feed`**. Las dos `lists` dicen qué sale en el índice; el build avisa si no cuadran. Un proyecto oculto, `{ "project": "x", "visible": false }` en `feed`: su página con `noindex`, fuera de la home y del sitemap.
+- **og:image**: 1200×630 JPG con sharp (`npm ci`), en `.cache/og/` (fuera de git), copiadas a `dist/og/`. Sin sharp, avisa y comparte la foto tal cual.
 - **SEO**: canonical, `hreflang` ca/en, Open Graph y JSON-LD (Person, ProfilePage, CreativeWork). El 404 no se indexa.
-- **Publicar**: `.github/workflows/deploy.yml`, build y GitHub Pages en cada push.
-- **Dominio**: en `site.json` → `"domain"`. Quita el `noindex`, abre `robots.txt` y escribe el `CNAME`.
-- **Cloudflare**: `wrangler.jsonc` y `_headers` ya están. En Workers Builds, `node build/build.mjs` con `BASE` vacía.
+- **Publicar, uno en cada copia**: la nuestra, `.github/workflows/deploy.yml` a GitHub Pages (solo corre en `meowrhino`); la de Pol, Workers Builds con `wrangler.jsonc`. El build mira dónde está: con `GITHUB_ACTIONS`, base `/polroig` y `noindex`; si no, la raíz y el `url` de `site.json` (con `url`, se indexa).
+- **Transición**: la de la casa (`js/transicion.js` + `css/transicion.css`, de almarbra, y el script del `<head>` en `paginas.mjs`), sin dibujo propio: fundido al negro.
+- **Traspaso**: [TRASPASO.md](TRASPASO.md).

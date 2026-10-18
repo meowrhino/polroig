@@ -27,7 +27,8 @@ async function arrencar() {
     about = llegirJSON(await demanar('data/about.json'), 'data/about.json');
     figures = llegirJSON(await demanar('data/figures.json'), 'data/figures.json');
     // El navegador no pot llistar carpetes: demana les que diuen "feed" i les llistes.
-    const slugs = new Set([...(site.feed || []), ...Object.values(site.lists || {}).flatMap(s => s.projects || [])]);
+    const slugs = new Set([...(site.feed || []), ...Object.values(site.lists || {}).flatMap(s => s.projects || [])]
+      .map(e => (e && typeof e === 'object' ? e.project : e)).filter(e => typeof e === 'string'));
     await Promise.all([...slugs].map(async slug => {
       const f = `projects/${slug}/project.json`;
       let txt;

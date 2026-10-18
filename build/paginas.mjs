@@ -50,28 +50,35 @@ const paragrafsDe = v => (Array.isArray(v) ? v.map(linies).join('\n\n') : v || '
      about             data/about.json
      figures           data/figures.json (els ninots)
      base              subcarpeta on se serveix ('' o '/polroig')
+     origen            el domini de les adreces públiques (canonical, og), sense barra final
+     indexar           si Google la pot indexar (false a github.io i sense domini)
      mida(ruta)        { w, h } d'una imatge, o null
      og(ruta)          la imatge per compartir (1200×630) feta d'aquesta foto, o null
      preview           true a la vista prèvia: els enllaços van a ?p=/ruta/
    ============================================================ */
-export function crearSitio({ site, projects, about = {}, figures = {}, base = '', mida = () => null, og = () => null, preview = false }) {
+export function crearSitio({ site, projects, about = {}, figures = {}, base = '', origen = '', indexar: INDEXAR = false, mida = () => null, og = () => null, preview = false }) {
   const IDIOMES = site.langs;
   const DEF = site.lang;
   const B = String(base).replace(/\/$/, '');
   const fotos = v => (Array.isArray(v) ? v.map(String) : []);
+  /** Una entrada de "feed" o d'una llista: "slug", o { "project": "slug", "visible": false }
+      per a un projecte amagat (té pàgina per enviar-la en privat, però no surt enlloc més). */
+  const deFeed = e => (e && typeof e === 'object' ? { slug: e.project, visible: e.visible !== false } : { slug: e, visible: true });
+  const feed = (Array.isArray(site.feed) ? site.feed : []).map(deFeed);
+  const preparar = ({ slug }) => ({ ...projects[slug], slug, photos: fotos(projects[slug].photos) });
+  const hiEs = ({ slug }) => typeof slug === 'string' && projects[slug] && typeof projects[slug] === 'object';
   /** Publicat = surt a site.json → feed, en aquest ordre. */
-  const publicats = (Array.isArray(site.feed) ? site.feed : [])
-    .filter(slug => projects[slug] && typeof projects[slug] === 'object')
-    .map(slug => ({ ...projects[slug], slug, photos: fotos(projects[slug].photos) }));
+  const publicats = feed.filter(e => e.visible && hiEs(e)).map(preparar);
+  const ocults = feed.filter(e => !e.visible && hiEs(e)).map(e => ({ ...preparar(e), ocult: true }));
   const perSlug = Object.fromEntries(publicats.map(p => [p.slug, p]));
-  const llistes = Object.values(site.lists || {});
+  const llistes = Object.values(site.lists || {}).map(s => (Array.isArray(s.projects)
+    ? { ...s, projects: s.projects.map(deFeed).filter(e => e.visible).map(e => e.slug) } : s));
 
   /* ---------- rutes ---------- */
   const raiz = p => B + (p.startsWith('/') ? p : '/' + p);
   const ruta = (l, path = '') => `${l === DEF ? '' : '/' + l}/${path}`.replace(/\/{2,}/g, '/');
   const url = (l, path = '') => (preview ? `${B}/?p=${ruta(l, path)}` : B + ruta(l, path));
-  const publica = p => (site.domain ? `https://${site.domain}` : site.url.replace(/\/$/, '') + B)
-    + (p.startsWith('/') ? p : '/' + p);
+  const publica = p => origen + B + (p.startsWith('/') ? p : '/' + p);
   const t = (obj, l) => (obj && typeof obj === 'object' ? obj[l] || obj[DEF] || '' : obj || '');
   const ui = (k, l) => t(Object.fromEntries(IDIOMES.map(i => [i, site.ui?.[i]?.[k]])), l);
 
@@ -122,9 +129,30 @@ export function crearSitio({ site, projects, about = {}, figures = {}, base = ''
   /* ---------- trossos ---------- */
   const LOCALE = { ca: 'ca_ES', es: 'es_ES', en: 'en_GB' };
 
+  /* La transició entre pàgines, la de la casa (JAMstack, patrones.md §6c), copiada
+     tal qual d'almarbra: js/transicion.js i css/transicion.css, i aquest script,
+     que tapa la pàgina abans de pintar si s'hi arriba des d'una altra de la web.
+     Sense dibuix propi (window.dibujo): un fos al negre i un quadradet que batega. */
+  const headScript = `<script>{
+const html = document.documentElement;
+html.classList.add('js');
+let back = false;
+try {
+  const d = JSON.parse(sessionStorage.getItem('transicion'));
+  back = !d && performance.getEntriesByType('navigation')[0]?.type === 'back_forward';
+  if (d?.carga) html.style.setProperty('--carga', d.carga);   // el color del loader, del dibujo
+  if (!matchMedia('(prefers-reduced-motion: reduce)').matches && (back || d)) html.classList.add('tapada');
+} catch {}
+window.revelada = ${preview ? 'false' : "'onpagereveal' in window"} ? new Promise((done) => addEventListener('pagereveal', (e) => {
+  const vt = e.viewTransition;
+  if (vt && back && html.classList.contains('tapada')) { html.classList.add('tapando'); done(vt); }
+  else { vt?.ready.catch(() => {}); vt?.skipTransition(); done(null); }   // saltarla rechaza ready: sin error en la consola
+}, { once: true })) : Promise.resolve(null);
+}</script>`;
+
   /** <head> sencer: títol, descripció, idiomes, Open Graph i JSON-LD.
-      Sense domini propi, noindex: la web encara és de proves. */
-  function head({ l, titol, desc, path, imatge, jsonld, extra = '', indexar = !!site.domain }) {
+      A github.io o sense domini, noindex: la web encara és de proves. */
+  function head({ l, titol, desc, path, imatge, jsonld, extra = '', indexar = INDEXAR }) {
     return `<!doctype html>
 <html lang="${l}">
 <head>
@@ -148,9 +176,12 @@ export function crearSitio({ site, projects, about = {}, figures = {}, base = ''
   <meta property="og:image:height" content="630">` : imatge ? `<meta property="og:image" content="${publica('/' + imatge)}">` : ''))(imatge && og(imatge))}
   <meta name="twitter:card" content="summary_large_image">
   <link rel="icon" href="${raiz('/assets/favicon.svg')}" type="image/svg+xml">
+  ${headScript}
+  <link rel="stylesheet" href="${raiz('/css/transicion.css')}">
   <link rel="stylesheet" href="${raiz('/css/style.css')}">
   <script>try { if (localStorage.getItem('gran')) document.documentElement.classList.add('gran'); } catch {}</script>${extra}
   <script type="module" src="${raiz('/js/polroig.js')}"></script>
+  <script src="${raiz('/js/transicion.js')}" defer></script>
   ${jsonld ? ld(jsonld) : ''}
 </head>
 <body>`;
@@ -339,7 +370,7 @@ ${feed}
         }).join('')}</div>`
       : slides(p, '', p.photos, l, true);
     return head({
-      l, path: p.slug + '/', titol: `${p.title} — ${site.title}`,
+      l, path: p.slug + '/', titol: `${p.title} — ${site.title}`, indexar: INDEXAR && !p.ocult,
       desc: resum(linies(t(p.caption, l)) || p.title), imatge: portada(p),
       jsonld: { '@type': 'CreativeWork', name: p.title, url: publica(ruta(l, p.slug + '/')), inLanguage: l,
         description: resum(linies(t(p.caption, l))), image: publica('/' + portada(p)), creator: persona(l) },
@@ -358,7 +389,7 @@ ${slides(p, g.folder, fotos(g.photos), l)}
 </section>`).join('\n')}
 </article>
 ${passeig(l)}
-<p><a class="mes" href="${url(l)}#${p.slug}">${esc(ui('back', l))}</a></p>
+<p><a class="mes" href="${url(l)}${p.ocult ? '' : '#' + p.slug}">${esc(ui('back', l))}</a></p>
 </main>
 ` + peu(l);
   }
@@ -399,6 +430,8 @@ ${insta ? `<p><em>Instagram: <a href="https://www.instagram.com/${esc(insta)}/" 
       r.push({ ruta: ruta(l), pintar: () => home(l) });
       r.push({ ruta: ruta(l, 'bio/'), pintar: () => bio(l) });
       for (const p of publicats.filter(p => p.page)) r.push({ ruta: ruta(l, p.slug + '/'), pintar: () => projecte(p, l) });
+      // Els amagats tenen sempre la seva pàgina (per enviar-la), fora del sitemap.
+      for (const p of ocults) r.push({ ruta: ruta(l, p.slug + '/'), pintar: () => projecte(p, l), ocult: true });
     }
     return r;
   }
@@ -428,7 +461,8 @@ ${insta ? `<p><em>Instagram: <a href="https://www.instagram.com/${esc(insta)}/" 
       if (!/^[a-z0-9]+(-[a-z0-9]+)*$/.test(slug)) { avis(qui, 'el nom de la carpeta només pot portar minúscules, números i guions', true); continue; }
       if (RESERVATS.includes(slug)) { avis(qui, `"${slug}" ja el fa servir la web: posa-li un altre nom a la carpeta`, true); continue; }
       if (!p || typeof p !== 'object' || Array.isArray(p)) { avis(qui, 'project.json ha de ser un bloc { ... }', true); continue; }
-      if (!perSlug[slug]) { avis(qui, 'no surt a site.json → feed: no es publica'); continue; }
+      const ocult = ocults.some(o => o.slug === slug);
+      if (!perSlug[slug] && !ocult) { avis(qui, 'no surt a site.json → feed: no es publica'); continue; }
       if (!p.title) avis(qui, 'falta "title"');
       revisarFotos(qui, 'photos', p.photos, '', slug);
       if (p.posters != null) revisarFotos(qui, 'posters', p.posters, 'posters', slug);
@@ -453,11 +487,14 @@ ${insta ? `<p><em>Instagram: <a href="https://www.instagram.com/${esc(insta)}/" 
           || (nom === 'galeria' && grups(p).some(g => g.folder === arg));
         if (!bona) avis(qui, `al text en "${l}", "[[${nom}${arg ? ':' + arg : ''}]]" no porta enlloc: mira el nom del grup ("folder") o que el projecte tingui vídeo`);
       }
-      if (!enLlista(slug)) avis(qui, 'surt a "feed" però no a cap llista de site.json → lists');
+      if (!enLlista(slug) && !ocult) avis(qui, 'surt a "feed" però no a cap llista de site.json → lists');
     }
 
     if (!Array.isArray(site.feed)) avis('site.json', '"feed" ha de ser una llista de projectes: [ ... ]', true);
-    else for (const slug of site.feed) if (!projects[slug]) avis('site.json', `"feed" diu "${slug}", i no trobo projects/${slug}/project.json`, true);
+    else for (const { slug } of feed) {
+      if (typeof slug !== 'string') avis('site.json', 'cada projecte de "feed" és "slug" o, si està amagat, { "project": "slug", "visible": false }', true);
+      else if (!projects[slug]) avis('site.json', `"feed" diu "${slug}", i no trobo projects/${slug}/project.json`, true);
+    }
     for (const s of llistes) for (const slug of Array.isArray(s.projects) ? s.projects : [])
       if (!perSlug[slug]) avis('site.json', `la llista "${t(s.name, DEF)}" diu "${slug}", i no surt a "feed"`);
     for (const n of fotosEntrada) if (!existeix(`data/entrance/${n}.webp`)) avis('site.json, entrance', `no trobo data/entrance/${n}.webp`, true);

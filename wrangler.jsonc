@@ -1,5 +1,5 @@
-// Per quan la web passi a Cloudflare Workers (Workers Builds connectat al repo).
-// Allà va amb domini propi: posa "domini" a data/site.json i BASE buida.
+// La còpia de Pol, a Cloudflare: Workers Builds connectat al seu repo.
+// Es publica a l'arrel; amb el domini a data/site.json → "url", s'indexa.
 {
   "name": "polroig",
   "compatibility_date": "2026-10-01",

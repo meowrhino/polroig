@@ -1,9 +1,7 @@
 {
   "title": "Pol Roig Valldosera",
   "short": "Pol Roig",
-  "url": "https://meowrhino.github.io",
-  "base": "/polroig",
-  "domain": null,
+  "url": null,
   "lang": "ca",
   "langs": ["ca", "en"],
   "email": "info@polroigvalldosera.com",

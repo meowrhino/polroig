@@ -1,4 +1,6 @@
-# Cada push a main regenera la web i la publica. Pol només toca data/ i projects/.
+# Cada push a main regenera la web i la publica a meowrhino.github.io/polroig/
+# (sense indexar). Només a la nostra còpia: a la de Pol publica Cloudflare
+# (wrangler.jsonc) i això no corre. Pol només toca data/ i projects/.
 name: build & deploy
 on:
   push:
@@ -16,12 +18,13 @@ concurrency:
 
 jobs:
   build:
+    if: github.repository_owner == 'meowrhino'
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v7
       - uses: actions/setup-node@v7
         with: { node-version: '22' }
-      - run: sudo apt-get update -qq && sudo apt-get install -y -qq ffmpeg   # les imatges per compartir (og:image)
+      - run: npm ci   # sharp: les imatges per compartir (og:image)
       - run: node build/build.mjs
       - uses: actions/configure-pages@v6
       - uses: actions/upload-pages-artifact@v5

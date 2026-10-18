@@ -5,7 +5,7 @@ Portfoli de Pol Roig Valldosera. <https://meowrhino.github.io/polroig/>
 > **Regla d'or: només toques `data/` i `projects/`.**
 > La resta (build, css, js) és la maquinària: no cal obrir-la.
 
-Quan puges un canvi a `main`, GitHub reconstrueix la web i la publica sola en un parell
+Quan puges un canvi a `main`, la web es reconstrueix i es publica sola en un parell
 de minuts. No has d'instal·lar res per publicar.
 
 ---
@@ -54,6 +54,16 @@ Només es fa un cop.
 6. **Mira-ho amb Go Live** i, si està bé, **puja-ho** (a sota).
 
 Per **treure** un projecte de la web sense esborrar-lo, treu-ne el slug de `"feed"` i de la seva llista.
+
+Per **amagar-lo** (que tingui la seva pàgina per enviar-la a algú, però que no surti a la home
+ni a Google), a `"feed"` canvia el slug per un bloc:
+
+```json
+{ "project": "requiem", "visible": false }
+```
+
+L'adreça és la de sempre (`/requiem/`). Per publicar-lo, torna a posar només `"requiem"`, i també
+a la seva llista: no perd el seu lloc.
 
 ## Els camps d'un projecte (`project.json`)
 
@@ -190,15 +200,15 @@ cop que deses. Si hi ha un error en un JSON, t'ho diu en pantalla i on és.
 2. Escriu què has fet (`projecte nou: requiem`) i **Confirma** (*Commit*). Si pregunta si vols
    afegir tots els canvis: **Sí**.
 3. **Sincronitza els canvis** (*Sync*).
-4. En un parell de minuts és a la web. A GitHub, pestanya **Actions**: groc és que està
-   publicant, verd que ja està, vermell que alguna cosa no quadra.
+4. En un parell de minuts és a la web. A GitHub, al costat de l'últim canvi surt una boleta:
+   groc és que està publicant, verd que ja està, vermell que alguna cosa no quadra.
 
 **Abans de començar a tocar**, dona també a **Sincronitza**, per baixar el que hagi canviat.
 
-## Si surt en vermell a Actions
+## Si surt en vermell
 
-La web no es trenca: es queda com estava fins que s'arregla. Clica la bola vermella i llegeix
-l'últim missatge, que diu el fitxer i què passa:
+La web no es trenca: es queda com estava fins que s'arregla. Clica la bola vermella, després
+**Details**, i llegeix l'últim missatge, que diu el fitxer i què passa:
 
 - **"no és un JSON vàlid (línia 12, columna 5)"** → gairebé sempre **una coma** de més o de menys,
   o unes cometes sense tancar, a prop d'aquella línia.
