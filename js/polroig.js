@@ -119,11 +119,12 @@ if (mida) {
 
 /* ---------- 5. entrada ---------- */
 // El <head> ja ha decidit si surt (html.amb-entrada). Aquí, entrar: clic, Enter, Espai o Esc,
-// o sola quan la home ha carregat i han passat PAUSA ms (una estona de silenci). Si encara
-// no ha carregat, s'espera: fa de loader.
-const PAUSA = 5000;
+// o sola quan la home ha carregat i han passat els segons de site.json → entrance → seconds
+// (una estona de silenci; el build els posa a data-segons). Si encara no ha carregat, s'espera:
+// fa de loader.
 const entrada = document.querySelector('.entrada');
 if (entrada && document.documentElement.classList.contains('amb-entrada')) {
+  const pausa = 1000 * (Number(entrada.dataset.segons) || 0);
   const tecla = e => { if (['Enter', ' ', 'Escape'].includes(e.key)) { e.preventDefault(); entrar(); } };
   const entrar = () => {
     if (entrada.classList.contains('fora')) return;
@@ -137,5 +138,5 @@ if (entrada && document.documentElement.classList.contains('amb-entrada')) {
   entrada.querySelector('button').focus({ preventScroll: true });
   const carregada = document.readyState === 'complete' ? Promise.resolve()
     : new Promise(r => addEventListener('load', r, { once: true }));
-  Promise.all([carregada, new Promise(r => setTimeout(r, PAUSA))]).then(entrar);
+  Promise.all([carregada, new Promise(r => setTimeout(r, pausa))]).then(entrar);
 }

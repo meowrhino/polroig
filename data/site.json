@@ -14,7 +14,10 @@
     "ca": "Pol Roig Valldosera (Barcelona, 2000) treballa com a escenògraf i director escènic. La seva pràctica s’estén més enllà de l’àmbit de les arts escèniques i explora les interseccions entre el disseny d’espais, la música en viu, les arts visuals o la instal·lació. Ha presentat els seus projectes en espais com el Gran Teatre del Liceu, la Sala Beckett, L’Auditori, el Mercat de les Flors o el Festival Grec.",
     "en": "Pol Roig Valldosera (Barcelona, 2000) works as a set designer and stage director. His practice extends beyond the performing arts, exploring the intersections between spatial design, live music, visual arts, and installation. He has presented his projects at venues and institutions including Gran Teatre del Liceu, Sala Beckett, L’Auditori, Mercat de les Flors, and Festival Grec."
   },
-  "entrance": ["1", "2", "3", "4", "5", "6", "7", "8", "9", "10"],
+  "entrance": {
+    "photos": ["1", "2", "3", "4", "5", "6", "7", "8", "9", "10"],
+    "seconds": 5
+  },
   "lists": {
     "works": {
       "name": { "ca": "Obres", "en": "Works" },

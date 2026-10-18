@@ -9,7 +9,7 @@ Lo de abajo es para nosotros. Sigue la receta de [meowrhino/JAMstack](https://gi
 ## Cómo está hecho
 
 ```
-data/site.json        lo general: title, langs, email, social, intro, entrance,
+data/site.json        lo general: title, langs, email, social, intro, entrance (photos, seconds),
                       lists (el índice de la home), feed (el orden del scroll), ui
 data/about.json       la bio, lista de párrafos por idioma; la foto en data/about/1.webp
 data/figures.json     los ninots (lines, strays, entrance)

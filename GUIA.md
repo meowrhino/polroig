@@ -184,10 +184,20 @@ de figures de Pol (on la trompeta, la més alta, omple el llenç sencer).
 ## L'entrada
 
 Abans de la home surt una foto a l'atzar a pantalla completa, amb la capçalera a sobre i dues
-línies de punts que s'escriuen. Un clic (o Enter, Espai, Esc) i entres; si no, entra sola als 5 segons,
-o quan la web hagi acabat de carregar si triga més. Surt una vegada per sessió.
+línies de punts que s'escriuen. Un clic (o Enter, Espai, Esc) i entres; si no, entra sola passats uns
+segons, o quan la web hagi acabat de carregar si triga més. Surt una vegada per sessió.
 
-- Les fotos: `data/entrance/1.webp`, `2.webp`…, i a `data/site.json` → `"entrance": ["1", "2", …]` les que surten.
+A `data/site.json`:
+
+```json
+"entrance": {
+  "photos": ["1", "2", "3"],
+  "seconds": 5
+}
+```
+
+- `"photos"`: les fotos que surten, de `data/entrance/` (`1.webp`, `2.webp`…).
+- `"seconds"`: quants segons es queda, com a mínim, abans d'entrar sola. Un número sense cometes.
 - Els ninots de les dues línies: `data/figures.json` → `"entrance": ["walk2", "stroll"]`.
 
 ## Veure-ho abans de pujar-ho

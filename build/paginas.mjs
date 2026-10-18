@@ -321,11 +321,13 @@ ${feed}
      (o Enter, Espai, Esc) i entres. Una vegada per sessió, com barbarawong; sense JS, amb
      "menys moviment" al sistema o si l'adreça porta a un projecte (#slug), no surt. El <head> decideix abans de pintar (html.amb-entrada)
      perquè la home no faci pampallugues; js/polroig.js la treu. */
-  const fotosEntrada = fotos(site.entrance);
+  const fotosEntrada = fotos(site.entrance?.photos);
+  /** Els segons que l'entrada es queda, com a mínim, abans d'entrar sola (site.json → entrance → seconds). */
+  const segonsEntrada = site.entrance?.seconds ?? 5;
   const entrada = Array.isArray(figures.entrance) && fotosEntrada.length ? figures.entrance : [];
   const ENTRADA_HEAD = `
   <script>try { if (!location.hash && !sessionStorage.getItem('entrada') && !matchMedia('(prefers-reduced-motion: reduce)').matches) document.documentElement.classList.add('amb-entrada'); } catch {}</script>`;
-  const entradaHtml = l => entrada.length ? `<div class="entrada">
+  const entradaHtml = l => entrada.length ? `<div class="entrada" data-segons="${esc(segonsEntrada)}">
   <img alt="" data-fotos="${esc(fotosEntrada.join(' '))}" data-base="${raiz('/data/entrance/')}">
   <script>{ const i = document.currentScript.previousElementSibling, f = i.dataset.fotos.split(' '); if (document.documentElement.classList.contains('amb-entrada')) i.src = i.dataset.base + f[Math.floor(Math.random() * f.length)] + '.webp'; }</script>
   <div class="escriptura" aria-hidden="true">${entrada.map((sil, k) => `
@@ -498,6 +500,10 @@ ${insta ? `<p><em>Instagram: <a href="https://www.instagram.com/${esc(insta)}/" 
     }
     for (const s of llistes) for (const slug of Array.isArray(s.projects) ? s.projects : [])
       if (!perSlug[slug]) avis('site.json', `la llista "${t(s.name, DEF)}" diu "${slug}", i no surt a "feed"`);
+    if (site.entrance != null && (typeof site.entrance !== 'object' || Array.isArray(site.entrance)))
+      avis('site.json, entrance', 'ha de ser un bloc: { "photos": ["1", "2"], "seconds": 5 }', true);
+    if (typeof segonsEntrada !== 'number' || segonsEntrada < 0)
+      avis('site.json, entrance', '"seconds" ha de ser un número de segons, sense cometes: "seconds": 5', true);
     for (const n of fotosEntrada) if (!existeix(`data/entrance/${n}.webp`)) avis('site.json, entrance', `no trobo data/entrance/${n}.webp`, true);
 
     const siluetaHi = (qui, sil) => existeix(`assets/siluetes/${sil}.svg`) || avis(qui, `no trobo assets/siluetes/${sil}.svg`, true);
