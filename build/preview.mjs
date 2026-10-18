@@ -16,7 +16,7 @@ const demanar = async ruta => {
 const escriure = html => { document.open(); document.write(html); document.close(); };
 const error = (titol, txt) => escriure(`<!doctype html><meta charset="utf-8"><title>vista prèvia — error</title>
 <body style="margin:0;padding:clamp(24px,6vw,80px);font:18px/1.5 Helvetica,Arial,sans-serif;background:#000;color:#fff">
-<h1 style="font-weight:400;color:#f6c6e0">${esc(titol)}</h1><p style="max-width:60ch">${esc(txt)}</p>
+<h1 style="font-weight:400;color:#f6c6e0">${esc(titol)}</h1><p style="max-width:60ch;white-space:pre-line">${esc(txt)}</p>
 <p>Arregla-ho, desa, i aquesta pàgina es recarrega sola.</p></body>`);
 
 async function arrencar() {
@@ -44,15 +44,27 @@ async function arrencar() {
   if (!demanada.endsWith('/')) demanada += '/';
   const pagina = sitio.rutes().find(r => r.ruta === demanada);
   if (!pagina) return error('Aquesta pàgina no existeix', `No hi ha cap pàgina a ${demanada}. Si és un projecte, mira que el slug estigui ben escrit.`);
-  escriure(pagina.pintar());
 
-  // Revisa les dades com el build (fotos que falten, slugs...) i ho diu a la consola.
+  /* Revisa les dades com el build (fotos que falten, slugs...) i ho ensenya a la
+     pantalla, no a la consola, que no la mira ningú: el que aturaria el build
+     (✗), en lloc de la pàgina; els avisos (⚠), en una franja a dalt. */
   const pregunta = new Set();
   sitio.revisar(r => (pregunta.add(r), true));
   const hi = new Map(await Promise.all([...pregunta].map(async r =>
     [r, (await fetch(`${BASE}/${encodeURI(r)}`, { method: 'HEAD', cache: 'no-store' }).catch(() => ({}))).ok === true])));
-  for (const a of sitio.revisar(r => hi.get(r)))
-    console[a.greu ? 'error' : 'warn'](`${a.greu ? '✗' : '⚠'} ${a.qui}: ${a.txt}`);
+  const avisos = sitio.revisar(r => hi.get(r));
+  const greus = avisos.filter(a => a.greu);
+  if (greus.length) return error('Això no es publicaria', greus.map(a => `✗ ${a.qui}: ${a.txt}`).join('\n'));
+  escriure(pagina.pintar());
+  if (avisos.length) {
+    const franja = `<div style="position:fixed;inset:0 0 auto;z-index:20;padding:8px 12px;background:#fff3c4;color:#5c4400;`
+      + `font:13px/1.4 Helvetica,Arial,sans-serif;max-height:30vh;overflow:auto">`
+      + avisos.map(a => `⚠ ${esc(a.qui)}: ${esc(a.txt)}`).join('<br>')
+      + ` <button onclick="this.parentNode.remove()" style="font:inherit">tancar</button></div>`;
+    // la pàgina acabada d'escriure encara es munta: la franja, quan hi hagi <body>
+    if (document.body) document.body.insertAdjacentHTML('afterbegin', franja);
+    else document.addEventListener('DOMContentLoaded', () => document.body.insertAdjacentHTML('afterbegin', franja), { once: true });
+  }
 }
 
 arrencar().catch(e => error('La vista prèvia ha fallat', e.message));

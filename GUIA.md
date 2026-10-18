@@ -203,7 +203,9 @@ A `data/site.json`:
 ## Veure-ho abans de pujar-ho
 
 **Go Live** a baix a la dreta de VS Code. S'obre la web al navegador i es refresca sola cada
-cop que deses. Si hi ha un error en un JSON, t'ho diu en pantalla i on és.
+cop que deses. Si hi ha un error en un JSON, t'ho diu en pantalla i on és. El mateix
+si hi ha alguna cosa que no es publicaria (una foto de `photos` que no és a `img/`): surt
+en lloc de la web, en vermell. Els avisos que no aturen res surten en una franja groga a dalt.
 
 ## Pujar els canvis
 
