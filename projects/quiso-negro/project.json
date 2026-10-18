@@ -1,4 +1,5 @@
 {
+  "$schema": "../../schema/project.json",
   "title": "Quiso Negro",
   "detail": {
     "ca": "(Dansa, Mercat de les Flors / Grec, 2024)",

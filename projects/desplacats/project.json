@@ -1,4 +1,5 @@
 {
+  "$schema": "../../schema/project.json",
   "title": "Desplaçats",
   "label": { "ca": "Desplaçats - instal·lació", "en": "Desplaçats - instal·lació" },
   "detail": {

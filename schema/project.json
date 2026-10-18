@@ -1,0 +1,117 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "projects/<slug>/project.json: un projecte",
+  "description": "projects/<slug>/project.json: un projecte. Les fotos, a img/ de la mateixa carpeta. VS Code llegeix aquest fitxer (pel \"$schema\" de dalt del JSON) per completar, explicar cada camp i subratllar el que està malament; el build el fa servir per revisar.",
+  "type": "object",
+  "required": ["title", "photos"],
+  "additionalProperties": false,
+  "properties": {
+    "$schema": { "type": "string" },
+    "_": { "type": "string" },
+    "title": {
+      "type": "string",
+      "description": "El nom del projecte. No es tradueix, i surt a Google."
+    },
+    "label": {
+      "$ref": "#/$defs/text",
+      "description": "Opcional: com surt a la llista si ha de ser diferent del títol. { \"ca\": \"…\", \"en\": \"…\" }"
+    },
+    "detail": {
+      "$ref": "#/$defs/text",
+      "description": "El que surt en rosa al costat del títol, a la llista. { \"ca\": \"…\", \"en\": \"…\" }"
+    },
+    "caption": {
+      "type": "object",
+      "description": "El peu, sota la foto. Per idioma, una llista de línies (o una sola, sense [ ]). El principi surt a Google.",
+      "additionalProperties": false,
+      "properties": {
+        "ca": { "$ref": "#/$defs/linies" },
+        "en": { "$ref": "#/$defs/linies" }
+      }
+    },
+    "captions": {
+      "type": "array",
+      "description": "Opcional: un peu diferent segons la foto. Cada peu val des de la seva foto fins al següent: [{ \"from\": \"1\", \"ca\": \"…\", \"en\": \"…\" }]",
+      "items": {
+        "type": "object",
+        "required": ["from"],
+        "additionalProperties": false,
+        "properties": {
+          "from": { "$ref": "#/$defs/foto", "description": "Des de quina foto de \"photos\" val aquest peu: \"3\"" },
+          "ca": { "$ref": "#/$defs/linies" },
+          "en": { "$ref": "#/$defs/linies" }
+        }
+      }
+    },
+    "page": {
+      "type": "boolean",
+      "description": "Opcional: true li dona pàgina pròpia. Sense, el \"llegir més\" es desplega a la home."
+    },
+    "photos": {
+      "$ref": "#/$defs/fotos",
+      "description": "Les fotos de img/, pel número i sense .webp, en l'ordre en què surten: [\"1\", \"2\", \"3\"]"
+    },
+    "posters": {
+      "$ref": "#/$defs/fotos",
+      "description": "Opcional: els cartells, a img/posters/ (1.webp, 2.webp…): [\"1\", \"2\"]"
+    },
+    "groups": {
+      "type": "array",
+      "description": "Opcional: slideshows a la seva pàgina, sota el text. Cada grup, una subcarpeta de img/.",
+      "items": {
+        "type": "object",
+        "required": ["folder", "photos"],
+        "additionalProperties": false,
+        "properties": {
+          "folder": { "type": "string", "pattern": "^[a-z0-9-]+$", "description": "La subcarpeta de img/: minúscules, números i guions. \"bocetos\"" },
+          "name": { "$ref": "#/$defs/text", "description": "El que surt a sobre del slideshow. { \"ca\": \"…\", \"en\": \"…\" }" },
+          "photos": { "$ref": "#/$defs/fotos", "description": "Les fotos de la subcarpeta: [\"1\", \"2\", \"3\"]" }
+        }
+      }
+    },
+    "video": {
+      "type": "string",
+      "description": "Opcional: \"teaser\" vol dir img/teaser.webm i img/teaser.poster.webp (la imatge d'abans del play)."
+    },
+    "text": {
+      "type": "object",
+      "description": "Opcional: el text del \"llegir més\", una llista de paràgrafs per idioma.",
+      "additionalProperties": false,
+      "properties": {
+        "ca": { "$ref": "#/$defs/paragrafs" },
+        "en": { "$ref": "#/$defs/paragrafs" }
+      }
+    }
+  },
+  "$defs": {
+    "text": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "ca": { "type": "string" },
+        "en": { "type": "string" }
+      }
+    },
+    "linies": {
+      "anyOf": [
+        { "type": "string" },
+        { "type": "array", "items": { "type": "string" } }
+      ],
+      "description": "Un text, o una llista de línies: [\"primera\", \"segona\"]"
+    },
+    "paragrafs": {
+      "type": "array",
+      "description": "Una llista de paràgrafs: [\"primer\", \"segon\"]. Un paràgraf amb línies, una llista a dins.",
+      "items": { "$ref": "#/$defs/linies" }
+    },
+    "foto": {
+      "type": "string",
+      "pattern": "^[0-9]+$",
+      "description": "El número de la foto, entre cometes i sense .webp: \"3\""
+    },
+    "fotos": {
+      "type": "array",
+      "items": { "$ref": "#/$defs/foto" }
+    }
+  }
+}

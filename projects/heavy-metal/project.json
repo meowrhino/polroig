@@ -1,4 +1,5 @@
 {
+  "$schema": "../../schema/project.json",
   "title": "Heavy Metal",
   "detail": {
     "ca": "(Acció site-specific, MACBA / Grec, 2026)",

@@ -1,4 +1,5 @@
 {
+  "$schema": "../../schema/project.json",
   "title": "El que és nostre",
   "detail": {
     "ca": "(Teatre, La Llotja de Lleida, 2024)",

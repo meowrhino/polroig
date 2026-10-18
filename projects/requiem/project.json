@@ -1,4 +1,5 @@
 {
+  "$schema": "../../schema/project.json",
   "title": "Requiem",
   "detail": {
     "ca": "(Concert, Palau de la Música, 2026)",

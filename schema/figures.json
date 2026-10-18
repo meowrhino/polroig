@@ -1,0 +1,59 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "data/figures.json: els ninots",
+  "description": "data/figures.json: les línies de punts amb ninots. Cada ninot és un dibuix de assets/siluetes/ (pel nom, sense .svg). VS Code llegeix aquest fitxer (pel \"$schema\" de dalt del JSON) per completar, explicar cada camp i subratllar el que està malament; el build el fa servir per revisar.",
+  "type": "object",
+  "required": ["every", "lines"],
+  "additionalProperties": false,
+  "properties": {
+    "$schema": { "type": "string" },
+    "_": { "type": "string" },
+    "every": { "type": "number", "minimum": 1, "description": "Una línia de punts cada quants projectes, sense cometes: 1" },
+    "lines": {
+      "type": "array",
+      "description": "Les línies, en ordre. Cada una porta els seus ninots.",
+      "items": {
+        "type": "object",
+        "required": ["figures"],
+        "additionalProperties": false,
+        "properties": {
+          "figures": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "required": ["figure", "dots"],
+              "additionalProperties": false,
+              "properties": {
+                "figure": { "$ref": "#/$defs/ninot" },
+                "dots": { "type": "number", "minimum": 0, "description": "Quants punts abans del ninot, sense cometes: 45" },
+                "vary": { "type": "number", "minimum": 0, "description": "Quants punts pot variar, a l'atzar, cada cop: 15" },
+                "to": { "enum": ["bio", "home"], "description": "On porta en clicar-lo: \"bio\" o \"home\". Sense, a la bio." }
+              }
+            }
+          }
+        }
+      }
+    },
+    "strays": {
+      "type": "object",
+      "description": "Els ninots dels projectes, repartits entre les línies; cada un porta al seu projecte.",
+      "additionalProperties": false,
+      "properties": {
+        "dots": { "type": "number", "minimum": 0, "description": "Quants punts abans de cada un: 10" },
+        "vary": { "type": "number", "minimum": 0, "description": "Quants punts pot variar: 50" },
+        "figures": { "type": "array", "items": { "$ref": "#/$defs/ninot" } }
+      }
+    },
+    "entrance": {
+      "type": "array",
+      "items": { "$ref": "#/$defs/ninot" },
+      "description": "Els ninots de l'entrada."
+    }
+  },
+  "$defs": {
+    "ninot": {
+      "type": "string",
+      "description": "El nom d'un dibuix de assets/siluetes/, sense .svg: \"walk\""
+    }
+  }
+}

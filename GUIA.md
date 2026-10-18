@@ -37,6 +37,12 @@ Només es fa un cop.
 2. En obrir-la, VS Code et proposa instal·lar **Live Server** (a baix a la dreta): **Instal·la**.
 3. A baix a la dreta surt **Go Live**: és la vista prèvia.
 
+**VS Code t'ajuda amb els camps**: si passes el ratolí per sobre d'un (`"title"`, `"photos"`…)
+et diu què és, i si n'escrius un malament o hi poses una cosa que no toca (un número entre
+cometes, un `"true"` amb cometes), ho subratlla en vermell. Per veure quins camps pots posar,
+dins de les claus prem **Ctrl+Espai**. Ho sap per la primera línia de cada JSON
+(`"$schema": …`): **no l'esborris**.
+
 ## Afegir un projecte, pas a pas
 
 1. **Copia una carpeta** de `projects/` sencera i posa-li el slug nou de nom
@@ -226,6 +232,10 @@ La web no es trenca: es queda com estava fins que s'arregla. Clica la bola verme
 - **"no és un JSON vàlid (línia 12, columna 5)"** → gairebé sempre **una coma** de més o de menys,
   o unes cometes sense tancar, a prop d'aquella línia.
 - **"no trobo projects/requiem/img/5.webp"** → a `"photos"` hi ha una foto que no és a `img/`.
+- **"\"titel\" no és un camp d'aquí (mal escrit?). Els que hi ha: title, label…"** → un camp mal
+  escrit: copia'l de la llista que surt al missatge.
+- **"\"page\" ha de ser true o false"** → el que hi ha no és del tipus que toca (aquí, `"true"`
+  amb cometes, i va sense). El missatge diu com ha de ser.
 - **"\"feed\" diu \"requiem\", i no trobo projects/requiem/project.json"** → el slug de `site.json` i el nom de la carpeta no són iguals.
 - **"no trobo assets/siluetes/….svg"** → el nom del ninot (`figure`) a `figures.json` no coincideix amb cap dibuix.
 

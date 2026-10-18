@@ -1,4 +1,5 @@
 {
+  "$schema": "../../schema/project.json",
   "title": "Passacaglia",
   "detail": { "ca": "(AV, 2026)", "en": "(AV, 2026)" },
   "caption": {

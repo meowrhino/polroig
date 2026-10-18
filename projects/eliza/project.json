@@ -1,4 +1,5 @@
 {
+  "$schema": "../../schema/project.json",
   "title": "Eliza",
   "label": { "ca": "Eliza - òpera", "en": "Eliza - opera" },
   "detail": {

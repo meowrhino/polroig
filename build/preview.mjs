@@ -6,6 +6,7 @@
    La pàgina va a ?p=:   /?p=/en/eliza/
    ============================================================ */
 import { crearSitio, llegirJSON, esc } from './paginas.mjs';
+import { validar } from './validar.mjs';
 
 const BASE = location.pathname.replace(/\/index\.html$/, '').replace(/\/$/, '');
 const demanar = async ruta => {
@@ -36,6 +37,20 @@ async function arrencar() {
       projects[slug] = llegirJSON(txt, f);
     }));
   } catch (e) { return error(e.json ? 'Hi ha un error en un JSON' : 'No puc llegir les dades', e.message); }
+
+  // El mateix que el build amb schema/: un camp mal escrit o d'un altre tipus, a la pantalla.
+  const esquemes = {};
+  for (const t of ['site', 'about', 'figures', 'project']) {
+    try { esquemes[t] = JSON.parse(await demanar(`schema/${t}.json`)); } catch { /* sense esquema, sense mirar */ }
+  }
+  const mirar = (d, t, f) => (esquemes[t] ? validar(d, esquemes[t], f) : []);
+  const malament = [
+    ...mirar(site, 'site', 'data/site.json'),
+    ...mirar(about, 'about', 'data/about.json'),
+    ...mirar(figures, 'figures', 'data/figures.json'),
+    ...Object.entries(projects).flatMap(([slug, p]) => mirar(p, 'project', `projects/${slug}/project.json`)),
+  ];
+  if (malament.length) return error('Això no es publicaria', malament.map(m => `✗ ${m}`).join('\n'));
 
   const sitio = crearSitio({ site, projects, about, figures, base: BASE, preview: true });
 

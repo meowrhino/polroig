@@ -29,6 +29,9 @@ Cuando falla, la web se queda como estaba. Para arreglarlo:
      `data/site.json` y el nombre de la carpeta no son iguales.
    - "no trobo assets/siluetes/….svg": el `figure` de `data/figures.json` no
      es ningún dibujo de `assets/siluetes/`.
+   - "\"x\" no és un camp d'aquí (mal escrit?)" o "ha de ser un número / true o
+     false…": no cuadra con su esquema (`schema/`). El mensaje dice qué campos
+     hay o cómo tiene que ser; se arregla el dato, no el esquema.
 4. **Comprueba**: `node build/build.mjs` sin ✗ (los ⚠ no paran nada).
 
 No cambies el build ni las plantillas para que pase: si el dato está bien y el

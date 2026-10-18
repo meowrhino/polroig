@@ -1,4 +1,5 @@
 {
+  "$schema": "../../schema/project.json",
   "title": "Pura Passió",
   "detail": { "ca": "(Teatre, Temporada Alta, 2024)", "en": "(Theater, Temporada Alta, 2024)" },
   "caption": {

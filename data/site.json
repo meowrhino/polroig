@@ -1,4 +1,5 @@
 {
+  "$schema": "../schema/site.json",
   "title": "Pol Roig Valldosera",
   "short": "Pol Roig",
   "url": null,

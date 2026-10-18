@@ -1,0 +1,21 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "data/about.json: la bio",
+  "description": "data/about.json: el text de la bio, una llista de paràgrafs per idioma. La foto, a data/about/1.webp. VS Code llegeix aquest fitxer (pel \"$schema\" de dalt del JSON) per completar i subratllar el que està malament; el build el fa servir per revisar.",
+  "type": "object",
+  "required": ["ca"],
+  "additionalProperties": false,
+  "properties": {
+    "$schema": { "type": "string" },
+    "_": { "type": "string" },
+    "ca": { "$ref": "#/$defs/paragrafs" },
+    "en": { "$ref": "#/$defs/paragrafs" }
+  },
+  "$defs": {
+    "paragrafs": {
+      "type": "array",
+      "description": "Una llista de paràgrafs: [\"primer\", \"segon\"]. **negreta**, *cursiva* i [enllaç](https://…) dins del text.",
+      "items": { "type": "string" }
+    }
+  }
+}

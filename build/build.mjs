@@ -9,6 +9,7 @@ import { createHash } from 'node:crypto';
 import { dirname, join } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { crearSitio, llegirJSON } from './paginas.mjs';
+import { validar } from './validar.mjs';
 
 const ROOT = join(dirname(fileURLToPath(import.meta.url)), '..');
 const OUT = join(ROOT, 'dist');
@@ -28,6 +29,18 @@ try {
     else if (!slug.startsWith('.')) console.warn(`⚠ projects/${slug}: no té project.json, no es publica`);
   }
 } catch (e) { sortir(e.message); }
+
+/* Cada JSON, amb el seu esquema (schema/): el mateix que VS Code subratlla en
+   vermell. Abans de pintar res: un camp d'un altre tipus trencaria les plantilles. */
+const esquema = tipus => JSON.parse(readFileSync(join(ROOT, 'schema', tipus + '.json'), 'utf8'));
+const malament = [
+  ...validar(site, esquema('site'), 'data/site.json'),
+  ...validar(about, esquema('about'), 'data/about.json'),
+  ...validar(figures, esquema('figures'), 'data/figures.json'),
+  ...Object.entries(projects).flatMap(([slug, p]) => validar(p, esquema('project'), `projects/${slug}/project.json`)),
+];
+for (const m of malament) console.error(`✗ ${m}`);
+if (malament.length) sortir('Hi ha errors a les dades (marcats amb ✗ a dalt). No es publica res fins que s\'arreglin.');
 
 /* On es publica, segons on es construeix (JAMstack, patrones.md §5):
    a l'Action de GitHub (la nostra còpia), meowrhino.github.io/polroig/ i sense

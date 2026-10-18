@@ -16,10 +16,13 @@ data/figures.json     los ninots (lines, strays, entrance)
 projects/<slug>/      project.json + img/ (y los PDF enlazados, al lado de project.json)
 build/paginas.mjs     las plantillas (datos → HTML); las usan el build y la vista previa
 build/build.mjs       valida y escribe dist/ (no se commitea): node build/build.mjs
+build/validar.mjs     revisa cada JSON con su esquema (lo usan el build y la vista previa)
+schema/               qué campos lleva cada JSON (site, about, figures, project): VS Code y el build
 build/preview.mjs     vista previa de Live Server (index.html, /?p=/en/eliza/)
 js/polroig.js         el único JS, y solo añade: líneas de puntos, slideshow, #proyecto, A+, entrada
 ```
 
+- **JSON Schema** (como oriol): cada JSON lleva arriba `"$schema": "../schema/<tipo>.json"`, y con eso VS Code autocompleta, explica cada campo (en catalán) y subraya lo que está mal. El build y la vista previa validan con los mismos ficheros antes de pintar (`build/validar.mjs`, sin dependencias); lo que pide mirar el disco (fotos, siluetas, slugs que cuadren) sigue en `revisar` de `paginas.mjs`.
 - **Publicado = está en `feed`**. Las dos `lists` dicen qué sale en el índice; el build avisa si no cuadran. Un proyecto oculto, `{ "project": "x", "visible": false }` en `feed`: su página con `noindex`, fuera de la home y del sitemap.
 - **og:image**: 1200×630 JPG con sharp (`npm ci`), en `.cache/og/` (fuera de git), copiadas a `dist/og/`. Sin sharp, avisa y comparte la foto tal cual.
 - **SEO**: canonical, `hreflang` ca/en, Open Graph y JSON-LD (Person, ProfilePage, CreativeWork). El 404 no se indexa.

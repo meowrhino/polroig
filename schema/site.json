@@ -1,0 +1,109 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "data/site.json: el general de la web",
+  "description": "data/site.json: el nom, el correu, la bio curta, l'entrada, les llistes de la home i l'ordre del scroll. VS Code llegeix aquest fitxer (pel \"$schema\" de dalt del JSON) per completar, explicar cada camp i subratllar el que està malament; el build el fa servir per revisar.",
+  "type": "object",
+  "required": ["title", "short", "lang", "langs", "email", "lists", "feed"],
+  "additionalProperties": false,
+  "properties": {
+    "$schema": { "type": "string" },
+    "_": { "type": "string" },
+    "title": { "type": "string", "description": "El nom sencer. Surt a la pestanya i a Google." },
+    "short": { "type": "string", "description": "El nom curt, el de dalt de cada pàgina." },
+    "url": {
+      "type": ["string", "null"],
+      "pattern": "^https://",
+      "description": "El domini, quan n'hi hagi: \"https://polroigvalldosera.com\". Fins llavors, null (i Google no la indexa)."
+    },
+    "lang": { "enum": ["ca", "en"], "description": "L'idioma principal: el de la web sense /en/ i el que surt si en falta un." },
+    "langs": {
+      "type": "array",
+      "items": { "enum": ["ca", "en"] },
+      "description": "Els idiomes de la web: [\"ca\", \"en\"]"
+    },
+    "email": { "type": "string", "pattern": "^[^@\\s]+@[^@\\s]+\\.[^@\\s]+$", "description": "El correu de contacte." },
+    "social": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "instagram": { "type": "string", "pattern": "^[^@\\s/]+$", "description": "El nom d'usuari, sense @ ni enllaç: \"pol.roig\"" }
+      }
+    },
+    "description": { "$ref": "#/$defs/text", "description": "El que surt a Google sota el nom, i en compartir la home." },
+    "intro": { "$ref": "#/$defs/text", "description": "La bio curta de la home, amb el \"llegir més\"." },
+    "entrance": {
+      "type": "object",
+      "description": "L'entrada, abans de la home.",
+      "additionalProperties": false,
+      "properties": {
+        "photos": {
+          "type": "array",
+          "items": { "type": "string", "pattern": "^[0-9]+$", "description": "El número de la foto, entre cometes: \"3\"" },
+          "description": "Les fotos de data/entrance/: [\"1\", \"2\", \"3\"]"
+        },
+        "seconds": { "type": "number", "minimum": 0, "description": "Quants segons dura, sense cometes: 5" }
+      }
+    },
+    "lists": {
+      "type": "object",
+      "description": "Les llistes de la home. Cada una amb el seu nom i els seus projectes.",
+      "additionalProperties": {
+        "type": "object",
+        "required": ["name", "projects"],
+        "additionalProperties": false,
+        "properties": {
+          "name": { "$ref": "#/$defs/text" },
+          "projects": { "type": "array", "items": { "$ref": "#/$defs/projecte" }, "description": "Els slugs (els noms de les carpetes de projects/), en ordre." }
+        }
+      }
+    },
+    "feed": {
+      "type": "array",
+      "items": { "$ref": "#/$defs/projecte" },
+      "description": "L'ordre del scroll de la home. Només es publica el que hi surt."
+    },
+    "ui": {
+      "type": "object",
+      "description": "Les paraules de la web (botons, menú), per idioma.",
+      "additionalProperties": false,
+      "properties": {
+        "ca": { "$ref": "#/$defs/paraules" },
+        "en": { "$ref": "#/$defs/paraules" }
+      }
+    }
+  },
+  "$defs": {
+    "text": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "ca": { "type": "string" },
+        "en": { "type": "string" }
+      }
+    },
+    "slug": {
+      "type": "string",
+      "pattern": "^[a-z0-9]+(-[a-z0-9]+)*$",
+      "description": "El nom de la carpeta a projects/: minúscules, números i guions."
+    },
+    "projecte": {
+      "anyOf": [
+        { "$ref": "#/$defs/slug" },
+        {
+          "type": "object",
+          "required": ["project", "visible"],
+          "additionalProperties": false,
+          "properties": {
+            "project": { "$ref": "#/$defs/slug" },
+            "visible": { "type": "boolean" }
+          }
+        }
+      ],
+      "description": "\"slug\", o, per amagar-lo (pàgina pròpia, però fora de la home i de Google): { \"project\": \"slug\", \"visible\": false }"
+    },
+    "paraules": {
+      "type": "object",
+      "additionalProperties": { "type": "string" }
+    }
+  }
+}

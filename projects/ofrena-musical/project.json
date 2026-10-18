@@ -1,4 +1,5 @@
 {
+  "$schema": "../../schema/project.json",
   "title": "Ofrena musical",
   "detail": {
     "ca": "(Acció teatral, ARTefACTe, 2024)",

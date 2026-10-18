@@ -1,4 +1,5 @@
 {
+  "$schema": "../schema/figures.json",
   "every": 1,
   "lines": [
     { "figures": [{ "figure": "walk", "dots": 45, "vary": 15 }] },
