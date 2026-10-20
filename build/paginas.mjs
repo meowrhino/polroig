@@ -414,6 +414,7 @@ ${paragrafs(textBio(l), 'bio')}
 ${insta ? `<p><em>Instagram: <a href="https://www.instagram.com/${esc(insta)}/" target="_blank" rel="noopener">@${esc(insta)}</a></em></p>` : ''}
 </section>
 <p><a class="mes" href="${url(l)}">${esc(ui('back', l))}</a></p>
+<p class="credit">web: <a href="https://meowrhino.studio" target="_blank" rel="noopener">meowrhino.studio</a></p>
 </main>
 ` + peu(l, false);
   }

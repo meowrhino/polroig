@@ -99,6 +99,9 @@ img, video { display: block; max-width: 100%; }
 .contacte-bio { margin: 2em 0; }
 .contacte-bio h2 { font: inherit; margin: 0 0 1em; }
 .contacte-bio p { margin-bottom: 0; }
+/* la firma de l'estudi: petita i grisa, sota el "tornar" (com a almarbra, només a la bio) */
+.pagina-bio .credit { margin: 3em 0 0; font-size: 11px; color: #888; }
+.pagina-bio .credit a { text-decoration: none; }
 
 /* ---------- índex de projectes ---------- */
 .index { margin-top: calc(var(--u) * 3); }
