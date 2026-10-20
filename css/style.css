@@ -56,9 +56,11 @@ img, video { display: block; max-width: 100%; }
   gap: .4em 1em;
   max-width: var(--col);                 /* cat · eng, alineat amb la columna i no a la vora de la pantalla */
   padding: calc(var(--u) * 1.6) 0 calc(var(--u) * 1.4);
+  position: sticky;                      /* es queda a dalt en fer scroll, sense fons (refe: albertrieragalceran.com) */
+  top: 0;
+  z-index: 5;
 }
-.top a { color: var(--rosa); }                         /* la capçalera en rosa, com al document de Pol */
-.top a[aria-current], .top a:hover { color: var(--fg); }  /* l'idioma on ets, en blanc */
+.top a[aria-current] { color: var(--rosa); }   /* l'idioma on ets, en rosa */
 
 /* ---------- línia de punts + siluetes ---------- */
 .passeig {
@@ -87,6 +89,10 @@ img, video { display: block; max-width: 100%; }
   transition: opacity .2s;
 }
 .passeig .ninot:hover::after { opacity: 1; }
+/* L'aspiradora: una mica més gran, i més avall perquè els peus (no l'aspiradora) toquin la línia.
+   Un SVG no pot sortir per sota de la seva caixa: per això aquí i no al dibuix. */
+.passeig .ninot[data-figure="concierto-barroco-aspiradora"] { top: calc(var(--hn) * .12); }
+.passeig .ninot[data-figure="concierto-barroco-aspiradora"] img { height: calc(var(--hn) * 1.1); }
 
 /* ---------- bio ---------- */
 .bio { max-width: 60em; }              /* a 11px, una línia de lectura còmoda */
@@ -104,11 +110,16 @@ img, video { display: block; max-width: 100%; }
 .index a:hover { color: inherit; }
 .index .titol { font-style: italic; width: fit-content; }
 .index a:hover .titol { text-decoration: underline; text-underline-offset: .15em; text-decoration-thickness: 1px; }
-.index .detall { color: var(--rosa); }   /* el menú rosa, sempre sencer */
+.index .detall { color: var(--rosa); }
+/* Amb ratolí, el rosa s'encén sencer (les dues llistes alhora) només amb el cursor a sobre d'un títol. */
+@media (hover: hover) {
+  .index .detall { opacity: 0; transition: opacity .2s; }
+  main:has(.index a:hover) .index .detall { opacity: 1; }
+}
 
 /* ---------- projectes ---------- */
 .feed { margin-top: calc(var(--u) * 7); }
-.proj { max-width: var(--col); margin-bottom: calc(var(--u) * 3); scroll-margin-top: 2em; }
+.proj { max-width: var(--col); margin-bottom: calc(var(--u) * 3); scroll-margin-top: calc(var(--u) * 3 + 2em); }   /* sota la capçalera */
 .peu { margin-top: .6em; max-width: 60em; }
 
 /* "llegir més": sempre a la seva línia i a mida de text, perquè es vegi que porta a alguna banda */
@@ -171,18 +182,13 @@ img, video { display: block; max-width: 100%; }
 }
 .slides .ant { left: 0; cursor: w-resize; }
 .slides .seg { right: 0; cursor: e-resize; }
-.slides .compte {
-  position: absolute;
-  left: .6em;
-  bottom: .5em;
-  mix-blend-mode: difference;
-  pointer-events: none;
-}
-/* El triangle: hi ha més fotos, clica per passar. Equilàter, mirant a la dreta. */
+/* El triangle: hi ha més fotos, clica per passar. Equilàter, mirant a la dreta, a mitja alçada.
+   Amb ratolí, només surt amb el cursor a sobre de la foto. */
 .slides .fletxa {
   position: absolute;
   right: .7em;
-  bottom: .7em;
+  top: 50%;
+  translate: 0 -50%;
   width: .7em;
   height: calc(.7em / .866);
   background: #fff;
@@ -190,10 +196,17 @@ img, video { display: block; max-width: 100%; }
   mix-blend-mode: difference;
   pointer-events: none;
 }
+@media (hover: hover) {
+  .slides .fletxa { opacity: 0; transition: opacity .2s; }
+  .slides:hover .fletxa { opacity: 1; }
+}
 .galeria { margin-bottom: 4em; }
 .galeria h2 { font: inherit; margin: 0 0 .8em; }
 
 /* ---------- pàgina sencera ---------- */
+/* Les pàgines de projecte, en blanc (body.blanc): els ninots, negres; el rosa, més fosc per llegir-se. */
+.blanc { --bg: #fff; --fg: #000; --rosa: #c0407f; }
+.blanc .passeig img, .blanc .slides.carregant::after { filter: invert(1); }
 .cartells { display: grid; grid-template-columns: repeat(auto-fit, minmax(14em, 1fr)); gap: 1em; max-width: var(--col); align-items: start; }
 .cartells img { width: 100%; height: auto; }
 
@@ -213,7 +226,8 @@ img, video { display: block; max-width: 100%; }
    la dreta a salts, com lletres, i el ninot fa de cursor: s'atura i parpelleja, i continua. */
 .entrada { display: none; }
 html.amb-entrada { overflow: hidden; }
-html.amb-entrada .top { position: relative; z-index: 11; }
+html.amb-entrada .top { z-index: 11; }
+html.amb-entrada .top > :not(:first-child) { visibility: hidden; }   /* a l'entrada, només "Pol Roig" */
 html.amb-entrada .entrada {
   display: block;
   position: fixed;
@@ -227,12 +241,31 @@ html.amb-entrada .entrada {
 .entrada > img { width: 100%; height: 100%; object-fit: cover; }
 .escriptura { position: absolute; left: var(--marge); right: var(--marge); top: 50%; transform: translateY(-50%); }
 .escriptura .passeig { margin: calc(var(--u) * 1.2) 0; }
-.escriptura .punts { width: 0; animation: escriure 7s steps(30, end) infinite; animation-delay: calc(var(--k) * -2.3s); }
-.escriptura img { animation: cursor 7s step-end infinite; animation-delay: calc(var(--k) * -2.3s); }
+/* 14 s la volta: escriu (35 %), parpelleja (fins al 55 %), escriu (fins al 90 %) i parpelleja.
+   El cursor s'encén i s'apaga cada 0,28 s (2 %). */
+.escriptura .punts { width: 0; animation: escriure 14s steps(30, end) infinite; animation-delay: calc(var(--k) * -4.6s); }
+.escriptura img { animation: cursor 14s step-end infinite; animation-delay: calc(var(--k) * -4.6s); }
 @keyframes escriure { 0% { width: 0; } 35%, 55% { width: 35%; } 90%, 100% { width: 70%; } }
 @keyframes cursor {
-  0%, 35% { opacity: 1; } 39% { opacity: 0; } 43% { opacity: 1; } 47% { opacity: 0; } 51%, 90% { opacity: 1; }
-  93% { opacity: 0; } 96% { opacity: 1; } 99% { opacity: 0; }
+  0%, 35% { opacity: 1; } 37% { opacity: 0; } 39% { opacity: 1; } 41% { opacity: 0; } 43% { opacity: 1; }
+  45% { opacity: 0; } 47% { opacity: 1; } 49% { opacity: 0; } 51% { opacity: 1; } 53% { opacity: 0; } 55%, 90% { opacity: 1; }
+  92% { opacity: 0; } 94% { opacity: 1; } 96% { opacity: 0; } 98% { opacity: 1; }
+}
+/* Processó (dos ninots a la línia): el primer escriu el primer tram i s'hi queda; el segon
+   apareix al final i escriu el segon tram. */
+.escriptura .processo .punts { animation-name: escriure-1; }
+.escriptura .processo .punts ~ .punts { animation-name: escriure-2; }
+.escriptura .processo img { animation-name: cursor-1; }
+.escriptura .processo img ~ img { animation-name: cursor-2; }
+@keyframes escriure-1 { 0% { width: 0; } 35%, 100% { width: 35%; } }
+@keyframes escriure-2 { 0%, 55% { width: 0; } 90%, 100% { width: 35%; } }
+@keyframes cursor-1 {
+  0%, 35% { opacity: 1; } 37% { opacity: 0; } 39% { opacity: 1; } 41% { opacity: 0; } 43% { opacity: 1; }
+  45% { opacity: 0; } 47% { opacity: 1; } 49% { opacity: 0; } 51% { opacity: 1; } 53% { opacity: 0; } 55%, 100% { opacity: 1; }
+}
+@keyframes cursor-2 {
+  0% { opacity: 0; } 55%, 90% { opacity: 1; }
+  92% { opacity: 0; } 94% { opacity: 1; } 96% { opacity: 0; } 98% { opacity: 1; }
 }
 
 /* ---------- el loader de la transició (css/transicion.css) ----------
@@ -250,9 +283,10 @@ html.amb-entrada .entrada {
   box-sizing: border-box;
   background:
     url(../assets/siluetes/walk2.svg) right bottom / auto 100% no-repeat border-box,
-    radial-gradient(circle, var(--fg) 0 .07em, transparent .085em) left bottom .05em / .42em .2em repeat-x content-box;
+    radial-gradient(circle, #fff 0 .07em, transparent .085em) left bottom .05em / .42em .2em repeat-x content-box;
   background-clip: border-box, content-box;
 }
+.tapada .blanc::after, .cargando .blanc::after { filter: invert(1); }   /* a les pàgines blanques, en negre */
 :root { --carga-anim: escriure-carga 7s steps(30, end) .5s infinite both, cursor-carga 7s step-end .5s infinite; }
 @keyframes escriure-carga {
   0% { width: var(--an); }
@@ -281,11 +315,12 @@ html.amb-entrada .entrada {
 
 @media (max-width: 700px) {
   :root { --hn: calc(var(--u) * 1.75); }
-  .top { display: flex; flex-wrap: wrap; gap: .4em 1.6em; }
+  .top { grid-template-columns: 1fr auto 1fr; }   /* el correu al mig, els idiomes a la dreta */
+  .top .idiomes { justify-self: end; }
   .index a { grid-template-columns: 1fr; }
   :root { --fs: 13px; }                  /* al mòbil, un punt més: 12px es fa petit a la mà */
   .index li { margin-bottom: .5em; }
-  .index .detall { font-size: .9em; }    /* el rosa, a sota del títol */
+  .index .detall { display: none; }      /* al mòbil, sense el rosa */
   .feed { margin-top: calc(var(--u) * 4); }
   .columnes { columns: 1; }
 }

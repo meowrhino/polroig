@@ -15,7 +15,7 @@
       "pattern": "^https://",
       "description": "El domini, quan n'hi hagi: \"https://polroigvalldosera.com\". Fins llavors, null (i Google no la indexa)."
     },
-    "lang": { "enum": ["ca", "en"], "description": "L'idioma principal: el de la web sense /en/ i el que surt si en falta un." },
+    "lang": { "enum": ["ca", "en"], "description": "L'idioma principal: el de la web sense /ca/ o /en/ al davant, i el que surt si en falta un." },
     "langs": {
       "type": "array",
       "items": { "enum": ["ca", "en"] },
@@ -40,6 +40,11 @@
           "type": "array",
           "items": { "type": "string", "pattern": "^[0-9]+$", "description": "El número de la foto, entre cometes: \"3\"" },
           "description": "Les fotos de data/entrance/: [\"1\", \"2\", \"3\"]"
+        },
+        "mobile": {
+          "type": "array",
+          "items": { "type": "string", "pattern": "^[0-9]+$", "description": "El número de la foto, entre cometes: \"3\"" },
+          "description": "Opcional: les fotos verticals de data/entrance/mobile/, per al mòbil (pantalla més alta que ampla). Si no n'hi ha, surten les de \"photos\"."
         },
         "seconds": { "type": "number", "minimum": 0, "description": "Quants segons dura, sense cometes: 5" }
       }

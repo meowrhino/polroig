@@ -39,7 +39,7 @@ Tiempo: unos 20 minutos, más lo que tarden los DNS.
 
 ## 4. Comprobar en su dominio
 
-- [ ] La portada, `/bio/`, un proyecto (`/eliza/`) y los mismos en `/en/`.
+- [ ] La portada, `/bio/`, un proyecto (`/eliza/`) y los mismos en `/ca/`.
 - [ ] `view-source:`: `canonical` y `og:url` con su dominio, y **sin** `<meta name="robots" content="noindex">`.
 - [ ] `/robots.txt` dice `Allow` y `/sitemap.xml` tiene las direcciones de su dominio.
 - [ ] Compartir un proyecto por WhatsApp: sale su foto (la og).

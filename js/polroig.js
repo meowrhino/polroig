@@ -63,7 +63,6 @@ for (const fig of document.querySelectorAll('.slides')) {
   }
   if (n < 2) continue;
 
-  const compte = fig.querySelector('.compte');
   // Si el projecte té un peu per a cada grup de fotos ("captions"), es veu el de la foto on ets.
   const peus = [...fig.parentElement.querySelectorAll(':scope > .peu[data-foto]')];
   let i = 1;
@@ -71,7 +70,6 @@ for (const fig of document.querySelectorAll('.slides')) {
     i = (i - 1 + d + n) % n + 1;
     img.src = `${fig.dataset.base}${fotos[i - 1]}.webp`;
     img.alt = `${fig.dataset.titol} — ${fig.dataset.txt} ${i}/${n}`;
-    compte.textContent = `${i}/${n}`;
     const actual = peus.filter(p => +p.dataset.foto <= i).at(-1);
     for (const p of peus) p.hidden = p !== actual;
     vigilar(fig, img);
@@ -82,7 +80,6 @@ for (const fig of document.querySelectorAll('.slides')) {
     b.hidden = false;
     b.addEventListener('click', () => anar(d));
   }
-  compte.hidden = false;
   fig.querySelector('.fletxa').hidden = false;
 }
 

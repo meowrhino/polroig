@@ -46,8 +46,13 @@
     },
     "entrance": {
       "type": "array",
-      "items": { "$ref": "#/$defs/ninot" },
-      "description": "Els ninots de l'entrada."
+      "items": {
+        "anyOf": [
+          { "$ref": "#/$defs/ninot" },
+          { "type": "array", "items": { "$ref": "#/$defs/ninot" }, "maxItems": 2, "description": "Dos ninots a la mateixa línia, en processó: [\"run\", \"walk2\"]" }
+        ]
+      },
+      "description": "Els ninots de l'entrada, un per línia; dos a la mateixa línia, entre claudàtors: [\"walk2\", [\"run\", \"walk2\"]]."
     }
   },
   "$defs": {

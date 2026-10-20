@@ -3,7 +3,7 @@
    ------------------------------------------------------------
    La web de debò no existeix fins que el build l'escriu a dist/.
    Això la pinta al vol amb les mateixes plantilles (paginas.mjs).
-   La pàgina va a ?p=:   /?p=/en/eliza/
+   La pàgina va a ?p=:   /?p=/ca/eliza/
    ============================================================ */
 import { crearSitio, llegirJSON, esc } from './paginas.mjs';
 import { validar } from './validar.mjs';

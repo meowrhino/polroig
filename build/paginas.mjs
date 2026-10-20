@@ -35,7 +35,7 @@ export function llegirJSON(text, nom) {
 }
 
 /* Slugs que ja fa servir la web: un projecte no es pot dir així. */
-const RESERVATS = ['bio', 'en', 'projects', 'data', 'assets', 'css', 'js'];
+const RESERVATS = ['bio', 'ca', 'en', 'projects', 'data', 'assets', 'css', 'js'];
 
 /** Un text en paràgrafs (llista) o en línies (llista dins d'un paràgraf), com a string
     amb salts: \n\n entre paràgrafs i \n entre línies. */
@@ -153,13 +153,13 @@ window.revelada = ${preview ? 'false' : "'onpagereveal' in window"} ? new Promis
 
   /** <head> sencer: títol, descripció, idiomes, Open Graph i JSON-LD.
       A github.io o sense domini, noindex: la web encara és de proves. */
-  function head({ l, titol, desc, path, imatge, jsonld, extra = '', indexar = INDEXAR }) {
+  function head({ l, titol, desc, path, imatge, jsonld, extra = '', indexar = INDEXAR, blanc = false }) {
     return `<!doctype html>
 <html lang="${l}">
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="theme-color" content="#000000">
+  <meta name="theme-color" content="${blanc ? '#ffffff' : '#000000'}">
   <title>${esc(titol)}</title>
   <meta name="description" content="${esc(desc)}">
   ${indexar ? '' : '<meta name="robots" content="noindex">\n  '}<link rel="canonical" href="${publica(ruta(l, path))}">
@@ -185,7 +185,7 @@ window.revelada = ${preview ? 'false' : "'onpagereveal' in window"} ? new Promis
   <script src="${raiz('/js/transicion.js')}" defer></script>
   ${jsonld ? ld(jsonld) : ''}
 </head>
-<body>`;
+<body${blanc ? ' class="blanc"' : ''}>`;
   }
   const insta = site.social?.instagram;
   const peu = (l, contacte = true) => `${contacte ? `<footer class="contacte">
@@ -224,7 +224,7 @@ window.revelada = ${preview ? 'false' : "'onpagereveal' in window"} ? new Promis
   const obraDe = sil => publicats.map(p => p.slug).filter(s => sil === s || sil.startsWith(s + '-'))
     .sort((a, b) => b.length - a.length)[0];
   const ninot = (sil, href, punts, v, obra) =>
-    `<span class="punts" style="--w:${punts}%" data-v="${v ?? 0}"></span><a class="ninot" href="${href}" tabindex="-1"${obra ? ` data-obra="${obra}"` : ''} style="--m:url(${raiz(`/assets/siluetes/${sil}.svg`)})"><img src="${raiz(`/assets/siluetes/${sil}.svg`)}" alt=""></a>`;
+    `<span class="punts" style="--w:${punts}%" data-v="${v ?? 0}"></span><a class="ninot" href="${href}" tabindex="-1" data-figure="${sil}"${obra ? ` data-obra="${obra}"` : ''} style="--m:url(${raiz(`/assets/siluetes/${sil}.svg`)})"><img src="${raiz(`/assets/siluetes/${sil}.svg`)}" alt=""></a>`;
   let tram = 0;   // per on va la llista; cada pàgina el torna a posar a 0
   /** Una línia. "extra": un ninot rar al final; "veins": els projectes del costat (per al JS). */
   const passeig = (l, { extra = '', veins } = {}) => lines.length ? `<div class="passeig" aria-hidden="true"${veins ? ` data-veins="${veins.join(' ')}"` : ''}>${(lines[tram++ % lines.length].figures || [])
@@ -258,7 +258,6 @@ window.revelada = ${preview ? 'false' : "'onpagereveal' in window"} ? new Promis
   <img src="${raiz('/' + primera)}" alt="${esc(alt)}"${wh(primera)}${eager ? ' fetchpriority="high"' : ' loading="lazy"'} decoding="async">${n > 1 ? `
   <button class="ant" type="button" aria-label="${esc(ui('previous', l))}" hidden></button>
   <button class="seg" type="button" aria-label="${esc(ui('next', l))}" hidden></button>
-  <span class="compte" hidden>1/${n}</span>
   <span class="fletxa" hidden></span>` : ''}
 </figure>`;
   }
@@ -273,7 +272,7 @@ window.revelada = ${preview ? 'false' : "'onpagereveal' in window"} ? new Promis
   <ul>${(s.projects || []).filter(slug => perSlug[slug]).map(slug => {
       const p = perSlug[slug];
       return `
-    <li><a href="#${slug}"><span class="titol">${esc(t(p.label, l) || p.title)}</span><span class="detall">${esc(t(p.detail, l))}</span></a></li>`;
+    <li><a href="${p.page ? url(l, slug + '/') : '#' + slug}"><span class="titol">${esc(t(p.label, l) || p.title)}</span><span class="detall">${esc(t(p.detail, l))}</span></a></li>`;
     }).join('')}
   </ul>
 </section>`).join('');
@@ -322,16 +321,18 @@ ${feed}
      "menys moviment" al sistema o si l'adreça porta a un projecte (#slug), no surt. El <head> decideix abans de pintar (html.amb-entrada)
      perquè la home no faci pampallugues; js/polroig.js la treu. */
   const fotosEntrada = fotos(site.entrance?.photos);
+  /** Les verticals, per a pantalles més altes que amples (data/entrance/mobile/); si no n'hi ha, les de sempre. */
+  const fotosMobil = fotos(site.entrance?.mobile);
   /** Els segons que l'entrada es queda, com a mínim, abans d'entrar sola (site.json → entrance → seconds). */
   const segonsEntrada = site.entrance?.seconds ?? 5;
   const entrada = Array.isArray(figures.entrance) && fotosEntrada.length ? figures.entrance : [];
   const ENTRADA_HEAD = `
   <script>try { if (!location.hash && !sessionStorage.getItem('entrada') && !matchMedia('(prefers-reduced-motion: reduce)').matches) document.documentElement.classList.add('amb-entrada'); } catch {}</script>`;
   const entradaHtml = l => entrada.length ? `<div class="entrada" data-segons="${esc(segonsEntrada)}">
-  <img alt="" data-fotos="${esc(fotosEntrada.join(' '))}" data-base="${raiz('/data/entrance/')}">
-  <script>{ const i = document.currentScript.previousElementSibling, f = i.dataset.fotos.split(' '); if (document.documentElement.classList.contains('amb-entrada')) i.src = i.dataset.base + f[Math.floor(Math.random() * f.length)] + '.webp'; }</script>
-  <div class="escriptura" aria-hidden="true">${entrada.map((sil, k) => `
-    <div class="passeig" style="--k:${k}"><span class="punts"></span><img src="${raiz(`/assets/siluetes/${sil}.svg`)}" alt=""></div>`).join('')}
+  <img alt="" data-fotos="${esc(fotosEntrada.join(' '))}" data-base="${raiz('/data/entrance/')}"${fotosMobil.length ? ` data-mobile="${esc(fotosMobil.join(' '))}"` : ''}>
+  <script>{ const i = document.currentScript.previousElementSibling, d = i.dataset, m = d.mobile && matchMedia('(orientation: portrait)').matches, f = (m ? d.mobile : d.fotos).split(' '); if (document.documentElement.classList.contains('amb-entrada')) i.src = d.base + (m ? 'mobile/' : '') + f[Math.floor(Math.random() * f.length)] + '.webp'; }</script>
+  <div class="escriptura" aria-hidden="true">${entrada.map((sils, k) => `
+    <div class="passeig${[].concat(sils).length > 1 ? ' processo' : ''}" style="--k:${k}">${[].concat(sils).map(sil => `<span class="punts"></span><img src="${raiz(`/assets/siluetes/${sil}.svg`)}" alt="">`).join('')}</div>`).join('')}
   </div>
   <button class="sr" type="button">${esc(ui('enter', l))}</button>
 </div>` : '';
@@ -373,7 +374,7 @@ ${feed}
         }).join('')}</div>`
       : slides(p, '', p.photos, l, true);
     return head({
-      l, path: p.slug + '/', titol: `${p.title} — ${site.title}`, indexar: INDEXAR && !p.ocult,
+      l, path: p.slug + '/', titol: `${p.title} — ${site.title}`, indexar: INDEXAR && !p.ocult, blanc: true,
       desc: resum(linies(t(p.caption, l)) || p.title), imatge: portada(p),
       jsonld: { '@type': 'CreativeWork', name: p.title, url: publica(ruta(l, p.slug + '/')), inLanguage: l,
         description: resum(linies(t(p.caption, l))), image: publica('/' + portada(p)), creator: persona(l) },
@@ -505,6 +506,7 @@ ${insta ? `<p><em>Instagram: <a href="https://www.instagram.com/${esc(insta)}/" 
     if (typeof segonsEntrada !== 'number' || segonsEntrada < 0)
       avis('site.json, entrance', '"seconds" ha de ser un número de segons, sense cometes: "seconds": 5', true);
     for (const n of fotosEntrada) if (!existeix(`data/entrance/${n}.webp`)) avis('site.json, entrance', `no trobo data/entrance/${n}.webp`, true);
+    for (const n of fotosMobil) if (!existeix(`data/entrance/mobile/${n}.webp`)) avis('site.json, entrance', `no trobo data/entrance/mobile/${n}.webp (surt a "mobile")`, true);
 
     const siluetaHi = (qui, sil) => existeix(`assets/siluetes/${sil}.svg`) || avis(qui, `no trobo assets/siluetes/${sil}.svg`, true);
     if (!Number.isInteger(figures.every) || figures.every < 1) avis('figures.json', '"every" ha de ser un número sencer, 1 o més', true);
@@ -519,7 +521,7 @@ ${insta ? `<p><em>Instagram: <a href="https://www.instagram.com/${esc(insta)}/" 
         if (n.to != null && !['bio', 'home'].includes(n.to)) avis(qui, `"to" de ${n.figure} ha de ser "bio" o "home"`, true);
       }
     });
-    for (const sil of Array.isArray(figures.entrance) ? figures.entrance : []) siluetaHi('figures.json, entrance', sil);
+    for (const sil of Array.isArray(figures.entrance) ? figures.entrance.flat() : []) siluetaHi('figures.json, entrance', sil);
     if (figures.strays != null) {
       if (!Array.isArray(figures.strays.figures)) avis('figures.json', '"strays" ha de portar "figures": [ ... ]', true);
       else for (const sil of figures.strays.figures) {

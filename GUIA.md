@@ -18,6 +18,7 @@ data/site.json             textos generals: correu, bio curta, les dues llistes 
 data/about.json            el text de la bio
 data/about/1.webp          la foto de la bio
 data/entrance/             les fotos de l'entrada (1.webp, 2.webp…)
+data/entrance/mobile/      les de l'entrada en vertical, per al mòbil
 data/figures.json          les línies de punts amb ninots
 projects/<slug>/           un projecte, una carpeta:
   project.json               els seus textos
@@ -102,7 +103,7 @@ a la seva llista: no perd el seu lloc.
 | `video` | *opcional*: un vídeo a la seva pàgina, sota el peu: `"video": "teaser"` vol dir `img/teaser.webm` i, al costat, la imatge que es veu abans de donar-li al play, `img/teaser.poster.webp` |
 | `text` | *opcional*: el text del "llegir més", una llista de paràgrafs per idioma (a sota) |
 
-Cada text va en els dos idiomes: `{ "ca": "…", "en": "…" }`. Si en falta un, surt el català.
+Cada text va en els dos idiomes: `{ "ca": "…", "en": "…" }`. Si en falta un, surt l'anglès.
 
 ### Textos llargs
 
@@ -190,7 +191,7 @@ de figures de Pol (on la trompeta, la més alta, omple el llenç sencer).
 ## L'entrada
 
 Abans de la home surt una foto a l'atzar a pantalla completa, amb la capçalera a sobre i dues
-línies de punts que s'escriuen. Un clic (o Enter, Espai, Esc) i entres; si no, entra sola passats uns
+línies de punts que s'escriuen (la capçalera, només amb "Pol Roig"). Un clic (o Enter, Espai, Esc) i entres; si no, entra sola passats uns
 segons, o quan la web hagi acabat de carregar si triga més. Surt una vegada per sessió.
 
 A `data/site.json`:
@@ -198,13 +199,17 @@ A `data/site.json`:
 ```json
 "entrance": {
   "photos": ["1", "2", "3"],
-  "seconds": 5
+  "mobile": ["1", "2", "3", "4"],
+  "seconds": 20
 }
 ```
 
 - `"photos"`: les fotos que surten, de `data/entrance/` (`1.webp`, `2.webp`…).
+- `"mobile"`: les verticals, per al mòbil, de `data/entrance/mobile/`. No cal que
+  coincideixin amb les de `"photos"`: cada llista va per la seva banda.
 - `"seconds"`: quants segons es queda, com a mínim, abans d'entrar sola. Un número sense cometes.
-- Els ninots de les dues línies: `data/figures.json` → `"entrance": ["walk2", "stroll"]`.
+- Els ninots de les línies: `data/figures.json` → `"entrance": [["run", "walk2"], "stroll"]`. Un nom, un
+  ninot a la línia; dos entre claudàtors, una processó: el segon surt quan el primer s'atura.
 
 ## Veure-ho abans de pujar-ho
 
