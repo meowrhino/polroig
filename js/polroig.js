@@ -64,8 +64,17 @@ for (const fig of document.querySelectorAll('.slides')) {
 
   // Si el projecte té un peu per a cada grup de fotos ("captions"), es veu el de la foto on ets.
   const peus = [...fig.parentElement.querySelectorAll(':scope > .peu[data-foto]')];
+  // Al mòbil, les fletxes surten una estona (CSS: .avis) quan la foto entra a la pantalla i a cada toc.
+  let rellotge;
+  const avisar = () => {
+    fig.classList.add('avis');
+    clearTimeout(rellotge);
+    rellotge = setTimeout(() => fig.classList.remove('avis'), 2500);
+  };
+  new IntersectionObserver(([e]) => e.isIntersecting && avisar(), { threshold: .5 }).observe(fig);
   let i = 1;
   const anar = d => {
+    avisar();
     i = (i - 1 + d + n) % n + 1;
     img.src = `${fig.dataset.base}${fotos[i - 1]}.webp`;
     img.alt = `${fig.dataset.titol} — ${fig.dataset.txt} ${i}/${n}`;

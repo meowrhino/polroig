@@ -54,10 +54,12 @@ img, video { display: block; max-width: 100%; }
   gap: .4em 1em;
   max-width: var(--col);                 /* cat · eng, alineat amb la columna i no a la vora de la pantalla */
   padding: calc(var(--u) * 1.6) 0 calc(var(--u) * 1.4);
-  position: sticky;                      /* es queda a dalt en fer scroll, sense fons (refe: albertrieragalceran.com) */
-  top: 0;
-  z-index: 5;
 }
+/* "Pol Roig" es queda a dalt en fer scroll, sense fons (refe: albertrieragalceran.com);
+   el correu i els idiomes, no. Fix al mateix lloc on seria; per sobre de l'entrada (z 10). */
+.top > a:first-child { position: fixed; top: calc(var(--u) * 1.6); left: var(--marge); z-index: 11; }
+.top > a:nth-child(2) { grid-column: 2; }
+.top .idiomes { grid-column: 3; }
 .top a[aria-current] { color: var(--rosa); }   /* l'idioma on ets, en rosa */
 
 /* ---------- línia de punts + siluetes ---------- */
@@ -185,7 +187,8 @@ img, video { display: block; max-width: 100%; }
 .slides .seg { right: 0; cursor: e-resize; }
 /* El triangle: hi ha més fotos, clica per passar. Equilàter, a mitja alçada, a la vora del botó:
    el de la dreta (següent) mira a la dreta; el de l'esquerra (anterior), a l'esquerra.
-   Amb ratolí, només surt el de la meitat on és el cursor; sense (mòbil), tots dos sempre. */
+   Amb ratolí, només surt el de la meitat on és el cursor. Sense (mòbil), tots dos una estona quan
+   la foto entra a la pantalla i a cada toc, i s'esvaeixen (el JS posa i treu .avis). */
 .slides button::after {
   content: '';
   position: absolute;
@@ -202,6 +205,10 @@ img, video { display: block; max-width: 100%; }
 @media (hover: hover) {
   .slides button::after { opacity: 0; }
   .slides button:hover::after { opacity: 1; }
+}
+@media (hover: none) {
+  .slides button::after { opacity: 0; transition: opacity .8s; }
+  .slides.avis button::after { opacity: 1; transition: none; }
 }
 .galeria { margin-bottom: 4em; }
 .galeria h2 { font: inherit; margin: 0 0 .8em; }
@@ -229,7 +236,6 @@ img, video { display: block; max-width: 100%; }
    la dreta a salts, com lletres, i el ninot fa de cursor: s'atura i parpelleja, i continua. */
 .entrada { display: none; }
 html.amb-entrada { overflow: hidden; }
-html.amb-entrada .top { z-index: 11; }
 html.amb-entrada .top > :not(:first-child) { visibility: hidden; }   /* a l'entrada, només "Pol Roig" */
 html.amb-entrada .entrada {
   display: block;
