@@ -325,10 +325,12 @@ ${feed}
   const fotosMobil = fotos(site.entrance?.mobile);
   /** Els segons que l'entrada es queda, com a mínim, abans d'entrar sola (site.json → entrance → seconds). */
   const segonsEntrada = site.entrance?.seconds ?? 5;
+  /** Quants segons triga una volta de l'animació (site.json → entrance → cycle): més, més lenta. */
+  const voltaEntrada = site.entrance?.cycle ?? 14;
   const entrada = Array.isArray(figures.entrance) && fotosEntrada.length ? figures.entrance : [];
   const ENTRADA_HEAD = `
   <script>try { if (!location.hash && !sessionStorage.getItem('entrada') && !matchMedia('(prefers-reduced-motion: reduce)').matches) document.documentElement.classList.add('amb-entrada'); } catch {}</script>`;
-  const entradaHtml = l => entrada.length ? `<div class="entrada" data-segons="${esc(segonsEntrada)}">
+  const entradaHtml = l => entrada.length ? `<div class="entrada" data-segons="${esc(segonsEntrada)}" style="--volta:${esc(voltaEntrada)}s">
   <img alt="" data-fotos="${esc(fotosEntrada.join(' '))}" data-base="${raiz('/data/entrance/')}"${fotosMobil.length ? ` data-mobile="${esc(fotosMobil.join(' '))}"` : ''}>
   <script>{ const i = document.currentScript.previousElementSibling, d = i.dataset, m = d.mobile && matchMedia('(orientation: portrait)').matches, f = (m ? d.mobile : d.fotos).split(' '); if (document.documentElement.classList.contains('amb-entrada')) i.src = d.base + (m ? 'mobile/' : '') + f[Math.floor(Math.random() * f.length)] + '.webp'; }</script>
   <div class="escriptura" aria-hidden="true">${entrada.map((sils, k) => `

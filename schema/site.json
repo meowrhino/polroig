@@ -46,7 +46,8 @@
           "items": { "type": "string", "pattern": "^[0-9]+$", "description": "El número de la foto, entre cometes: \"3\"" },
           "description": "Opcional: les fotos verticals de data/entrance/mobile/, per al mòbil (pantalla més alta que ampla). Si no n'hi ha, surten les de \"photos\"."
         },
-        "seconds": { "type": "number", "minimum": 0, "description": "Quants segons dura, sense cometes: 5" }
+        "seconds": { "type": "number", "minimum": 0, "description": "Quants segons dura, sense cometes: 5" },
+        "cycle": { "type": "number", "minimum": 1, "description": "Quants segons triga l'animació a fer una volta, sense cometes: 14. Més, més lenta; menys, més ràpida." }
       }
     },
     "lists": {

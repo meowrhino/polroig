@@ -200,7 +200,8 @@ A `data/site.json`:
 "entrance": {
   "photos": ["1", "2", "3"],
   "mobile": ["1", "2", "3", "4"],
-  "seconds": 20
+  "seconds": 20,
+  "cycle": 14
 }
 ```
 
@@ -208,6 +209,8 @@ A `data/site.json`:
 - `"mobile"`: les verticals, per al mòbil, de `data/entrance/mobile/`. No cal que
   coincideixin amb les de `"photos"`: cada llista va per la seva banda.
 - `"seconds"`: quants segons es queda, com a mínim, abans d'entrar sola. Un número sense cometes.
+- `"cycle"`: quants segons triga l'animació de les línies a fer una volta (escriure, parpellejar,
+  escriure, parpellejar). Més, més lenta; menys, més ràpida. Un número sense cometes.
 - Els ninots de les línies: `data/figures.json` → `"entrance": [["run", "walk2"], "stroll"]`. Un nom, un
   ninot a la línia; dos entre claudàtors, una processó: el segon surt quan el primer s'atura.
 
