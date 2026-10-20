@@ -7,6 +7,7 @@
 //   3. #projecte         l'adreça diu quin projecte estàs mirant
 //   4. entrada           la foto d'abans de la home: entres amb un clic, o sola quan la
 //                        web ha carregat i ha passat la pausa
+//   5. idioma            canviar d'idioma no torna a dalt de la pàgina
 
 /* ---------- 1. línies de punts ---------- */
 // Els ninots del scroll de la home (els del menú, quiets), barrejats a cada visita.
@@ -125,3 +126,16 @@ if (entrada && document.documentElement.classList.contains('amb-entrada')) {
     : new Promise(r => addEventListener('load', r, { once: true }));
   Promise.all([carregada, new Promise(r => setTimeout(r, pausa))]).then(entrar);
 }
+
+/* ---------- 5. idioma ---------- */
+// Canviar d'idioma et deixa on eres: a la home, al #projecte que diu l'adreça (els textos no fan
+// igual en els dos idiomes, i en píxels t'hi passaries); a la resta, a la mateixa alçada.
+// transicion.js llegeix l'enllaç després d'aquest clic, ja amb el # posat.
+for (const a of document.querySelectorAll('.idiomes a[hreflang]')) a.addEventListener('click', () => {
+  if (location.hash) a.hash = location.hash;
+  else try { sessionStorage.setItem('scroll', scrollY); } catch { /* sense memòria: a dalt */ }
+});
+try {
+  const y = sessionStorage.getItem('scroll');
+  if (y) { sessionStorage.removeItem('scroll'); scrollTo({ top: +y, behavior: 'instant' }); }
+} catch { /* sense memòria: a dalt */ }
