@@ -55,11 +55,13 @@ img, video { display: block; max-width: 100%; }
   max-width: var(--col);                 /* cat · eng, alineat amb la columna i no a la vora de la pantalla */
   padding: calc(var(--u) * 1.6) 0 calc(var(--u) * 1.4);
 }
-/* "Pol Roig" es queda a dalt en fer scroll, sense fons (refe: albertrieragalceran.com);
-   el correu i els idiomes, no. Fix al mateix lloc on seria; per sobre de l'entrada (z 10). */
-.top > a:first-child { position: fixed; top: calc(var(--u) * 1.6); left: var(--marge); z-index: 11; }
+/* "Pol Roig" i els idiomes es queden a dalt en fer scroll, sense fons (refe: albertrieragalceran.com);
+   el correu, no. Fixos al mateix lloc on serien (els idiomes, a la vora de la columna);
+   per sobre de l'entrada (z 10). */
+.top > a:first-child, .top .idiomes { position: fixed; top: calc(var(--u) * 1.6); z-index: 11; }
+.top > a:first-child { left: var(--marge); }
+.top .idiomes { right: calc(100% - var(--marge) - min(var(--col), 100% - 2 * var(--marge))); }
 .top > a:nth-child(2) { grid-column: 2; }
-.top .idiomes { grid-column: 3; }
 .top a[aria-current] { color: var(--rosa); }   /* l'idioma on ets, en rosa */
 
 /* ---------- línia de punts + siluetes ---------- */
@@ -316,7 +318,6 @@ html.amb-entrada .entrada {
 @media (max-width: 700px) {
   :root { --hn: calc(var(--u) * 1.75); }
   .top { grid-template-columns: 1fr auto 1fr; }   /* el correu al mig, els idiomes a la dreta */
-  .top .idiomes { justify-self: end; }
   .index a { grid-template-columns: 1fr; }
   :root { --fs: 13px; }                  /* al mòbil, un punt més: 12px es fa petit a la mà */
   .index li { margin-bottom: .5em; }
