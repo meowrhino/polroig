@@ -182,7 +182,7 @@ img, video { display: block; max-width: 100%; }
 .slides .seg { right: 0; cursor: e-resize; }
 /* El triangle: hi ha més fotos, clica per passar. Equilàter, a mitja alçada, a la vora del botó:
    el de la dreta (següent) mira a la dreta; el de l'esquerra (anterior), a l'esquerra.
-   Amb ratolí, només surt el de la meitat on és el cursor; sense (mòbil), sempre el de la dreta. */
+   Amb ratolí, només surt el de la meitat on és el cursor; sense (mòbil), tots dos sempre. */
 .slides button::after {
   content: '';
   position: absolute;
@@ -195,9 +195,9 @@ img, video { display: block; max-width: 100%; }
   transition: opacity .2s;
 }
 .slides .seg::after { right: .7em; clip-path: polygon(0 0, 100% 50%, 0 100%); }
-.slides .ant::after { left: .7em; clip-path: polygon(100% 0, 0 50%, 100% 100%); opacity: 0; }
+.slides .ant::after { left: .7em; clip-path: polygon(100% 0, 0 50%, 100% 100%); }
 @media (hover: hover) {
-  .slides .seg::after { opacity: 0; }
+  .slides button::after { opacity: 0; }
   .slides button:hover::after { opacity: 1; }
 }
 .galeria { margin-bottom: 4em; }
