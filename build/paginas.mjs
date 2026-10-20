@@ -179,8 +179,7 @@ window.revelada = ${preview ? 'false' : "'onpagereveal' in window"} ? new Promis
   <link rel="icon" href="${raiz('/assets/favicon.svg')}" type="image/svg+xml">
   ${headScript}
   <link rel="stylesheet" href="${raiz('/css/transicion.css')}">
-  <link rel="stylesheet" href="${raiz('/css/style.css')}">
-  <script>try { if (localStorage.getItem('gran')) document.documentElement.classList.add('gran'); } catch {}</script>${extra}
+  <link rel="stylesheet" href="${raiz('/css/style.css')}">${extra}
   <script type="module" src="${raiz('/js/polroig.js')}"></script>
   <script src="${raiz('/js/transicion.js')}" defer></script>
   ${jsonld ? ld(jsonld) : ''}
@@ -192,7 +191,6 @@ window.revelada = ${preview ? 'false' : "'onpagereveal' in window"} ? new Promis
   <a href="mailto:${esc(site.email)}">${esc(site.email)}</a>
   ${insta ? `<a href="https://www.instagram.com/${esc(insta)}/" target="_blank" rel="noopener">Instagram: @${esc(insta)}</a>` : ''}
 </footer>` : ''}
-<button class="mida" type="button" aria-pressed="false" aria-label="${esc(ui('textSize', l))}" hidden>A+</button>
 </body>
 </html>
 `;
@@ -257,8 +255,7 @@ window.revelada = ${preview ? 'false' : "'onpagereveal' in window"} ? new Promis
     return `<figure class="slides"${m ? ` style="--r:${m.w}/${m.h}"` : ''} data-base="${raiz(`/projects/${p.slug}/img/${carpeta ? carpeta + '/' : ''}`)}" data-fotos="${esc(llista.join(' '))}" data-titol="${esc(p.title)}" data-txt="${esc(ui('image', l))}">
   <img src="${raiz('/' + primera)}" alt="${esc(alt)}"${wh(primera)}${eager ? ' fetchpriority="high"' : ' loading="lazy"'} decoding="async">${n > 1 ? `
   <button class="ant" type="button" aria-label="${esc(ui('previous', l))}" hidden></button>
-  <button class="seg" type="button" aria-label="${esc(ui('next', l))}" hidden></button>
-  <span class="fletxa" hidden></span>` : ''}
+  <button class="seg" type="button" aria-label="${esc(ui('next', l))}" hidden></button>` : ''}
 </figure>`;
   }
 

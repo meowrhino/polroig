@@ -5,8 +5,7 @@
 //                        del scroll de la home, barrejats
 //   2. slideshow         passar les fotos, i el ninot caminant mentre carreguen
 //   3. #projecte         l'adreça diu quin projecte estàs mirant
-//   4. A+                la lletra gran, si algú la necessita
-//   5. entrada           la foto d'abans de la home: entres amb un clic, o sola quan la
+//   4. entrada           la foto d'abans de la home: entres amb un clic, o sola quan la
 //                        web ha carregat i ha passat la pausa
 
 /* ---------- 1. línies de punts ---------- */
@@ -80,7 +79,6 @@ for (const fig of document.querySelectorAll('.slides')) {
     b.hidden = false;
     b.addEventListener('click', () => anar(d));
   }
-  fig.querySelector('.fletxa').hidden = false;
 }
 
 /* ---------- 3. #projecte ---------- */
@@ -95,26 +93,7 @@ if (projectes.length) {
   for (const el of [document.querySelector('main > .bio'), ...document.querySelectorAll('.index'), ...projectes]) el && vist.observe(el);
 }
 
-/* ---------- 4. A+ ---------- */
-// La lletra a mida de maqueta (html.gran). Es recorda; el <head> la posa abans de pintar.
-const mida = document.querySelector('.mida');
-if (mida) {
-  const html = document.documentElement;
-  const pintar = () => {
-    const gran = html.classList.contains('gran');
-    mida.setAttribute('aria-pressed', gran);
-    mida.textContent = gran ? 'A−' : 'A+';
-  };
-  mida.hidden = false;
-  pintar();
-  mida.addEventListener('click', () => {
-    const gran = html.classList.toggle('gran');
-    try { gran ? localStorage.setItem('gran', '1') : localStorage.removeItem('gran'); } catch { /* sense memòria: només aquesta pàgina */ }
-    pintar();
-  });
-}
-
-/* ---------- 5. entrada ---------- */
+/* ---------- 4. entrada ---------- */
 // El <head> ja ha decidit si surt (html.amb-entrada). Aquí, entrar: clic, Enter, Espai o Esc,
 // o sola quan la home ha carregat i han passat els segons de site.json → entrance → seconds
 // (una estona de silenci; el build els posa a data-segons). Si encara no ha carregat, s'espera:

@@ -7,14 +7,12 @@
   --rosa: #ff95ca;                       /* el rosa del mockup */
   --marge: clamp(16px, 3vw, 48px);
   /* --u: la unitat de la maqueta (espais, columna, ninots); creix amb la pantalla.
-     --fs: la lletra, petita i igual a tot arreu (refe: ellenole.com). El botó "A+"
-     (html.gran) la torna a la mida de la maqueta. */
+     --fs: la lletra, petita i igual a tot arreu (refe: ellenole.com). */
   --u: clamp(16px, 1.45vw, 30px);
   --fs: 12px;
   --col: calc(var(--u) * 62);            /* amplada màxima de la columna */
   --hn: calc(var(--u) * 1.98);           /* alçada d'un ninot (el llenç: 1,24 adults, veure README) */
 }
-html.gran { --fs: var(--u); }
 
 * { box-sizing: border-box; }
 
@@ -182,23 +180,25 @@ img, video { display: block; max-width: 100%; }
 }
 .slides .ant { left: 0; cursor: w-resize; }
 .slides .seg { right: 0; cursor: e-resize; }
-/* El triangle: hi ha més fotos, clica per passar. Equilàter, mirant a la dreta, a mitja alçada.
-   Amb ratolí, només surt amb el cursor a sobre de la foto. */
-.slides .fletxa {
+/* El triangle: hi ha més fotos, clica per passar. Equilàter, a mitja alçada, a la vora del botó:
+   el de la dreta (següent) mira a la dreta; el de l'esquerra (anterior), a l'esquerra.
+   Amb ratolí, només surt el de la meitat on és el cursor; sense (mòbil), sempre el de la dreta. */
+.slides button::after {
+  content: '';
   position: absolute;
-  right: .7em;
   top: 50%;
   translate: 0 -50%;
   width: .7em;
   height: calc(.7em / .866);
   background: #fff;
-  clip-path: polygon(0 0, 100% 50%, 0 100%);
   mix-blend-mode: difference;
-  pointer-events: none;
+  transition: opacity .2s;
 }
+.slides .seg::after { right: .7em; clip-path: polygon(0 0, 100% 50%, 0 100%); }
+.slides .ant::after { left: .7em; clip-path: polygon(100% 0, 0 50%, 100% 100%); opacity: 0; }
 @media (hover: hover) {
-  .slides .fletxa { opacity: 0; transition: opacity .2s; }
-  .slides:hover .fletxa { opacity: 1; }
+  .slides .seg::after { opacity: 0; }
+  .slides button:hover::after { opacity: 1; }
 }
 .galeria { margin-bottom: 4em; }
 .galeria h2 { font: inherit; margin: 0 0 .8em; }
@@ -301,18 +301,8 @@ html.amb-entrada .entrada {
   96% { background-size: auto 100%, .42em .2em; } 99% { background-size: 0 0, .42em .2em; }
 }
 
-/* ---------- peu: contacte i mida de lletra ---------- */
+/* ---------- peu: contacte ---------- */
 .contacte { display: flex; flex-wrap: wrap; gap: .4em 1.6em; max-width: var(--col); margin-top: calc(var(--u) * 4); }
-.mida {
-  position: fixed;
-  left: var(--marge);
-  bottom: .8em;
-  padding: .2em .4em;
-  margin-left: -.4em;
-  background: var(--bg);                 /* fix a sobre del text: que no s'hi barregi */
-  font-size: 11px;                       /* el botó no canvia de mida */
-}
-.mida[aria-pressed="true"] { color: var(--rosa); }
 
 @media (max-width: 700px) {
   :root { --hn: calc(var(--u) * 1.75); }

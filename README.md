@@ -19,7 +19,7 @@ build/build.mjs       valida y escribe dist/ (no se commitea): node build/build.
 build/validar.mjs     revisa cada JSON con su esquema (lo usan el build y la vista previa)
 schema/               qué campos lleva cada JSON (site, about, figures, project): VS Code y el build
 build/preview.mjs     vista previa de Live Server (index.html, /?p=/ca/eliza/)
-js/polroig.js         el único JS, y solo añade: líneas de puntos, slideshow, #proyecto, A+, entrada
+js/polroig.js         el único JS, y solo añade: líneas de puntos, slideshow, #proyecto, entrada
 ```
 
 - **JSON Schema** (como oriol): cada JSON lleva arriba `"$schema": "../schema/<tipo>.json"`, y con eso VS Code autocompleta, explica cada campo (en catalán) y subraya lo que está mal. El build y la vista previa validan con los mismos ficheros antes de pintar (`build/validar.mjs`, sin dependencias); lo que pide mirar el disco (fotos, siluetas, slugs que cuadren) sigue en `revisar` de `paginas.mjs`.
