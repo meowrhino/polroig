@@ -17,7 +17,6 @@
 * { box-sizing: border-box; }
 
 html { scroll-behavior: smooth; }
-@media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } }
 
 body {
   margin: 0;
@@ -175,9 +174,6 @@ img, video { display: block; max-width: 100%; }
 }
 @keyframes punts { from { width: 0; } to { width: 60%; } }
 @keyframes ninot { from { left: 0; } to { left: 60%; } }
-@media (prefers-reduced-motion: reduce) {                /* el ninot, quiet a mig camí */
-  .slides.carregant::before, .slides.carregant::after { animation-play-state: paused; animation-delay: -1.6s; }
-}
 .slides [hidden] { display: none; }
 .slides button {
   position: absolute;
