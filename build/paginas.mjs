@@ -58,7 +58,7 @@ const paragrafsDe = v => (Array.isArray(v) ? v.map(linies).join('\n\n') : v || '
    ============================================================ */
 export function crearSitio({ site, projects, about = {}, figures = {}, base = '', origen = '', indexar: INDEXAR = false, mida = () => null, og = () => null, versio = () => '', preview = false }) {
   const IDIOMES = site.langs;
-  const DEF = site.lang;
+  const DEF = IDIOMES[0];
   const B = String(base).replace(/\/$/, '');
   const fotos = v => (Array.isArray(v) ? v.map(String) : []);
   /** Una entrada de "feed" o d'una llista: "slug", o { "project": "slug", "visible": false }
@@ -110,7 +110,7 @@ export function crearSitio({ site, projects, about = {}, figures = {}, base = ''
   const resum = s => { const p = pla(s); return p.length <= 155 ? p : p.slice(0, 152).replace(/\s+\S*$/, '') + '…'; };
 
   const img = (slug, carpeta, i) => `projects/${slug}/img/${carpeta ? carpeta + '/' : ''}${i}.webp`;
-  const FOTO_BIO = 'data/about/1.webp';
+  const FOTO_BIO = `data/about/${about.photo || '1'}.webp`;
   /** La foto per compartir: el primer cartell si n'hi ha, si no la primera foto. */
   const portada = p => (fotos(p.posters).length ? img(p.slug, 'posters', fotos(p.posters)[0]) : img(p.slug, '', p.photos[0]));
   /** El peu: mini-markdown i un salt de línia entre línia i línia del JSON. */
@@ -406,7 +406,7 @@ ${capcalera(l, 'bio/')}
 <main class="pagina-bio">
 ${passeig(l)}
 <h1 class="sr">${esc(site.title)}</h1>
-<img src="${raiz('/' + FOTO_BIO)}" alt="${esc(site.title)}"${wh(FOTO_BIO)} fetchpriority="high">
+<img src="${raiz('/' + FOTO_BIO)}" alt="${esc(site.title)}"${wh(FOTO_BIO)}${((m) => m ? ` style="--r:${m.w}/${m.h}"` : '')(mida(FOTO_BIO))} fetchpriority="high">
 ${paragrafs(textBio(l), 'bio')}
 <section class="contacte-bio">
 <h2>${esc(ui('contact', l))}</h2>

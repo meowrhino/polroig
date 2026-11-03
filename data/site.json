@@ -2,9 +2,7 @@
   "$schema": "../schema/site.json",
   "title": "Pol Roig Valldosera",
   "short": "Pol Roig",
-  "url": null,
-  "lang": "en",
-  "langs": ["ca", "en"],
+  "langs": ["en", "ca"],
   "email": "info@polroigvalldosera.com",
   "social": { "instagram": "pol.roig" },
   "description": {

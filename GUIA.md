@@ -16,7 +16,7 @@ de minuts. No has d'instal·lar res per publicar.
 data/site.json             textos generals: correu, bio curta, les dues llistes de la home
                            i l'ordre del scroll ("feed")
 data/about.json            el text de la bio
-data/about/1.webp          la foto de la bio
+data/about/                la foto de la bio (el nom, a about.json → "photo")
 data/entrance/             les fotos de l'entrada (1.webp, 2.webp…)
 data/entrance/mobile/      les de l'entrada en vertical, per al mòbil
 data/figures.json          les línies de punts amb ninots
@@ -137,7 +137,7 @@ El vídeo i els grups que el text no col·loca surten al final, com sempre.
 ## La bio
 
 - El text: `data/about.json`, una llista de paràgrafs per idioma: `{ "ca": ["…", "…"], "en": ["…"] }`.
-- La foto: `data/about/1.webp`.
+- La foto: a `data/about/`, i el seu nom (sense `.webp`) a `data/about.json` → `"photo"`. Per canviar-la: puja la nova (per imgToWeb) i posa-hi el nom.
 - La bio curta de la home: `data/site.json` → `"intro"`.
 
 ## Els ninots

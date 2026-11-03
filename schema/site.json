@@ -3,7 +3,7 @@
   "title": "data/site.json: el general de la web",
   "description": "data/site.json: el nom, el correu, la bio curta, l'entrada, les llistes de la home i l'ordre del scroll. VS Code llegeix aquest fitxer (pel \"$schema\" de dalt del JSON) per completar, explicar cada camp i subratllar el que està malament; el build el fa servir per revisar.",
   "type": "object",
-  "required": ["title", "short", "lang", "langs", "email", "lists", "feed"],
+  "required": ["title", "short", "langs", "email", "lists", "feed"],
   "additionalProperties": false,
   "properties": {
     "$schema": { "type": "string" },
@@ -11,15 +11,14 @@
     "title": { "type": "string", "description": "El nom sencer. Surt a la pestanya i a Google." },
     "short": { "type": "string", "description": "El nom curt, el de dalt de cada pàgina." },
     "url": {
-      "type": ["string", "null"],
+      "type": "string",
       "pattern": "^https://",
-      "description": "El domini, quan n'hi hagi: \"https://polroigvalldosera.com\". Fins llavors, null (i Google no la indexa)."
+      "description": "El domini: \"https://polroigvalldosera.com\". Sense aquest camp, Google no la indexa."
     },
-    "lang": { "enum": ["ca", "en"], "description": "L'idioma principal: el de la web sense /ca/ o /en/ al davant, i el que surt si en falta un." },
     "langs": {
       "type": "array",
       "items": { "enum": ["ca", "en"] },
-      "description": "Els idiomes de la web: [\"ca\", \"en\"]"
+      "description": "Els idiomes de la web. El primer és el principal: el de la web sense /ca/ o /en/ al davant, i el que surt si en falta un."
     },
     "email": { "type": "string", "pattern": "^[^@\\s]+@[^@\\s]+\\.[^@\\s]+$", "description": "El correu de contacte." },
     "social": {

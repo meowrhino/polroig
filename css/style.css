@@ -97,7 +97,7 @@ img, video { display: block; max-width: 100%; }
 
 /* ---------- bio ---------- */
 .bio { max-width: 60em; }              /* a 11px, una línia de lectura còmoda */
-.pagina-bio > img { width: min(100%, 38em); height: auto; margin-bottom: 2em; }   /* tan ample com el text */
+.pagina-bio > img { width: min(100%, calc(82vh * var(--r, 1.5))); height: auto; margin-bottom: 2em; }   /* com les fotos dels projectes (.slides) */
 .pagina-bio p, .text p { max-width: 38em; margin-bottom: 1em; }
 .contacte-bio { margin: 2em 0; }
 .contacte-bio h2 { font: inherit; margin: 0 0 1em; }
