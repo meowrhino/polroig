@@ -56,7 +56,7 @@ const paragrafsDe = v => (Array.isArray(v) ? v.map(linies).join('\n\n') : v || '
      og(ruta)          la imatge per compartir (1200×630) feta d'aquesta foto, o null
      preview           true a la vista prèvia: els enllaços van a ?p=/ruta/
    ============================================================ */
-export function crearSitio({ site, projects, about = {}, figures = {}, base = '', origen = '', indexar: INDEXAR = false, mida = () => null, og = () => null, preview = false }) {
+export function crearSitio({ site, projects, about = {}, figures = {}, base = '', origen = '', indexar: INDEXAR = false, mida = () => null, og = () => null, versio = () => '', preview = false }) {
   const IDIOMES = site.langs;
   const DEF = site.lang;
   const B = String(base).replace(/\/$/, '');
@@ -178,10 +178,10 @@ window.revelada = ${preview ? 'false' : "'onpagereveal' in window"} ? new Promis
   <meta name="twitter:card" content="summary_large_image">
   <link rel="icon" href="${raiz('/assets/favicon.svg')}" type="image/svg+xml">
   ${headScript}
-  <link rel="stylesheet" href="${raiz('/css/transicion.css')}">
-  <link rel="stylesheet" href="${raiz('/css/style.css')}">${extra}
-  <script type="module" src="${raiz('/js/polroig.js')}"></script>
-  <script src="${raiz('/js/transicion.js')}" defer></script>
+  <link rel="stylesheet" href="${raiz('/css/transicion.css')}${versio('css/transicion.css')}">
+  <link rel="stylesheet" href="${raiz('/css/style.css')}${versio('css/style.css')}">${extra}
+  <script type="module" src="${raiz('/js/polroig.js')}${versio('js/polroig.js')}"></script>
+  <script src="${raiz('/js/transicion.js')}${versio('js/transicion.js')}" defer></script>
   ${jsonld ? ld(jsonld) : ''}
 </head>
 <body${blanc ? ' class="blanc"' : ''}>`;

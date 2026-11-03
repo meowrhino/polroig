@@ -109,7 +109,18 @@ function og(rel) {
   return sortida;
 }
 
-const opcions = { site, projects, about, figures, base, origen, indexar, mida };
+/* ?v=<hash> a css/ i js/: un deploy no deixa ningú amb el CSS o el JS vells a la
+   caché (Pages, 10 min fixos; _headers, 1 h). Un cop per fitxer. */
+const versions = new Map();
+function versio(rel) {
+  if (!versions.has(rel)) {
+    const f = join(ROOT, rel);
+    versions.set(rel, existsSync(f) ? `?v=${createHash('sha1').update(readFileSync(f)).digest('hex').slice(0, 8)}` : '');
+  }
+  return versions.get(rel);
+}
+
+const opcions = { site, projects, about, figures, base, origen, indexar, mida, versio };
 const avisos = crearSitio(opcions).revisar(rel => existsSync(join(ROOT, rel)));
 for (const a of avisos) console.warn(`${a.greu ? '✗' : '⚠'} ${a.qui}: ${a.txt}`);
 if (avisos.some(a => a.greu)) sortir('Hi ha errors a les dades (marcats amb ✗ a dalt). No es publica res fins que s\'arreglin.');

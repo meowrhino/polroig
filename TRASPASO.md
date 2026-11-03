@@ -38,8 +38,7 @@ Tiempo: unos 20 minutos, más lo que tarden los DNS.
 
 - [ ] En su Cloudflare: **Workers & Pages → Create → Import a repository** → `<su-usuario>/polroig`.
       Lo demás lo lee de `wrangler.jsonc` (instala sharp con `npm install`, build `node build/build.mjs`, sale `dist/`).
-- [ ] **Ojo, Workers Builds publicando una web de la receta en vivo es nuevo** (tatara va por
-      SFTP; oriol se entrega el mismo día). Mirar el primer build entero antes de seguir. Si falla
+- [ ] Mirar el primer build entero antes de seguir (almarbra ya publica así desde el 2026-11-02). Si falla
       por la versión de Node (Workers Builds no lee `engines` de `package.json`): **Settings → Build
       → Variables** → `NODE_VERSION` = `22`, y *Retry*. Si aun así no arranca, el respaldo es GitHub
       Pages en **su** cuenta: en su repo, Settings → Pages → Source *GitHub Actions*, y en
