@@ -25,6 +25,7 @@ js/polroig.js         el único JS, y solo añade: líneas de puntos, slideshow,
 - **JSON Schema** (como oriol): cada JSON lleva arriba `"$schema": "../schema/<tipo>.json"`, y con eso VS Code autocompleta, explica cada campo (en catalán) y subraya lo que está mal. El build y la vista previa validan con los mismos ficheros antes de pintar (`build/validar.mjs`, sin dependencias); lo que pide mirar el disco (fotos, siluetas, slugs que cuadren) sigue en `revisar` de `paginas.mjs`.
 - **Publicado = está en `feed`**. Las dos `lists` dicen qué sale en el índice; el build avisa si no cuadran. Un proyecto oculto, `{ "project": "x", "visible": false }` en `feed`: su página con `noindex`, fuera de la home y del sitemap.
 - **og:image**: 1200×630 JPG con sharp (`npm ci`), en `.cache/og/` (fuera de git), copiadas a `dist/og/`. Sin sharp, avisa y comparte la foto tal cual.
+- **Vídeo**: por número en `photos`, como almarbra (`10.webm` + `10.poster.webp`, y `"10"` en la lista): en el carrusel, en bucle y mudo; el fotograma hace de foto en el índice y la og. El campo `video` (con sonido y mandos, bajo el pie de la página) se queda para Concierto barroco.
 - **Idiomas**: el primero de `langs` es el principal, en la raíz (el inglés, Pol lo pide al abrir); el catalán en `/ca/`.
 - **Colores**: la home y la bio en negro; las páginas de proyecto en blanco (`body.blanc`, que invierte ninots y loader).
 - **SEO**: canonical, `hreflang` ca/en, Open Graph y JSON-LD (Person, ProfilePage, CreativeWork). El 404 no se indexa.

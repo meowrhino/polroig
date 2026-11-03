@@ -52,7 +52,8 @@ async function arrencar() {
   ];
   if (malament.length) return error('Això no es publicaria', malament.map(m => `✗ ${m}`).join('\n'));
 
-  const sitio = crearSitio({ site, projects, about, figures, base: BASE, preview: true });
+  let hi = new Map();   // què hi ha al disc (s'omple a sota, abans de pintar)
+  const sitio = crearSitio({ site, projects, about, figures, base: BASE, preview: true, existeix: r => hi.get(r) === true });
 
   let demanada = new URLSearchParams(location.search).get('p') || '/';
   if (!demanada.startsWith('/')) demanada = '/' + demanada;
@@ -65,7 +66,7 @@ async function arrencar() {
      (✗), en lloc de la pàgina; els avisos (⚠), en una franja a dalt. */
   const pregunta = new Set();
   sitio.revisar(r => (pregunta.add(r), true));
-  const hi = new Map(await Promise.all([...pregunta].map(async r =>
+  hi = new Map(await Promise.all([...pregunta].map(async r =>
     [r, (await fetch(`${BASE}/${encodeURI(r)}`, { method: 'HEAD', cache: 'no-store' }).catch(() => ({}))).ok === true])));
   const avisos = sitio.revisar(r => hi.get(r));
   const greus = avisos.filter(a => a.greu);

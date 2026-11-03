@@ -120,8 +120,9 @@ function versio(rel) {
   return versions.get(rel);
 }
 
-const opcions = { site, projects, about, figures, base, origen, indexar, mida, versio };
-const avisos = crearSitio(opcions).revisar(rel => existsSync(join(ROOT, rel)));
+const existeix = rel => existsSync(join(ROOT, rel));
+const opcions = { site, projects, about, figures, base, origen, indexar, mida, versio, existeix };
+const avisos = crearSitio(opcions).revisar(existeix);
 for (const a of avisos) console.warn(`${a.greu ? '✗' : '⚠'} ${a.qui}: ${a.txt}`);
 if (avisos.some(a => a.greu)) sortir('Hi ha errors a les dades (marcats amb ✗ a dalt). No es publica res fins que s\'arreglin.');
 

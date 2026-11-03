@@ -56,7 +56,7 @@ const paragrafsDe = v => (Array.isArray(v) ? v.map(linies).join('\n\n') : v || '
      og(ruta)          la imatge per compartir (1200×630) feta d'aquesta foto, o null
      preview           true a la vista prèvia: els enllaços van a ?p=/ruta/
    ============================================================ */
-export function crearSitio({ site, projects, about = {}, figures = {}, base = '', origen = '', indexar: INDEXAR = false, mida = () => null, og = () => null, versio = () => '', preview = false }) {
+export function crearSitio({ site, projects, about = {}, figures = {}, base = '', origen = '', indexar: INDEXAR = false, mida = () => null, og = () => null, versio = () => '', existeix = () => true, preview = false }) {
   const IDIOMES = site.langs;
   const DEF = IDIOMES[0];
   const B = String(base).replace(/\/$/, '');
@@ -110,9 +110,15 @@ export function crearSitio({ site, projects, about = {}, figures = {}, base = ''
   const resum = s => { const p = pla(s); return p.length <= 155 ? p : p.slice(0, 152).replace(/\s+\S*$/, '') + '…'; };
 
   const img = (slug, carpeta, i) => `projects/${slug}/img/${carpeta ? carpeta + '/' : ''}${i}.webp`;
+  /** Un vídeo va com una foto: img/N.webm amb el seu fotograma img/N.poster.webp (videoToWeb),
+      i "N" a la llista. On cal una foto (índex, og, mentre carrega) hi va el fotograma. */
+  const webm = f => f.replace(/\.webp$/, '.webm');
+  const fotograma = f => f.replace(/\.webp$/, '.poster.webp');
+  const esVideo = f => !existeix(f) && existeix(webm(f));
+  const foto = (slug, carpeta, i) => { const f = img(slug, carpeta, i); return esVideo(f) ? fotograma(f) : f; };
   const FOTO_BIO = `data/about/${about.photo || '1'}.webp`;
   /** La foto per compartir: el primer cartell si n'hi ha, si no la primera foto. */
-  const portada = p => (fotos(p.posters).length ? img(p.slug, 'posters', fotos(p.posters)[0]) : img(p.slug, '', p.photos[0]));
+  const portada = p => (fotos(p.posters).length ? foto(p.slug, 'posters', fotos(p.posters)[0]) : foto(p.slug, '', p.photos[0]));
   /** El peu: mini-markdown i un salt de línia entre línia i línia del JSON. */
   const peuHtml = (p, l) => md(linies(t(p.caption, l)), p.slug).replace(/\n/g, '<br>');
   /** El text llarg en aquest idioma o, si no n'hi ha, en el per defecte. */
@@ -248,12 +254,14 @@ window.revelada = ${preview ? 'false' : "'onpagereveal' in window"} ? new Promis
   function slides(p, carpeta, llista, l, eager = false) {
     const n = llista.length;
     if (!n) return '';
-    const primera = img(p.slug, carpeta, llista[0]);
+    const primera = foto(p.slug, carpeta, llista[0]);
+    const videos = llista.filter(i => esVideo(img(p.slug, carpeta, i)));
+    const v1 = videos.includes(llista[0]);   // el primer és un vídeo: ja al HTML, que es vegi sense JS
     const m = mida(primera);
     const alt = `${p.title} — ${ui('image', l)} 1/${n}`;
     // eager: la primera foto de la pàgina, la que el navegador ha de baixar abans que res (LCP).
-    return `<figure class="slides"${m ? ` style="--r:${m.w}/${m.h}"` : ''} data-base="${raiz(`/projects/${p.slug}/img/${carpeta ? carpeta + '/' : ''}`)}" data-fotos="${esc(llista.join(' '))}" data-titol="${esc(p.title)}" data-txt="${esc(ui('image', l))}">
-  <img src="${raiz('/' + primera)}" alt="${esc(alt)}"${wh(primera)}${eager ? ' fetchpriority="high"' : ' loading="lazy"'} decoding="async">${n > 1 ? `
+    return `<figure class="slides"${m ? ` style="--r:${m.w}/${m.h}"` : ''} data-base="${raiz(`/projects/${p.slug}/img/${carpeta ? carpeta + '/' : ''}`)}" data-fotos="${esc(llista.join(' '))}"${videos.length ? ` data-videos="${esc(videos.join(' '))}"` : ''} data-titol="${esc(p.title)}" data-txt="${esc(ui('image', l))}">
+  ${v1 ? `<video src="${raiz('/' + webm(img(p.slug, carpeta, llista[0])))}" poster="${raiz('/' + primera)}"${wh(primera)} autoplay loop muted playsinline></video>\n  ` : ''}<img src="${raiz('/' + primera)}" alt="${esc(alt)}"${wh(primera)}${eager ? ' fetchpriority="high"' : ' loading="lazy"'} decoding="async"${v1 ? ' hidden' : ''}>${n > 1 ? `
   <button class="ant" type="button" aria-label="${esc(ui('previous', l))}" hidden></button>
   <button class="seg" type="button" aria-label="${esc(ui('next', l))}" hidden></button>` : ''}
 </figure>`;
@@ -455,9 +463,15 @@ ${insta ? `<p><em>Instagram: <a href="https://www.instagram.com/${esc(insta)}/" 
     const revisarFotos = (qui, camp, llista, carpeta, slug) => {
       const on = `projects/${slug}/img/${carpeta ? carpeta + '/' : ''}`;
       if (!Array.isArray(llista) || !llista.length) return avis(qui, `"${camp}" ha de ser una llista de fotos: ["1", "2", "3"]`, true);
-      for (const n of llista) if (!existeix(img(slug, carpeta, n))) avis(qui, `no trobo ${on}${n}.webp (surt a "${camp}")`, true);
+      for (const n of llista) {
+        // les tres preguntes sempre, que la vista prèvia les fa totes de cop abans de pintar
+        const f = img(slug, carpeta, n), te = { foto: existeix(f), video: existeix(webm(f)), fotograma: existeix(fotograma(f)) };
+        if (te.foto) continue;
+        if (te.video && !te.fotograma) avis(qui, `${on}${n}.webm no té el seu fotograma ${on}${n}.poster.webp (videoToWeb, amb "fotograma" marcat)`, true);
+        else if (!te.video) avis(qui, `no trobo ${on}${n}.webp (surt a "${camp}")`, true);
+      }
       const max = Math.max(...llista.map(Number).filter(Number.isInteger));
-      if (max > 0 && existeix(img(slug, carpeta, max + 1))) avis(qui, `a ${on} hi ha ${max + 1}.webp i no surt a "${camp}"`);
+      if (max > 0 && (existeix(img(slug, carpeta, max + 1)) || existeix(webm(img(slug, carpeta, max + 1))))) avis(qui, `a ${on} hi ha la ${max + 1} i no surt a "${camp}"`);
     };
 
     for (const [slug, p] of Object.entries(projects)) {

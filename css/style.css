@@ -145,7 +145,7 @@ img, video { display: block; max-width: 100%; }
   aspect-ratio: var(--r, 3 / 2);
   width: min(100%, calc(82vh * var(--r, 1.5)));
 }
-.slides img { width: 100%; height: 100%; object-fit: contain; transition: opacity .4s; }
+.slides img, .slides video { width: 100%; height: 100%; object-fit: contain; transition: opacity .4s; }
 
 /* Mentre la foto carrega (el JS posa .carregant): la línia de punts creix i el ninot camina
    davant, com les línies de la pàgina. El dibuix és assets/siluetes/walk.svg. */

@@ -97,10 +97,10 @@ a la seva llista: no perd el seu lloc.
 | `caption` | el peu, sota la foto. Una llista de línies: cada una surt a sota de l'anterior (així els crèdits entre parèntesis van a la línia de sota). Si és una línia sola, pot anar sense `[ ]` |
 | `captions` | *opcional*: un peu diferent segons la foto, per als projectes que en barregen uns quants (el "+++"). Cada peu diu des de quina foto val, fins al següent: `[{ "from": "1", "ca": "…", "en": "…" }, { "from": "3", "ca": "…", "en": "…" }]` |
 | `page` | *opcional*: `true` li dona pàgina pròpia (ara, l'obra pròpia). Sense, el "llegir més" es desplega a la mateixa home |
-| `photos` | les fotos de `img/`, pel número i sense `.webp`, en l'ordre en què surten: `["1", "2", "3"]` |
+| `photos` | les fotos de `img/`, pel número i sense `.webp`, en l'ordre en què surten: `["1", "2", "3"]`. **Un vídeo hi va igual**: passa'l per [videoToWeb](https://meowrhino.github.io/videoToWeb/) amb "fotograma" marcat, que et dona `10.webm` i `10.poster.webp`; posa'ls a `img/` i `"10"` a la llista, on vulguis que surti. Al carrusel es veu en bucle i sense so; on cal una foto (l'índex, en compartir) surt el fotograma |
 | `posters` | *opcional*: els cartells, a `img/posters/` (`1.webp`, `2.webp`…); surten a dalt de la seva pàgina, un al costat de l'altre: `["1", "2", "3"]` |
 | `groups` | *opcional*: slideshows extra a la seva pàgina, sota el text. Cada grup és una subcarpeta de `img/` amb les seves fotos `1.webp`, `2.webp`…: `[{ "folder": "bocetos", "name": { "ca": "(esbossos)", "en": "(sketches)" }, "photos": ["1", "2", "3"] }]` |
-| `video` | *opcional*: un vídeo a la seva pàgina, sota el peu: `"video": "teaser"` vol dir `img/teaser.webm` i, al costat, la imatge que es veu abans de donar-li al play, `img/teaser.poster.webp` |
+| `video` | *opcional*: un vídeo **amb so i botons**, a la seva pàgina, sota el peu: `"video": "teaser"` vol dir `img/teaser.webm` i, al costat, la imatge que es veu abans de donar-li al play, `img/teaser.poster.webp` |
 | `text` | *opcional*: el text del "llegir més", una llista de paràgrafs per idioma (a sota) |
 
 Cada text va en els dos idiomes: `{ "ca": "…", "en": "…" }`. Si en falta un, surt l'anglès.

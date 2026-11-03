@@ -107,7 +107,7 @@
     "foto": {
       "type": "string",
       "pattern": "^[0-9]+$",
-      "description": "El número de la foto, entre cometes i sense .webp: \"3\""
+      "description": "El número de la foto, entre cometes i sense .webp: \"3\". Un vídeo hi va igual: img/3.webm amb el seu fotograma img/3.poster.webp (videoToWeb, amb \"fotograma\" marcat)."
     },
     "fotos": {
       "type": "array",

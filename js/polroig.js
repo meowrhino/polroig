@@ -54,7 +54,25 @@ for (const fig of document.querySelectorAll('.slides')) {
   const img = fig.querySelector('img');
   const fotos = fig.dataset.fotos.split(' ');   // els números de "photos", en ordre
   const n = fotos.length;
-  vigilar(fig, img);
+  // Un vídeo (data-videos: els números que són N.webm) va al lloc de la foto: en bucle i mut,
+  // amb el fotograma N.poster.webp mentre carrega. El primer, si ho és, ja ve al HTML.
+  const videos = (fig.dataset.videos || '').split(' ').filter(Boolean);
+  let vid = fig.querySelector('video');
+  const mostrar = k => {
+    if (videos.includes(k)) {
+      if (!vid) { vid = document.createElement('video'); vid.loop = vid.muted = vid.playsInline = true; fig.prepend(vid); }
+      vid.poster = `${fig.dataset.base}${k}.poster.webp`;
+      vid.src = `${fig.dataset.base}${k}.webm`;
+      vid.hidden = false; img.hidden = true;
+      vid.play().catch(() => {});
+    } else {
+      if (vid) { vid.pause(); vid.removeAttribute('src'); vid.load(); vid.hidden = true; }
+      img.hidden = false;
+      img.src = `${fig.dataset.base}${k}.webp`;
+      vigilar(fig, img);
+    }
+  };
+  if (!videos.includes(fotos[0])) vigilar(fig, img);
 
   // Sense mides de l'HTML (vista prèvia), la caixa pren la proporció de la primera foto.
   if (!fig.style.getPropertyValue('--r')) {
@@ -77,12 +95,11 @@ for (const fig of document.querySelectorAll('.slides')) {
   const anar = d => {
     avisar();
     i = (i - 1 + d + n) % n + 1;
-    img.src = `${fig.dataset.base}${fotos[i - 1]}.webp`;
+    mostrar(fotos[i - 1]);
     img.alt = `${fig.dataset.titol} — ${fig.dataset.txt} ${i}/${n}`;
     const actual = peus.filter(p => +p.dataset.foto <= i).at(-1);
     for (const p of peus) p.hidden = p !== actual;
-    vigilar(fig, img);
-    new Image().src = `${fig.dataset.base}${fotos[i % n]}.webp`;   // la següent, ja baixada
+    new Image().src = `${fig.dataset.base}${fotos[i % n]}${videos.includes(fotos[i % n]) ? '.poster' : ''}.webp`;   // la següent, ja baixada
   };
   for (const [sel, d] of [['.ant', -1], ['.seg', 1]]) {
     const b = fig.querySelector(sel);
