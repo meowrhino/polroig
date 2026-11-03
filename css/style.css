@@ -259,14 +259,18 @@ html.amb-entrada .entrada {
   45% { opacity: 0; } 47% { opacity: 1; } 49% { opacity: 0; } 51% { opacity: 1; } 53% { opacity: 0; } 55%, 90% { opacity: 1; }
   92% { opacity: 0; } 94% { opacity: 1; } 96% { opacity: 0; } 98% { opacity: 1; }
 }
-/* Processó (dos ninots a la línia): el primer escriu el primer tram i s'hi queda; el segon
-   apareix al final i escriu el segon tram. */
+/* Processó (dos ninots a la línia, cada un al seu .tram, l'un sobre l'altre): el primer
+   escriu fins al 35 % i s'hi queda; el segon surt també de l'esquerra al 55 %, passa per
+   sobre del primer i arriba al 70 % (manu, 2026-11-03: abans sortia d'on s'havia quedat el primer). */
+.escriptura .processo { position: relative; }
+.escriptura .processo .tram { display: flex; align-items: flex-end; width: 100%; }
+.escriptura .processo .tram + .tram { position: absolute; left: 0; bottom: 0; }
 .escriptura .processo .punts { animation-name: escriure-1; }
-.escriptura .processo .punts ~ .punts { animation-name: escriure-2; }
+.escriptura .processo .tram + .tram .punts { animation-name: escriure-2; }
 .escriptura .processo img { animation-name: cursor-1; }
-.escriptura .processo img ~ img { animation-name: cursor-2; }
+.escriptura .processo .tram + .tram img { animation-name: cursor-2; }
 @keyframes escriure-1 { 0% { width: 0; } 35%, 100% { width: 35%; } }
-@keyframes escriure-2 { 0%, 55% { width: 0; } 90%, 100% { width: 35%; } }
+@keyframes escriure-2 { 0%, 55% { width: 0; } 90%, 100% { width: 70%; } }
 @keyframes cursor-1 {
   0%, 35% { opacity: 1; } 37% { opacity: 0; } 39% { opacity: 1; } 41% { opacity: 0; } 43% { opacity: 1; }
   45% { opacity: 0; } 47% { opacity: 1; } 49% { opacity: 0; } 51% { opacity: 1; } 53% { opacity: 0; } 55%, 100% { opacity: 1; }

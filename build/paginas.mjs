@@ -339,7 +339,7 @@ ${feed}
   <img alt="" data-fotos="${esc(fotosEntrada.join(' '))}" data-base="${raiz('/data/entrance/')}"${fotosMobil.length ? ` data-mobile="${esc(fotosMobil.join(' '))}"` : ''}>
   <script>{ const i = document.currentScript.previousElementSibling, d = i.dataset, m = d.mobile && matchMedia('(orientation: portrait)').matches, f = (m ? d.mobile : d.fotos).split(' '); if (document.documentElement.classList.contains('amb-entrada')) i.src = d.base + (m ? 'mobile/' : '') + f[Math.floor(Math.random() * f.length)] + '.webp'; }</script>
   <div class="escriptura" aria-hidden="true">${entrada.map((sils, k) => `
-    <div class="passeig${[].concat(sils).length > 1 ? ' processo' : ''}" style="--k:${k}">${[].concat(sils).map(sil => `<span class="punts"></span><img src="${raiz(`/assets/siluetes/${sil}.svg`)}" alt="">`).join('')}</div>`).join('')}
+    <div class="passeig${[].concat(sils).length > 1 ? ' processo' : ''}" style="--k:${k}">${[].concat(sils).map(sil => `<span class="tram"><span class="punts"></span><img src="${raiz(`/assets/siluetes/${sil}.svg`)}" alt=""></span>`).join('')}</div>`).join('')}
   </div>
   <button class="sr" type="button">${esc(ui('enter', l))}</button>
 </div>` : '';
