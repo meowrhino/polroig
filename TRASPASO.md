@@ -16,14 +16,14 @@ Tiempo: unos 20 minutos, más lo que tarden los DNS.
 
 ## Antes
 
-- [ ] `main` está al día y sin cambios a medias (`git status` limpio).
-- [ ] Pol tiene cuenta de GitHub. Su usuario: `<su-usuario>`.
+- [x] `main` está al día y sin cambios a medias (`git status` limpio).
+- [x] Pol tiene cuenta de GitHub. Su usuario: `polroigvalldosera-arch`.
 - [ ] Pol tiene cuenta de Cloudflare, y el dominio (`polroigvalldosera.com`, el de su correo) a mano.
 
 ## 1. Su copia
 
-- [ ] En su cuenta, **New repository** → `polroig`, público y vacío (sin README ni licencia).
-- [ ] La copia va **sin historial** (la nuestra lleva pruebas y diseños que ya no son). Desde esta carpeta:
+- [x] En su cuenta, **New repository** → `polroig`, público y vacío (sin README ni licencia).
+- [x] (2026-11-03) La copia va **sin historial** (la nuestra lleva pruebas y diseños que ya no son). Desde esta carpeta:
       ```bash
       rm -rf /tmp/polroig && mkdir /tmp/polroig && git archive HEAD | tar -x -C /tmp/polroig
       cd /tmp/polroig && rm CLAUDE.md TRASPASO.md
@@ -31,12 +31,12 @@ Tiempo: unos 20 minutos, más lo que tarden los DNS.
       git push https://github.com/<su-usuario>/polroig.git main
       ```
       (si pide permiso, que nos añada antes como colaboradores, paso 3). Nada de `push --mirror`.
-- [ ] En su copia no van `CLAUDE.md` ni `TRASPASO.md` (son nuestros; se quedan en el repo de
+- [x] En su copia no van `CLAUDE.md` ni `TRASPASO.md` (son nuestros; se quedan en el repo de
       meowrhino). `GUIA.md` y `README.md` sí.
 
 ## 2. Cloudflare
 
-- [ ] En su Cloudflare: **Workers & Pages → Create → Import a repository** → `<su-usuario>/polroig`.
+- [x] En su Cloudflare: **Workers & Pages → Create → Import a repository** → `<su-usuario>/polroig`.
       Lo demás lo lee de `wrangler.jsonc` (instala sharp con `npm install`, build `node build/build.mjs`, sale `dist/`).
 - [ ] Mirar el primer build entero antes de seguir (almarbra ya publica así desde el 2026-11-02). Si falla
       por la versión de Node (Workers Builds no lee `engines` de `package.json`): **Settings → Build
@@ -44,8 +44,8 @@ Tiempo: unos 20 minutos, más lo que tarden los DNS.
       Pages en **su** cuenta: en su repo, Settings → Pages → Source *GitHub Actions*, y en
       `.github/workflows/deploy.yml` quitar los `if: github.repository_owner == 'meowrhino'`. El
       dominio se apunta entonces a Pages (Settings → Pages → Custom domain) en vez de a Cloudflare.
-- [ ] **Settings → Domains & Routes → Add → Custom domain**: su dominio (y `www`, si lo quiere).
-- [ ] En **su** repo, `data/site.json` → `"url": "https://polroigvalldosera.com"`. Commit y push
+- [x] **Settings → Domains & Routes → Add → Custom domain**: su dominio (y `www`, si lo quiere).
+- [x] En **su** repo, `data/site.json` → `"url": "https://polroigvalldosera.com"` (ya va en la copia). Commit y push
       a su repo (no al de meowrhino). Con eso deja de llevar `noindex`.
 
 ## 3. Que nos deje entrar
@@ -55,11 +55,11 @@ Tiempo: unos 20 minutos, más lo que tarden los DNS.
 
 ## 4. Comprobar en su dominio
 
-- [ ] La portada, `/bio/`, un proyecto (`/eliza/`) y los mismos en `/ca/`.
-- [ ] `view-source:`: `canonical` y `og:url` con su dominio, y **sin** `<meta name="robots" content="noindex">`.
-- [ ] `/robots.txt` dice `Allow` y `/sitemap.xml` tiene las direcciones de su dominio.
+- [x] (2026-11-03, con curl) La portada, `/bio/`, un proyecto (`/eliza/`) y los mismos en `/ca/`.
+- [x] `view-source:`: `canonical` y `og:url` con su dominio, y **sin** `<meta name="robots" content="noindex">`.
+- [x] `/robots.txt` dice `Allow` y `/sitemap.xml` tiene las direcciones de su dominio.
 - [ ] Compartir un proyecto por WhatsApp: sale su foto (la og).
-- [ ] En `/bio/`, la firma `web: meowrhino.studio` con su enlace.
+- [x] En `/bio/`, la firma `web: meowrhino.studio` con su enlace.
 
 ## 5. Search Console, con su cuenta de Google
 
