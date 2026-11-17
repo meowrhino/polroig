@@ -1,5 +1,7 @@
 # Traspaso: la web a la cuenta de Pol
 
+Traspaso hecho el 2026-11-03. Ya cumplió su uso: no se actualiza.
+
 Se le pasa una copia del repositorio a su cuenta de GitHub, y la publica su
 Cloudflare con su dominio. El de meowrhino se queda como está, de copia
 nuestra en `meowrhino.github.io/polroig/` (sin indexar). Desde el traspaso son
