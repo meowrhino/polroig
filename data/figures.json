@@ -29,5 +29,5 @@
       "ofrena-musical"
     ]
   },
-  "entrance": [["run", "walk2"], "stroll"]
+  "entrance": [["about-telefon", "run", "walk2"], "stroll"]
 }

@@ -230,8 +230,8 @@ img, video { display: block; max-width: 100%; }
 .columnes p { break-inside: avoid; max-width: none; }
 
 /* ---------- l'entrada (abans de la home) ----------
-   Una foto a pantalla completa amb la capçalera a sobre. Les línies de punts s'escriuen cap a
-   la dreta a salts, com lletres, i el ninot fa de cursor: s'atura i parpelleja, i continua. */
+   Una foto a pantalla completa amb la capçalera a sobre i, a sobre, una processó: els ninots
+   entren per l'esquerra un darrere l'altre, en una línia de punts, i caminen llisos fins a lloc. */
 .entrada { display: none; }
 html.amb-entrada { overflow: hidden; }
 html.amb-entrada .top > :not(:first-child) { visibility: hidden; }   /* a l'entrada, només "Pol Roig" */
@@ -246,38 +246,28 @@ html.amb-entrada .entrada {
 }
 .entrada.fora { opacity: 0; pointer-events: none; }
 .entrada > img { width: 100%; height: 100%; object-fit: cover; }
-.escriptura { position: absolute; left: var(--marge); right: var(--marge); top: 50%; transform: translateY(-50%); }
+.escriptura { position: absolute; left: var(--marge); right: var(--marge); top: 50%; transform: translateY(-50%); container-type: inline-size; }
 .escriptura .passeig { margin: calc(var(--u) * 1.2) 0; }
-/* Una volta (--volta, de site.json → entrance → cycle; 14 s): escriu (35 %), parpelleja (fins al 55 %),
-   escriu (fins al 90 %) i parpelleja. El cursor s'encén i s'apaga cada 2 % (0,28 s a 14 s).
-   Cada línia va un terç de volta desfasada. */
-.escriptura .punts { width: 0; animation: escriure var(--volta, 14s) steps(30, end) infinite; animation-delay: calc(var(--k) * var(--volta, 14s) * -.33); }
-.escriptura img { animation: cursor var(--volta, 14s) step-end infinite; animation-delay: calc(var(--k) * var(--volta, 14s) * -.33); }
-@keyframes escriure { 0% { width: 0; } 35%, 55% { width: 35%; } 90%, 100% { width: 70%; } }
+.escriptura .tram { display: contents; }
+/* Una volta (--volta, de site.json → entrance → cycle; 14 s). Tot camina llis, a la mateixa velocitat,
+   i es queda quiet al final (Pol, 2026-11-17: "marcha eterna de personajes uno detrás de otro").
+   Processó (diversos ninots a la línia, PDF del 17-11): la fila sencera, ja amb els seus espais,
+   entra des de la vora de la pantalla i arriba a lloc al 70 % de la volta. Els espais, en % de l'amplada:
+   22 abans del primer, 27 entre el primer i el segon, 10 entre el segon i el tercer. */
+.escriptura .processo { width: max-content; animation: processo var(--volta, 14s) linear both; }
+.escriptura .processo .punts { width: 22cqw; }
+.escriptura .processo .tram:nth-child(2) .punts { width: 27cqw; }
+.escriptura .processo .tram:nth-child(3) .punts { width: 10cqw; }
+@keyframes processo { 0% { translate: calc(-100% - var(--marge)) 0; } 70%, 100% { translate: 0 0; } }
+/* Un ninot sol (el nen): parpelleja a l'inici, surt al 35 % de la volta (abans que entri el tercer de
+   dalt), camina llis fins al 35 % de l'amplada i arriba alhora que la processó; allà parpelleja i es queda. */
+.escriptura .passeig:not(.processo) .punts { width: 0; animation: camina var(--volta, 14s) linear both; }
+.escriptura .passeig:not(.processo) img { animation: cursor var(--volta, 14s) step-end both; }
+@keyframes camina { 0%, 35% { width: 0; } 70%, 100% { width: 35cqw; } }
 @keyframes cursor {
-  0%, 35% { opacity: 1; } 37% { opacity: 0; } 39% { opacity: 1; } 41% { opacity: 0; } 43% { opacity: 1; }
-  45% { opacity: 0; } 47% { opacity: 1; } 49% { opacity: 0; } 51% { opacity: 1; } 53% { opacity: 0; } 55%, 90% { opacity: 1; }
-  92% { opacity: 0; } 94% { opacity: 1; } 96% { opacity: 0; } 98% { opacity: 1; }
-}
-/* Processó (dos ninots a la línia, cada un al seu .tram, l'un sobre l'altre): el primer
-   escriu fins al 35 % i s'hi queda; el segon surt també de l'esquerra al 55 %, passa per
-   sobre del primer i arriba al 70 % (manu, 2026-11-03: abans sortia d'on s'havia quedat el primer). */
-.escriptura .processo { position: relative; }
-.escriptura .processo .tram { display: flex; align-items: flex-end; width: 100%; }
-.escriptura .processo .tram + .tram { position: absolute; left: 0; bottom: 0; }
-.escriptura .processo .punts { animation-name: escriure-1; }
-.escriptura .processo .tram + .tram .punts { animation-name: escriure-2; }
-.escriptura .processo img { animation-name: cursor-1; }
-.escriptura .processo .tram + .tram img { animation-name: cursor-2; }
-@keyframes escriure-1 { 0% { width: 0; } 35%, 100% { width: 35%; } }
-@keyframes escriure-2 { 0%, 55% { width: 0; } 90%, 100% { width: 70%; } }
-@keyframes cursor-1 {
-  0%, 35% { opacity: 1; } 37% { opacity: 0; } 39% { opacity: 1; } 41% { opacity: 0; } 43% { opacity: 1; }
-  45% { opacity: 0; } 47% { opacity: 1; } 49% { opacity: 0; } 51% { opacity: 1; } 53% { opacity: 0; } 55%, 100% { opacity: 1; }
-}
-@keyframes cursor-2 {
-  0% { opacity: 0; } 55%, 90% { opacity: 1; }
-  92% { opacity: 0; } 94% { opacity: 1; } 96% { opacity: 0; } 98% { opacity: 1; }
+  0% { opacity: 1; } 3% { opacity: 0; } 6% { opacity: 1; } 9% { opacity: 0; } 12% { opacity: 1; } 15% { opacity: 0; }
+  18% { opacity: 1; } 21% { opacity: 0; } 24% { opacity: 1; } 27% { opacity: 0; } 30% { opacity: 1; } 33% { opacity: 0; } 35%, 70% { opacity: 1; }
+  72% { opacity: 0; } 74% { opacity: 1; } 76% { opacity: 0; } 78% { opacity: 1; } 80% { opacity: 0; } 82%, 100% { opacity: 1; }
 }
 
 /* ---------- el loader de la transició (css/transicion.css) ----------

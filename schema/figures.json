@@ -49,10 +49,10 @@
       "items": {
         "anyOf": [
           { "$ref": "#/$defs/ninot" },
-          { "type": "array", "items": { "$ref": "#/$defs/ninot" }, "maxItems": 2, "description": "Dos ninots a la mateixa línia, en processó: [\"run\", \"walk2\"]" }
+          { "type": "array", "items": { "$ref": "#/$defs/ninot" }, "maxItems": 3, "description": "Fins a tres ninots a la mateixa línia, en processó, d'esquerra a dreta: [\"about-telefon\", \"run\", \"walk2\"]" }
         ]
       },
-      "description": "Els ninots de l'entrada, un per línia; dos a la mateixa línia, entre claudàtors: [\"walk2\", [\"run\", \"walk2\"]]."
+      "description": "Els ninots de l'entrada, un per línia; els d'una processó (fins a tres a la mateixa línia), entre claudàtors: [[\"about-telefon\", \"run\", \"walk2\"], \"stroll\"]."
     }
   },
   "$defs": {

@@ -190,8 +190,8 @@ de figures de Pol (on la trompeta, la més alta, omple el llenç sencer).
 
 ## L'entrada
 
-Abans de la home surt una foto a l'atzar a pantalla completa, amb la capçalera a sobre i dues
-línies de punts que s'escriuen (la capçalera, només amb "Pol Roig"). Un clic (o Enter, Espai, Esc) i entres; si no, entra sola passats uns
+Abans de la home surt una foto a l'atzar a pantalla completa, amb la capçalera a sobre i una
+processó de ninots que entren per l'esquerra, un darrere l'altre (la capçalera, només amb "Pol Roig"). Un clic (o Enter, Espai, Esc) i entres; si no, entra sola passats uns
 segons, o quan la web hagi acabat de carregar si triga més. Surt una vegada per sessió.
 
 A `data/site.json`:
@@ -209,10 +209,11 @@ A `data/site.json`:
 - `"mobile"`: les verticals, per al mòbil, de `data/entrance/mobile/`. No cal que
   coincideixin amb les de `"photos"`: cada llista va per la seva banda.
 - `"seconds"`: quants segons es queda, com a mínim, abans d'entrar sola. Un número sense cometes.
-- `"cycle"`: quants segons triga l'animació de les línies a fer una volta (escriure, parpellejar,
-  escriure, parpellejar). Més, més lenta; menys, més ràpida. Un número sense cometes.
-- Els ninots de les línies: `data/figures.json` → `"entrance": [["run", "walk2"], "stroll"]`. Un nom, un
-  ninot a la línia; dos entre claudàtors, una processó: el segon surt quan el primer s'atura.
+- `"cycle"`: quants segons triga l'animació (la processó arriba a lloc al 70 % i s'hi queda).
+  Més, més lenta; menys, més ràpida. Un número sense cometes.
+- Els ninots de les línies: `data/figures.json` → `"entrance": [["about-telefon", "run", "walk2"], "stroll"]`.
+  Entre claudàtors, una processó (fins a tres, d'esquerra a dreta): entren junts, caminant, amb
+  els seus espais. Un nom sol, un ninot que parpelleja, camina i s'atura (el nen).
 
 ## Veure-ho abans de pujar-ho
 

@@ -321,7 +321,7 @@ ${feed}
 
   /* ---------- l'entrada ----------
      Abans de la home, una foto a l'atzar de data/entrance/ (site.json → "entrance") amb la
-     capçalera a sobre i línies de punts que s'escriuen amb el ninot fent de cursor. Un clic
+     capçalera a sobre i una processó de ninots en línies de punts (css/style.css). Un clic
      (o Enter, Espai, Esc) i entres. Una vegada per sessió, com barbarawong; sense JS, amb
      "menys moviment" al sistema o si l'adreça porta a un projecte (#slug), no surt. El <head> decideix abans de pintar (html.amb-entrada)
      perquè la home no faci pampallugues; js/polroig.js la treu. */
@@ -338,8 +338,8 @@ ${feed}
   const entradaHtml = l => entrada.length ? `<div class="entrada" data-segons="${esc(segonsEntrada)}" style="--volta:${esc(voltaEntrada)}s">
   <img alt="" data-fotos="${esc(fotosEntrada.join(' '))}" data-base="${raiz('/data/entrance/')}"${fotosMobil.length ? ` data-mobile="${esc(fotosMobil.join(' '))}"` : ''}>
   <script>{ const i = document.currentScript.previousElementSibling, d = i.dataset, m = d.mobile && matchMedia('(orientation: portrait)').matches, f = (m ? d.mobile : d.fotos).split(' '); if (document.documentElement.classList.contains('amb-entrada')) i.src = d.base + (m ? 'mobile/' : '') + f[Math.floor(Math.random() * f.length)] + '.webp'; }</script>
-  <div class="escriptura" aria-hidden="true">${entrada.map((sils, k) => `
-    <div class="passeig${[].concat(sils).length > 1 ? ' processo' : ''}" style="--k:${k}">${[].concat(sils).map(sil => `<span class="tram"><span class="punts"></span><img src="${raiz(`/assets/siluetes/${sil}.svg`)}" alt=""></span>`).join('')}</div>`).join('')}
+  <div class="escriptura" aria-hidden="true">${entrada.map(sils => `
+    <div class="passeig${[].concat(sils).length > 1 ? ' processo' : ''}">${[].concat(sils).map(sil => `<span class="tram"><span class="punts"></span><img src="${raiz(`/assets/siluetes/${sil}.svg`)}" alt=""></span>`).join('')}</div>`).join('')}
   </div>
   <button class="sr" type="button">${esc(ui('enter', l))}</button>
 </div>` : '';
