@@ -11,7 +11,10 @@
   --u: clamp(16px, 1.45vw, 30px);
   --fs: 12px;
   --col: calc(var(--u) * 62);            /* amplada màxima de la columna */
-  --hn: calc(var(--u) * 1.98);           /* alçada d'un ninot (el llenç: 1,24 adults, veure README) */
+  /* Alçada d'un ninot (el llenç: 1,24 adults, veure README). Fixa, com la lletra: la més petita que
+     tenia (amb --u a 16px); en ampliar la pantalla no creix (Pol, 2026-11-17). L'entrada, sí. */
+  --hn-u: 1.98;
+  --hn: calc(16px * var(--hn-u));
 }
 
 * { box-sizing: border-box; }
@@ -112,7 +115,7 @@ img, video { display: block; max-width: 100%; }
 .index ul { list-style: none; margin: 0; padding: 0; line-height: 1.45; }
 .index a { display: grid; grid-template-columns: 22em 1fr; gap: 0 1em; }
 .index a:hover { color: inherit; }
-.index .titol { font-style: italic; width: fit-content; }
+.index .titol { width: fit-content; }
 .index a:hover .titol { text-decoration: underline; text-underline-offset: .15em; text-decoration-thickness: 1px; }
 .index .detall { color: var(--rosa); }
 /* Amb ratolí, el rosa s'encén sencer (les dues llistes alhora) només amb el cursor a sobre d'un títol. */
@@ -185,7 +188,7 @@ img, video { display: block; max-width: 100%; }
 .slides .seg { right: 0; cursor: e-resize; }
 /* El triangle: hi ha més fotos, clica per passar. Equilàter, a mitja alçada, a la vora del botó:
    el de la dreta (següent) mira a la dreta; el de l'esquerra (anterior), a l'esquerra.
-   Amb ratolí, només surt el de la meitat on és el cursor. Sense (mòbil), tots dos una estona quan
+   Amb ratolí, només surt el de la meitat on és el cursor. Sense (mòbil), el de la dreta una estona quan
    la foto entra a la pantalla i a cada toc, i s'esvaeixen (el JS posa i treu .avis). */
 .slides button::after {
   content: '';
@@ -205,7 +208,9 @@ img, video { display: block; max-width: 100%; }
   .slides button:hover::after { opacity: 1; }
 }
 @media (hover: none) {
-  .slides button::after { opacity: 0; transition: opacity .8s; }
+  /* Al mòbil, la meitat de petita i només la de la dreta (Pol, 2026-11-17); tocar a l'esquerra encara torna enrere. */
+  .slides button::after { opacity: 0; transition: opacity .8s; width: .35em; height: calc(.35em / .866); }
+  .slides .ant::after { display: none; }
   .slides.avis button::after { opacity: 1; transition: none; }
 }
 .galeria { margin-bottom: 4em; }
@@ -232,7 +237,7 @@ img, video { display: block; max-width: 100%; }
 /* ---------- l'entrada (abans de la home) ----------
    Una foto a pantalla completa amb la capçalera a sobre i, a sobre, una processó: els ninots
    entren per l'esquerra un darrere l'altre, en una línia de punts, i caminen llisos fins a lloc. */
-.entrada { display: none; }
+.entrada { display: none; --hn: calc(var(--u) * var(--hn-u)); }
 html.amb-entrada { overflow: hidden; }
 html.amb-entrada .top > :not(:first-child) { visibility: hidden; }   /* a l'entrada, només "Pol Roig" */
 html.amb-entrada .entrada {
@@ -306,7 +311,7 @@ html.amb-entrada .entrada {
 .contacte { display: flex; flex-wrap: wrap; gap: .4em 1.6em; max-width: var(--col); margin-top: calc(var(--u) * 4); }
 
 @media (max-width: 700px) {
-  :root { --hn: calc(var(--u) * 1.75); }
+  :root { --hn-u: 1.75; }
   .top { grid-template-columns: 1fr auto 1fr; }   /* el correu al mig, els idiomes a la dreta */
   .index a { grid-template-columns: 1fr; }
   :root { --fs: 13px; }                  /* al mòbil, un punt més: 12px es fa petit a la mà */

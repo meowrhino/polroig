@@ -222,7 +222,9 @@ window.revelada = ${preview ? 'false' : "'onpagereveal' in window"} ? new Promis
      Són enllaços repetits (la bio i els projectes ja tenen el seu), així que
      queden fora del teclat i del lector de pantalla. */
   const lines = Array.isArray(figures.lines) ? figures.lines : [];
-  const cada = Number.isInteger(figures.every) && figures.every > 0 ? figures.every : 2;
+  /** Cada quants projectes va una línia: "every" és un número (2) o una sèrie que es repeteix ([2, 1, 2, 3]). */
+  const serie = [].concat(figures.every).filter(n => Number.isInteger(n) && n > 0);
+  if (!serie.length) serie.push(2);
   const rars = Array.isArray(figures.strays?.figures) ? figures.strays.figures : [];
   /** El projecte d'on ve un rar: el slug més llarg amb què comença el nom. */
   const obraDe = sil => publicats.map(p => p.slug).filter(s => sil === s || sil.startsWith(s + '-'))
@@ -283,7 +285,9 @@ window.revelada = ${preview ? 'false' : "'onpagereveal' in window"} ? new Promis
 </section>`).join('');
 
     // Una línia de punts cada "every" projectes (data/figures.json), amb els rars ("strays") repartits.
-    const linia = publicats.map((_, i) => i).filter(i => (i + 1) % cada === 0);
+    // linia: després de quins projectes (índexs) va una línia.
+    const linia = [];
+    for (let i = -1, k = 0; (i += serie[k++ % serie.length]) < publicats.length;) linia.push(i);
     const veinsDe = j => [publicats[linia[j]]?.slug, publicats[linia[j] + 1]?.slug].filter(Boolean);
     const llocRar = repartirRars(l, veinsDe, linia.length);
     const feed = publicats.map((p, i) => `<article class="proj" id="${p.slug}">
@@ -299,7 +303,7 @@ ${p.page
         ` <a class="mes" href="${url(l, p.slug + '/')}"><em>${esc(ui('fullPage', l))}</em></a></p>`)
       : paragrafs(textDe(p, l), p.slug)}
 </details>` : ''}
-</article>${(i + 1) % cada ? '' : (j => '\n' + passeig(l, { extra: llocRar.get(j), veins: veinsDe(j) }))(linia.indexOf(i))}`).join('\n');
+</article>${linia.includes(i) ? (j => '\n' + passeig(l, { extra: llocRar.get(j), veins: veinsDe(j) }))(linia.indexOf(i)) : ''}`).join('\n');
 
     return head({
       l, path: '', titol: site.title, desc: t(site.description, l), imatge: publicats[0] && portada(publicats[0]),
@@ -523,7 +527,8 @@ ${insta ? `<p><em>Instagram: <a href="https://www.instagram.com/${esc(insta)}/" 
     for (const n of fotosMobil) if (!existeix(`data/entrance/mobile/${n}.webp`)) avis('site.json, entrance', `no trobo data/entrance/mobile/${n}.webp (surt a "mobile")`, true);
 
     const siluetaHi = (qui, sil) => existeix(`assets/siluetes/${sil}.svg`) || avis(qui, `no trobo assets/siluetes/${sil}.svg`, true);
-    if (!Number.isInteger(figures.every) || figures.every < 1) avis('figures.json', '"every" ha de ser un número sencer, 1 o més', true);
+    if (![].concat(figures.every).length || ![].concat(figures.every).every(n => Number.isInteger(n) && n > 0))
+      avis('figures.json', '"every" ha de ser un número sencer, 1 o més (2), o una llista d\'ells ([2, 1, 2, 3])', true);
     if (!Array.isArray(figures.lines)) avis('figures.json', '"lines" ha de ser una llista: [ ... ]', true);
     else figures.lines.forEach((tr, i) => {
       const qui = `figures.json, línia ${i + 1}`;

@@ -145,7 +145,9 @@ El vídeo i els grups que el text no col·loca surten al final, com sempre.
 Les línies de punts amb un ninot al final surten de `data/figures.json`.
 
 `"every"` diu cada quants projectes de la home surt una línia: `1`, entre tots;
-`2`, cada dos; i així.
+`2`, cada dos; i així. O una sèrie, que es repeteix fins al final: `[2, 1, 2, 3, 1, 3, 2]`
+(una línia després de 2 projectes, després d'1, després de 2…). Mai surten dos ninots iguals
+a la mateixa línia.
 
 Hi ha dos tipus de ninots:
 

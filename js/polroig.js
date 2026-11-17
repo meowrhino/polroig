@@ -12,8 +12,8 @@
 /* ---------- 1. línies de punts ---------- */
 // Els ninots del scroll de la home (els del menú, quiets), barrejats a cada visita.
 // Cada línia es queda amb tants ninots com tenia. Un rar mai va al costat del seu
-// projecte (data-veins), ni n'hi ha dos a la mateixa línia; si després de 200
-// intents no surt, es queda com l'ha deixat el build.
+// projecte (data-veins), ni n'hi ha dos a la mateixa línia, ni dos ninots iguals
+// (Pol, 2026-11-17); si després de 200 intents no surt, es queda com l'ha deixat el build.
 const linies = [...document.querySelectorAll('.feed .passeig')];
 if (linies.length) {
   const parells = linies.flatMap(li => [...li.querySelectorAll('.ninot')].map(a => [a.previousElementSibling, a]));
@@ -25,7 +25,9 @@ if (linies.length) {
     const repartiment = quants.map(q => b.slice(k, k += q));
     const bo = repartiment.every((ps, i) => {
       const obres = ps.map(([, a]) => a.dataset.obra).filter(Boolean);
-      return obres.length < 2 && !obres.some(o => linies[i].dataset.veins.split(' ').includes(o));
+      const dibuixos = ps.map(([, a]) => a.dataset.figure);
+      return obres.length < 2 && new Set(dibuixos).size === dibuixos.length
+        && !obres.some(o => linies[i].dataset.veins.split(' ').includes(o));
     });
     if (!bo) continue;
     repartiment.forEach((ps, i) => linies[i].replaceChildren(...ps.flat()));
